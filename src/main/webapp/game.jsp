@@ -13,7 +13,7 @@
 </head>
 <body>
 <h1>${game.name}</h1>
-<p>Publisher: ${game.publisher.toString()}</p>
+<p>Publisher: ${game.publisher}</p>
 <p>Developer: ${game.developer}</p>
 <p>Condition: ${game.condition.toString()}</p>
 <p>Release Date: ${game.releaseDate.toString()}</p>

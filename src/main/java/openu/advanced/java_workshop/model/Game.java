@@ -6,7 +6,7 @@ import java.util.Date;
 public class Game implements Serializable {
     int id;
     String name;
-    Publisher publisher;
+    String publisher;
     String developer;
     Date releaseDate;
     float price;
@@ -16,7 +16,7 @@ public class Game implements Serializable {
     public Game(){
         this.id = 123;
         this.name = "Day of the Tentacle";
-        this.publisher = Publisher.LUCASARTS;
+        this.publisher = "Lucas Arts";
         this.developer = "Double Fine";
         this.releaseDate = new Date("25/06/1993");
         this.price = 35.5f;
@@ -40,11 +40,11 @@ public class Game implements Serializable {
         this.name = name;
     }
 
-    public Publisher getPublisher() {
+    public String getPublisher() {
         return publisher;
     }
 
-    public void setPublisher(Publisher publisher) {
+    public void setPublisher(String publisher) {
         this.publisher = publisher;
     }
 
