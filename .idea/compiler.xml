@@ -9,7 +9,7 @@
         <module name="java-workshop" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
+    <bytecodeTargetLevel target="11">
       <module name="java-workshop" target="1.8" />
     </bytecodeTargetLevel>
   </component>
