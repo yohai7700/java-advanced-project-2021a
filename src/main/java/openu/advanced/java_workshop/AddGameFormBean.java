@@ -1,53 +1,38 @@
 package openu.advanced.java_workshop;
 
 import openu.advanced.java_workshop.model.Condition;
+import openu.advanced.java_workshop.model.Game;
 
 import javax.faces.bean.ManagedBean;
+import javax.naming.NamingException;
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 @ManagedBean
-public class AddGameFormBean implements Serializable {
-    private Date releaseDate;
-    private float price;
-    private int stock;
-    private Condition condition;
-
+public class AddGameFormBean  extends Game implements Serializable {
     public Condition[] getConditions(){
         return Condition.values();
     }
 
-    public Condition getCondition() {
-        return condition;
+    public String save() throws SQLException, NamingException {
+        try (Connection connection = WorkshopDatabase.getConnection()){
+            PreparedStatement addEntry = connection.prepareStatement(
+                    "INSERT INTO games" +
+                    "(name, publisher, developer, release_date, price, stock, condition)" +
+                    " VALUES (?, ?, ?, ?, ?, ?, ?)"
+            );
+            java.sql.Date sqlReleaseDate = new java.sql.Date(getReleaseDate().getTime());
+            addEntry.setString(1, getName());
+            addEntry.setString(2, getPublisher());
+            addEntry.setString(3, getDeveloper());
+            addEntry.setDate(4, sqlReleaseDate);
+            addEntry.setFloat(5, getPrice());
+            addEntry.setInt(6, getStock());
+            addEntry.setString(7, getCondition().name());
+            addEntry.executeUpdate();
+            return "games-table";
+        }
     }
-
-    public void setCondition(Condition condition) {
-        this.condition = condition;
-    }
-
-    public float getPrice() {
-        return price;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
-    }
-
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
-
-    public Date getReleaseDate() {
-        return releaseDate;
-    }
-
-    public void setReleaseDate(Date releaseDate) {
-        this.releaseDate = releaseDate;
-    }
-
-
 }
