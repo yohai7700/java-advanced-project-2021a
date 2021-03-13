@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Created by IntelliJ IDEA.
+  User: yohai
+  Date: 07/03/2021
+  Time: 18:50
+-->
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+    <title>Games Table</title>
+</h:head>
+
+<h:body>
+    <h5>Games Table</h5>
+    <h:form>
+        <p:dataTable id="games" value="#{gamesTableBean.games}" var="game" rowKey="#{game.id}">
+            <p:column headerText="ID">
+                <h:outputText value="#{game.id}" />
+            </p:column>
+            <p:column headerText="Name">
+                <h:outputText value="#{game.name}" />
+            </p:column>
+            <p:column headerText="Publisher">
+                <h:outputText value="#{game.publisher}" />
+            </p:column>
+            <p:column headerText="Developer">
+                <h:outputText value="#{game.developer}" />
+            </p:column>
+            <p:column headerText="Release Date">
+                <h:outputText value="#{game.releaseDate.toString()}" />
+            </p:column>
+            <p:column headerText="Price">
+                <h:outputText value="#{game.price}" />
+            </p:column>
+            <p:column headerText="Stock">
+                <h:outputText value="#{game.stock}" />
+            </p:column>
+            <p:column headerText="Condition">
+                <h:outputText value="#{game.condition.toString()}" />
+            </p:column>
+        </p:dataTable>
+        <p:commandButton value="Add Entry" action="add-game-form"/>
+    </h:form>
+</h:body>
+
+</html>

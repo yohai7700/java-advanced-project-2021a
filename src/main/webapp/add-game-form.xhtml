@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Created by IntelliJ IDEA.
+  User: yohai
+  Date: 07/03/2021
+  Time: 18:50
+-->
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+    <title>Add New Game</title>
+</h:head>
+
+<h:body>
+    <h5>Add Game</h5>
+    <h:form>
+        <div class="card">
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-12 ui-md-4">
+                    <div class="ui-inputgroup">
+                        <span class="ui-inputgroup-addon"><i class="pi pi-user"/></span>
+                        <p:inputText placeholder="Name" value="#{addGameFormBean.name}"/>
+                    </div>
+                </div>
+            </div>
+
+            <p:divider/>
+
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-6">
+                    <div class="ui-inputgroup">
+                        <span class="ui-inputgroup-addon"><i class="pi pi-user"/></span>
+                        <p:inputText placeholder="Publisher" value="${addGameFormBean.publisher}"/>
+                    </div>
+                </div>
+                <div class="ui-g-6">
+                    <div class="ui-inputgroup">
+                        <span class="ui-inputgroup-addon"><i class="pi pi-user"/></span>
+                        <p:inputText placeholder="Developer" value="#{addGameFormBean.developer}"/>
+                    </div>
+                </div>
+            </div>
+
+            <p:divider/>
+
+            <div class="ui-g ui-fluid">
+                <div class="p-field p-col-12 p-md-4">
+                    <p:outputLabel for="releaseDate" value="Release Date"/>
+                    <p:datePicker id="releaseDate" value="#{addGameFormBean.releaseDate}" />
+                </div>
+            </div>
+
+            <p:divider/>
+
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-4">
+                    <div class="ui-inputgroup">
+                        <span class="ui-inputgroup-addon">$</span>
+                        <p:inputText placeholder="Price" value="#{addGameFormBean.price}"/>
+                    </div>
+                </div>
+                <div class="ui-g-4">
+                    <p:spinner id="basic" placeholder="Stock" value="#{addGameFormBean.stock}"/>
+                </div>
+                <div class="ui-g-4">
+                    <p:selectOneMenu value="#{addGameFormBean.condition}" >
+                        <f:selectItems value="#{addGameFormBean.conditions}" />
+                    </p:selectOneMenu>
+                </div>
+            </div>
+
+            <p:divider/>
+
+            <p:commandButton value="Submit" action="#{addGameFormBean.save}"/>
+        </div>
+        <p:commandButton value="Return to games table" action="games-table"/>
+    </h:form>
+</h:body>
+
+</html>
