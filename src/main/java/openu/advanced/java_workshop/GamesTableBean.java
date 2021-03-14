@@ -17,6 +17,21 @@ import java.util.List;
 
 @ManagedBean
 public class GamesTableBean implements Serializable {
+    private List<Game> selectedGames;
+    public boolean selected;
+
+    public void openNewGameForm(){
+        this.selected = true;
+    }
+
+    public boolean getIsNewGameForm(){
+        return this.selected;
+    }
+
+    public void setIsNewGameForm(boolean value){
+        this.selected = value;
+    }
+
     private List<Game> convertResultSetToList(ResultSet resultSet) throws SQLException {
         List<Game> games = new ArrayList<>();
         while(resultSet.next()){
