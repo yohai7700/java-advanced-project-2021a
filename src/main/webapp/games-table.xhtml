@@ -29,7 +29,7 @@
             <p:toolbar>
                 <p:toolbarGroup>
                     <p:commandButton value="New" icon="pi pi-plus" actionListener="#{gamesTableBean.openNewGameForm}"
-                                     update=":form:manage-product-content" oncomplete="PF('manageProductDialog').show()"
+                                     update=":form:manage-product-content" oncomplete="PF('addGameDialog').show()"
                                      styleClass="ui-button-success" style="margin-right: .5rem">
                         <p:resetInput target=":form:manage-product-content"/>
                     </p:commandButton>
@@ -37,7 +37,7 @@
             </p:toolbar>
 
             <!-- Games Data Table - Always on page -->
-            <p:dataTable id="games" value="#{gamesTableBean.games}" var="game" rowKey="#{game.id}">
+            <p:dataTable id="games-table" value="#{gamesTableBean.games}" var="game" rowKey="#{game.id}">
                 <f:facet name="header">
                     <div class="products-table-header">
                         <span style="font-weight: bold">PRODUCTS</span>
@@ -56,7 +56,7 @@
                     <h:outputText value="#{game.developer}" />
                 </p:column>
                 <p:column headerText="Release Date">
-                    <h:outputText value="#{game.releaseDate.toString()}" />
+                    <h:outputText value="#{game.releaseDate}" />
                 </p:column>
                 <p:column headerText="Price">
                     <h:outputText value="#{game.price}" style="font-weight: 700">
@@ -72,8 +72,8 @@
             </p:dataTable>
 
             <!-- New game form - modal -->
-            <p:dialog header="Product Details" showEffect="fade" modal="true"
-                      widgetVar="manageProductDialog" responsive="true">
+            <p:dialog header="Add New Game" showEffect="fade" modal="true"
+                      widgetVar="addGameDialog" responsive="true">
                 <p:outputPanel id="manage-product-content" styleClass="ui-fluid">
                     <p:outputPanel rendered="#{gamesTableBean.isNewGameForm}">
                         <div class="p-field">
