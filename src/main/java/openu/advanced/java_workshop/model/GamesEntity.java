@@ -5,6 +5,23 @@ import java.sql.Date;
 
 @Entity
 @Table(name = "games", schema = "public", catalog = "workshop")
+@NamedQueries({
+    @NamedQuery(name = "getAllGames", query = "SELECT game FROM GamesEntity game"),
+    @NamedQuery(name = "getGameById", query = "SELECT game FROM GamesEntity game WHERE game.id =:id"),
+    @NamedQuery(name = "getCategoriesByGameId",
+            query = "SELECT category FROM CategoriesEntity category " +
+                    "WHERE EXISTS " +
+                    "(SELECT categoryMember FROM CategoryMembersEntity categoryMember " +
+                        "WHERE categoryMember.categoryId=category.id AND categoryMember.gameId=:gameId)"),
+    @NamedQuery(name = "getRecommendationsByGameId",
+            query = "SELECT game FROM GamesEntity game " +
+                    "WHERE game.id <> :gameId AND EXISTS " +
+                        "(SELECT categoryMember FROM CategoryMembersEntity categoryMember " +
+                        "WHERE categoryMember.gameId = game.id AND " +
+                            "EXISTS (SELECT m FROM CategoryMembersEntity m " +
+                            "WHERE m.gameId = :gameId AND m.categoryId = categoryMember.categoryId))"
+    )
+})
 public class GamesEntity {
     private int id;
     private String name;
