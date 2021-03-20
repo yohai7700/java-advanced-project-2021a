@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:outputStylesheet library="css" name="primeflex.css"/>
+<h:head>
+    <title>#{categoryPageBean.category.name}</title>
+</h:head>
+
+<h:body>
+    <h1 style="text-align: center;">
+        #{categoryPageBean.category.name}
+    </h1>
+    <p:divider/>
+    <div class="p-grid">
+        <ui:repeat var="game" value="#{categoryPageBean.games}">
+            <div class="p-col-4">
+                <p:card style="width: 25rem; margin-bottom: 2em">
+                    <f:facet name="title">
+                        ${game.name}
+                    </f:facet>
+                    <p:badge value="#{game.condition.toString().toUpperCase()}"/>
+                    <p:divider/>
+                    <p:outputLabel value="Publisher: #{game.publisher}"/>
+                    <br/>
+                    <p:outputLabel value="Developer: #{game.developer}"/>
+                    <f:facet name="footer">
+                        <h:outputText value="#{game.price}"
+                                      styleClass="product-price">
+                            <f:convertNumber currencySymbol="$" type="currency"/>
+                        </h:outputText>
+                        <p:commandButton type="button" value="Add To Cart"
+                                         icon="pi pi-shopping-cart"
+                                         disabled="#{game.stock != 0}">
+                        </p:commandButton>
+                    </f:facet>
+                </p:card>
+            </div>
+        </ui:repeat>
+    </div>
+</h:body>
+
+</html>
