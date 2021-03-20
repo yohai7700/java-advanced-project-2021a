@@ -29,6 +29,11 @@ CREATE TABLE categories
     PRIMARY KEY (id)
 );
 
+-- Games table population
+INSERT INTO categories (name)
+VALUES ('First Person Shooter'),
+       ('Adventure');
+
 -- Categories members table (i.e relationship between games and categories) definition
 DROP TABLE IF EXISTS category_members CASCADE;
 
@@ -40,6 +45,9 @@ CREATE TABLE category_members
     FOREIGN KEY (game_id) REFERENCES games (id),
     FOREIGN KEY (category_id) REFERENCES categories (id)
 );
+
+INSERT INTO category_members (game_id, category_id)
+VALUES (1, 2);
 
 -- Users table definition
 DROP TABLE IF EXISTS users CASCADE;

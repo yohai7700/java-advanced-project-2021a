@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
-             version="2.2">
-    <persistence-unit name="default">
-
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+             http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+             version="2.1">
+    <persistence-unit name="default"/>
+    <persistence-unit name="workshopPU">
+        <class>openu.advanced.java_workshop.model.CategoriesEntity</class>
+        <class>openu.advanced.java_workshop.model.CategoryMembersEntity</class>
+        <class>openu.advanced.java_workshop.model.GamesEntity</class>
+        <properties>
+            <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5433/workshop"/>
+            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+            <property name="hibernate.connection.user" value="postgres"/>
+            <property name="hibernate.connection.password" value="password"/>
+        </properties>
     </persistence-unit>
 </persistence>
