@@ -7,4 +7,9 @@
               driverClassName="org.postgresql.Driver"
               url="jdbc:postgresql://localhost:5433/workshop"
     />
+    <!-- Used for CDI Beans Management -->
+    <Resource name="BeanManager"
+              auth="Container"
+              type="javax.enterprise.inject.spi.BeanManager"
+              factory="org.apache.webbeans.container.ManagerObjectFactory" />
 </Context>

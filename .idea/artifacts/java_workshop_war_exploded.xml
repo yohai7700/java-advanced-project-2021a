@@ -37,6 +37,19 @@
           <element id="library" level="project" name="Maven: org.jvnet.staxex:stax-ex:1.8" />
           <element id="library" level="project" name="Maven: com.sun.xml.fastinfoset:FastInfoset:1.2.15" />
           <element id="library" level="project" name="Maven: org.hibernate:hibernate-entitymanager:5.4.30.Final" />
+          <element id="library" level="project" name="Maven: javax.enterprise:cdi-api:2.0" />
+          <element id="library" level="project" name="Maven: javax.el:javax.el-api:3.0.0" />
+          <element id="library" level="project" name="Maven: javax.interceptor:javax.interceptor-api:1.2" />
+          <element id="library" level="project" name="Maven: javax.inject:javax.inject:1" />
+          <element id="library" level="project" name="Maven: org.apache.openwebbeans:openwebbeans-jsf:2.0.20" />
+          <element id="library" level="project" name="Maven: org.apache.openwebbeans:openwebbeans-impl:2.0.20" />
+          <element id="library" level="project" name="Maven: org.apache.xbean:xbean-finder-shaded:4.18" />
+          <element id="library" level="project" name="Maven: org.apache.xbean:xbean-asm9-shaded:4.18" />
+          <element id="library" level="project" name="Maven: org.apache.xbean:xbean-asm-util:4.18" />
+          <element id="library" level="project" name="Maven: org.apache.openwebbeans:openwebbeans-spi:2.0.20" />
+          <element id="library" level="project" name="Maven: org.apache.openwebbeans:openwebbeans-web:2.0.20" />
+          <element id="library" level="project" name="Maven: org.apache.openwebbeans:openwebbeans-el22:2.0.20" />
+          <element id="library" level="project" name="Maven: javax.validation:validation-api:2.0.1.Final" />
         </element>
       </element>
       <element id="directory" name="META-INF">
