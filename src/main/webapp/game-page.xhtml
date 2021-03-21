@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Created by IntelliJ IDEA.
+  User: yohai
+  Date: 20/03/2021
+  Time: 18:22
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:outputStylesheet>
+    .navbar-place-holder {
+        height: 80px;
+        width: 100%;
+        background-color: grey;
+    }
+
+    .game {
+        position: relative;
+        margin: 0 auto;
+        padding-top: 45px;
+        display: flex;
+        width: 1200px;
+    }
+
+    .game-img {
+        position: relative;
+        width: 450px;
+        height: 450px;
+        background-color: grey;
+    }
+
+    .game-section {
+        margin-left: 32px;
+        width: 450px;
+        height: 450px;
+    }
+
+    .game-recommendations {
+        margin-left: 32px;
+        width: 250px;
+        height: 450px;
+    }
+</h:outputStylesheet>
+
+<h:head>
+    <title>#{gamePageBean.game.name}</title>
+</h:head>
+
+<h:body>
+    <div class="navbar-place-holder">Navigation bar place holder</div>
+    <div class="game">
+        <div class="game-img">Image Placeholder</div>
+        <div class="game-section">
+            <p:outputPanel>
+                <f:facet name="title">Test</f:facet>
+            <!-- Game name -->
+            <h1>#{gamePageBean.game.name}</h1>
+            <!-- Condition Badge -->
+            <p:badge value="#{gamePageBean.game.condition.toString().toUpperCase()}"/>
+            <!-- List of categories as links -->
+            <ui:repeat value="#{gamePageBean.categories}" var="category">
+                <h:form>
+                    <h:link outcome="category-page">
+                    <f:param name="category_id" value="#{category.id}"/>
+                        <i class="pi pi-tag product-category-icon"/>
+                        <span class="product-category">#{category.name}</span>
+                    </h:link>
+                </h:form>
+            </ui:repeat>
+            <p:divider/>
+            <h:panelGrid columns="2" layout="flex" styleClass="showcase-text-align-center">
+                <!-- Developer value -->
+                <p:outputLabel>Developer</p:outputLabel>
+                <p:outputLabel>#{gamePageBean.game.developer}</p:outputLabel>
+                <!-- Publisher value -->
+                <p:outputLabel>Publisher</p:outputLabel>
+                <p:outputLabel>#{gamePageBean.game.publisher}</p:outputLabel>
+                <!-- Release Date value -->
+                <p:outputLabel>Release Date</p:outputLabel>
+                <p:outputLabel>#{gamePageBean.game.releaseDate}</p:outputLabel>
+            </h:panelGrid>
+            <p:spacer height="200px"/>
+            <!-- Add to cart button displays if the game is in stock -->
+            <p:commandButton type="button"
+                             style="margin: 0 auto"
+                             value="Add To Cart (#{gamePageBean.game.price}$)"
+                             icon="pi pi-shopping-cart"
+                             rendered="#{gamePageBean.game.stock != 0}"
+            />
+            <!-- Out of stock message when game is out of stock -->
+            <p:badge
+                    value="Game is out of stock"
+                    severity="danger"
+                    rendered="#{gamePageBean.game.stock == 0}"
+            />
+            </p:outputPanel>
+        </div>
+        <div class="game-section game-recommendations">
+            <p:outputPanel id="recommendations">
+                <h2>Recommendations</h2>
+                <ui:repeat value="#{gamePageBean.recommendations}" var="recommendation">
+                    <h:form>
+                    <p:card>
+                        <f:facet name="title">#{recommendation.name}</f:facet>
+                        <f:facet name="footer">
+                            Test
+                            <h:outputText value="#{recommendation.price}"
+                                          styleClass="product-price">
+                                <f:convertNumber currencySymbol="$" type="currency"/>
+                            </h:outputText>
+                            <p:commandButton action="#{gamePageBean.openRecommendationPage}"
+                                             value="Open Game Page"
+                                             update="recommendations">
+                                <f:param name="recommendation_id" value="#{recommendation.id}"/>
+                            </p:commandButton>
+                        </f:facet>
+                    </p:card>
+                    </h:form>
+                </ui:repeat>
+            </p:outputPanel>
+        </div>
+    </div>
+</h:body>
+
+</html>

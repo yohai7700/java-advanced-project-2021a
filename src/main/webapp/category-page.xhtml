@@ -18,10 +18,11 @@
     <p:divider/>
     <div class="p-grid">
         <ui:repeat var="game" value="#{categoryPageBean.games}">
+            <h:form>
             <div class="p-col-4">
                 <p:card style="width: 25rem; margin-bottom: 2em">
                     <f:facet name="title">
-                        ${game.name}
+                        #{game.name}
                     </f:facet>
                     <p:badge value="#{game.condition.toString().toUpperCase()}"/>
                     <p:divider/>
@@ -29,17 +30,20 @@
                     <br/>
                     <p:outputLabel value="Developer: #{game.developer}"/>
                     <f:facet name="footer">
+                        Test
                         <h:outputText value="#{game.price}"
                                       styleClass="product-price">
                             <f:convertNumber currencySymbol="$" type="currency"/>
                         </h:outputText>
-                        <p:commandButton type="button" value="Add To Cart"
-                                         icon="pi pi-shopping-cart"
-                                         disabled="#{game.stock != 0}">
+                        <p:commandButton action="game-page"
+                                         value="Open Game Page"
+                                         disabled="#{game.stock == 0}">
+                            <f:param name="game_id" value="#{game.id}"/>
                         </p:commandButton>
                     </f:facet>
                 </p:card>
             </div>
+            </h:form>
         </ui:repeat>
     </div>
 </h:body>
