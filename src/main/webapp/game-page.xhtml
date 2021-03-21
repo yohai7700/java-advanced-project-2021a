@@ -41,6 +41,12 @@
         width: 450px;
         height: 450px;
     }
+
+    .game-recommendations {
+        margin-left: 32px;
+        width: 250px;
+        height: 450px;
+    }
 </h:outputStylesheet>
 
 <h:head>
@@ -96,8 +102,8 @@
             />
             </p:outputPanel>
         </div>
-        <div class="game-section">
-            <p:outputPanel>
+        <div class="game-section game-recommendations">
+            <p:outputPanel id="recommendations">
                 <f:facet name="title">Recommendations</f:facet>
                 <ui:repeat value="#{gamePageBean.recommendations}" var="recommendation">
                     <h:form>
@@ -109,10 +115,10 @@
                                           styleClass="product-price">
                                 <f:convertNumber currencySymbol="$" type="currency"/>
                             </h:outputText>
-                            <p:commandButton action="game-page"
+                            <p:commandButton action="#{gamePageBean.openRecommendationPage}"
                                              value="Open Game Page"
-                                             disabled="#{recommendation.stock == 0}">
-                                <f:param name="game_id" value="#{recommendation.id}"/>
+                                             update="recommendations">
+                                <f:param name="recommendation_id" value="#{recommendation.id}"/>
                             </p:commandButton>
                         </f:facet>
                     </p:card>

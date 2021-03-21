@@ -147,4 +147,18 @@ public class GamesEntity {
         result = 31 * result + (condition != null ? condition.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "GamesEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", publisher='" + publisher + '\'' +
+                ", developer='" + developer + '\'' +
+                ", releaseDate=" + releaseDate +
+                ", price=" + price +
+                ", stock=" + stock +
+                ", condition=" + condition +
+                '}';
+    }
 }
