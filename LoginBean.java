@@ -1,9 +1,9 @@
 package openu.advanced.java_workshop;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import java.io.Serializable;
 
-@SessionScoped
+@ManagedBean
 public class LoginBean {
 
     private String password, username;
