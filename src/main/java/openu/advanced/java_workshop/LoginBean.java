@@ -1,11 +1,14 @@
 package openu.advanced.java_workshop;
 
-import javax.faces.bean.ManagedBean;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
+import java.io.Serializable;
 
-@ManagedBean
-public class RegisterBean {
+@Named
+@SessionScoped
+public class LoginBean implements Serializable {
 
-    private String username, email, password;
+    private String password, username;
 
     public String getPassword() {
         return password;
@@ -13,14 +16,6 @@ public class RegisterBean {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getUsername() {
