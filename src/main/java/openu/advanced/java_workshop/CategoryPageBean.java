@@ -3,17 +3,24 @@ package openu.advanced.java_workshop;
 import openu.advanced.java_workshop.model.CategoriesEntity;
 import openu.advanced.java_workshop.model.GamesEntity;
 
-import javax.faces.bean.ManagedBean;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import javax.servlet.http.HttpServletRequest;
+import java.io.Serializable;
 import java.util.List;
 
-@ManagedBean
-public class CategoryPageBean {
+/**
+ * Created By: Yohai Mazuz
+ * This bean handles management of the category-page.xhtml page
+ */
+@Named
+@SessionScoped
+public class CategoryPageBean implements Serializable {
     private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("workshopPU");
 
     public int getCategoryId() {
