@@ -2,20 +2,24 @@ package openu.advanced.java_workshop;
 
 import openu.advanced.java_workshop.model.CategoriesEntity;
 import openu.advanced.java_workshop.model.GamesEntity;
+import openu.advanced.java_workshop.model.ImagesRepository;
 
-import javax.faces.bean.ManagedBean;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-@ManagedBean
+@Named
+@RequestScoped
 public class GamePageBean implements Serializable {
     private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("workshopPU");
 
@@ -55,5 +59,18 @@ public class GamePageBean implements Serializable {
         String recommendationId = params.get("recommendation_id");
         String url = "game-page.xhtml?game_id=" + recommendationId;
         FacesContext.getCurrentInstance().getExternalContext().redirect(url);
+    }
+
+
+    public String getGameImagePath(){
+        return GamesEntity.getImagePath(getGameId());
+    }
+
+    public boolean getGameImageSaved(){
+        return ImagesRepository.isExists(getGameImagePath());
+    }
+
+    public InputStream getGameImage() throws IOException {
+        return ImagesRepository.retrieveImage(getGameImagePath());
     }
 }

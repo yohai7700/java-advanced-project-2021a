@@ -86,5 +86,6 @@
     <orderEntry type="library" name="Maven: org.apache.openwebbeans:openwebbeans-web:2.0.20" level="project" />
     <orderEntry type="library" name="Maven: org.apache.openwebbeans:openwebbeans-el22:2.0.20" level="project" />
     <orderEntry type="library" name="Maven: javax.validation:validation-api:2.0.1.Final" level="project" />
+    <orderEntry type="library" name="Maven: commons-io:commons-io:2.8.0" level="project" />
   </component>
 </module>
