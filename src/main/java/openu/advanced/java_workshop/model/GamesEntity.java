@@ -161,4 +161,8 @@ public class GamesEntity {
                 ", condition=" + condition +
                 '}';
     }
+
+    public static String getImagePath(int gameId){
+        return "game\\" + gameId;
+    }
 }

@@ -56,7 +56,11 @@
 <h:body>
     <div class="navbar-place-holder">Navigation bar place holder</div>
     <div class="game">
-        <div class="game-img">Image Placeholder</div>
+        <!-- Game image section - showing default image if game does not exist -->
+        <p:outputPanel id="game-img" styleClass="game-img">
+            <h:graphicImage library="images" name="default-game-image.jpg" width="450px" height="450px" rendered="#{!gamePageBean.gameImageSaved}"/>
+            <p:graphicImage value="#{gamePageBean.gameImage}" width="450px" height="450px" rendered="#{gamePageBean.gameImageSaved}"/>
+        </p:outputPanel>
         <div class="game-section">
             <p:outputPanel>
                 <f:facet name="title">Test</f:facet>
