@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="jsf-impl-2.2.20">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../JavaAdvanceDeps/jsf-impl-2.2.20.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

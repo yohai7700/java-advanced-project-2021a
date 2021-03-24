@@ -63,3 +63,23 @@ CREATE TABLE users
     isAdmin    BIT,
     PRIMARY KEY (username)
 );
+
+
+INSERT INTO users (username, password)
+values ('dvirdov', 'password'),
+       ('yohaimazuz', 'password'),
+       ('ofekmarks', 'password');
+
+
+
+DROP TABLE IF EXISTS users_sessions CASCADE;
+
+CREATE TABLE users_sessions
+(
+    username        VARCHAR(40) NOT NULL UNIQUE,
+    token           VARCHAR(40) NOT NULL,
+    expiration_date TIMESTAMP   NOT NULL,
+
+    FOREIGN KEY (username) REFERENCES users (username),
+    PRIMARY KEY (username)
+);
