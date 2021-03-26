@@ -6,6 +6,7 @@ import openu.advanced.java_workshop.model.ImagesRepository;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -22,6 +23,8 @@ import java.util.Map;
 @RequestScoped
 public class GamePageBean implements Serializable {
     private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("workshopPU");
+    @Inject
+    private ShoppingCartBean shoppingCartBean;
 
     private int getGameId() {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -72,5 +75,23 @@ public class GamePageBean implements Serializable {
 
     public InputStream getGameImage() throws IOException {
         return ImagesRepository.retrieveImage(getGameImagePath());
+    }
+
+    public boolean getGameIsInCart(){
+        return shoppingCartBean.getGames().contains(getGameId());
+    }
+
+    public void addToCart(){
+        GamesEntity game = getGame();
+
+        shoppingCartBean.getGames().add(game.getId());
+        game.setStock(game.getStock() - 1);
+    }
+
+    public void removeFromCart(){
+        GamesEntity game = getGame();
+
+        shoppingCartBean.getGames().remove(game.getId());
+        game.setStock(game.getStock() + 1);
     }
 }

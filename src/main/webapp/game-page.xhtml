@@ -84,33 +84,46 @@
                     </h:form>
                 </ui:repeat>
                 <p:divider/>
-                <h:panelGrid columns="2" layout="flex">
-                    <!-- Developer value -->
-                    <p:outputLabel>Developer</p:outputLabel>
-                    <p:outputLabel>#{gamePageBean.game.developer}</p:outputLabel>
-                    <!-- Publisher value -->
-                    <p:outputLabel>Publisher</p:outputLabel>
-                    <p:outputLabel>#{gamePageBean.game.publisher}</p:outputLabel>
-                    <!-- Release Date value -->
-                    <p:outputLabel>Release Date</p:outputLabel>
-                    <p:outputLabel>#{gamePageBean.game.releaseDate}</p:outputLabel>
-                </h:panelGrid>
-                <p:spacer height="200px"/>
-                <div style="display: flex; align-items: center; justify-content: center;">
-                    <!-- Add to cart button displays if the game is in stock -->
-                    <p:commandButton type="button"
-                                     style="margin: 0 auto"
-                                     value="Add To Cart (#{gamePageBean.game.price}$)"
-                                     icon="pi pi-shopping-cart"
-                                     rendered="#{gamePageBean.game.stock != 0}"
-                    />
-                    <!-- Out of stock message when game is out of stock -->
-                    <p:badge
-                            value="Game is out of stock"
-                            severity="danger"
-                            rendered="#{gamePageBean.game.stock == 0}"
-                    />
-                </div>
+                <h:form>
+                    <h:panelGrid columns="2" layout="flex">
+                        <!-- Developer value -->
+                        <p:outputLabel>Developer</p:outputLabel>
+                        <p:outputLabel>#{gamePageBean.game.developer}</p:outputLabel>
+                        <!-- Publisher value -->
+                        <p:outputLabel>Publisher</p:outputLabel>
+                        <p:outputLabel>#{gamePageBean.game.publisher}</p:outputLabel>
+                        <!-- Release Date value -->
+                        <p:outputLabel>Release Date</p:outputLabel>
+                        <p:outputLabel>#{gamePageBean.game.releaseDate}</p:outputLabel>
+                    </h:panelGrid>
+
+                    <p:spacer height="200px"/>
+                    <div style="display: flex; align-items: center; justify-content: center;">
+                        <p:commandButton actionListener="#{gamePageBean.removeFromCart}"
+                                         style="margin: 0 auto"
+                                         styleClass="ui-button-warning rounded-button"
+                                         value="Remove from cart"
+                                         icon="pi pi-shopping-cart"
+                                         update="@form"
+                                         rendered="#{gamePageBean.gameIsInCart}"
+                        />
+                        <!-- Add to cart button displays if the game is in stock -->
+                        <p:commandButton actionListener="#{gamePageBean.addToCart}"
+                                         style="margin: 0 auto"
+                                         styleClass="rounded-button"
+                                         value="Add To Cart (#{gamePageBean.game.price}$)"
+                                         icon="pi pi-shopping-cart"
+                                         update="@form"
+                                         rendered="#{!gamePageBean.gameIsInCart and gamePageBean.game.stock != 0}"
+                        />
+                        <!-- Out of stock message when game is out of stock -->
+                        <p:badge
+                                value="Game is out of stock"
+                                severity="danger"
+                                rendered="#{!gamePageBean.gameIsInCart and gamePageBean.game.stock == 0}"
+                        />
+                    </div>
+                </h:form>
             </p:outputPanel>
         </div>
         <div class="game-section game-recommendations">
