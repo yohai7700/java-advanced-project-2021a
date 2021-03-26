@@ -1,57 +1,50 @@
 package openu.advanced.java_workshop;
 
+import openu.advanced.java_workshop.model.UsersEntity;
+import openu.advanced.java_workshop.model.UsersSessionsEntity;
+
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.naming.NamingException;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 @Named
-@SessionScoped
+@RequestScoped
 public class RegisterBean implements Serializable {
+    private UsersEntity user = new UsersEntity();
 
-    private String username, email, password;
-
-    public String getPassword() {
-        return password;
+    public UsersEntity getUser() {
+        return user;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    public String register(){
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("workshopPU");
+        EntityManager entityManager = factory.createEntityManager();
+        UsersEntity session = entityManager.find(UsersEntity.class, user.getUsername());
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String Register(){
-        try (Connection connection = WorkshopDatabase.getConnection()){
-            PreparedStatement addEntry = connection.prepareStatement(
-                    "INSERT INTO users" +
-                            "(username, password, address)" +
-                            " VALUES (?, ?, ?, ?, ?, ?, ?)"
-            );
-            addEntry.setString(1, getUsername());
-            addEntry.setString(2, getPassword());
-            addEntry.setString(3, getEmail());
-            addEntry.executeUpdate();
-        } catch (SQLException| NamingException throwables) {
-            throwables.printStackTrace();
+        if (session == null){ // add new user to users table
+            entityManager.getTransaction().begin();
+            entityManager.persist(user);
+            entityManager.getTransaction().commit();
+            return "login";
         }
-        return "index";
+        else{//
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN,
+                            "Username is already taken",
+                            "Please pick another username"));
+            return "";
+        }
+
     }
 }

@@ -1,8 +1,10 @@
 package openu.advanced.java_workshop;
 
-import javax.faces.bean.ManagedBean;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
 
-@ManagedBean
+@Named
+@RequestScoped
 public class HomePageBean {
     String userName = "User Example";
 

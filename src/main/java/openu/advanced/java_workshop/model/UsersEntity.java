@@ -14,6 +14,7 @@ public class UsersEntity {
     private String address;
     private Boolean isadmin;
 
+
     @Id
     @Column(name = "username")
     public String getUsername() {

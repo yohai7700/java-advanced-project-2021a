@@ -88,6 +88,7 @@
                 <p:outputLabel>#{gamePageBean.game.releaseDate}</p:outputLabel>
                 </h:panelGrid>
                 <p:spacer height="200px"/><div style="display: flex; align-items: center; justify-content: center;">
+                <p:tag value="Login to add to cart." rendered="#{not sessionBean.isUserConnected}"/>
                 <!-- Add to cart button displays if the game is in stock -->
                 <p:commandButton type="button"
                      style="margin: 0 auto"

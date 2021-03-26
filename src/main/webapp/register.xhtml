@@ -22,17 +22,18 @@
             margin-right: auto;
             margin-top: 50px;
         }
+
         .error {
             color: red;
         }
     </style>
-    <div class="card box">
+    <h:form id="registerForm" styleClass="box">
         <h1 style="text-align: center">Register</h1>
         <div class="p-field">
             <small class="p-d-block">Username</small>
             <p:inputText id="username" styleClass="p-d-block" style="width: 100%;"
                          required="true" requiredMessage="Please enter a username"
-                         value="#{registerBean.username}"/>
+                         value="#{registerBean.user.username}"/>
             <h:message for="username" styleClass="error"/>
         </div>
         <br/>
@@ -40,7 +41,7 @@
             <small class="p-d-block">Email</small>
             <p:inputText id="email" styleClass="p-d-block" style="width: 100%;"
                          required="true" requiredMessage="Please enter your email"
-                         value="#{registerBean.email}" validatorMessage="Invalid email address">
+                         value="#{registerBean.user.email}" validatorMessage="Invalid email address">
                 <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]"/>
             </p:inputText>
             <h:message for="email" styleClass="error"/>
@@ -50,7 +51,7 @@
             <small class="p-d-block">Password</small>
             <p:password id="password" styleClass="p-d-block" style="width: 100%;"
                         required="true" requiredMessage="Please enter a password"
-                        value="#{registerBean.password}" match="re-password"/>
+                        value="#{registerBean.user.password}" match="re-password"/>
             <h:message for="password" styleClass="error"/>
         </div>
         <br/>
@@ -60,12 +61,13 @@
         </div>
         <br/>
         <div style="position: absolute; margin-left: 10%;">
-            <p:commandButton id="submit" value="Register"/>
+            <p:commandButton id="submit" value="Register" action="#{registerBean.register}" update="registerForm"/>
         </div>
         <br/><br/><br/>
         <small class="p-d-block">
             Already have an account? <a href="login.xhtml">Log in</a>
         </small>
-    </div>
+    </h:form>
+
 </h:body>
 </html>
