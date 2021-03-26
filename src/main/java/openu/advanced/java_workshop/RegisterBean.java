@@ -7,6 +7,12 @@ import java.io.Serializable;
 @Named
 @SessionScoped
 public class RegisterBean implements Serializable {
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+
+@ManagedBean
+@SessionScoped
+public class RegisterBean {
 
     private String username, email, password;
 
@@ -33,4 +39,8 @@ public class RegisterBean implements Serializable {
     public void setUsername(String username) {
         this.username = username;
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> bla
