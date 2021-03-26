@@ -1,34 +1,30 @@
 package openu.advanced.java_workshop;
 
 import openu.advanced.java_workshop.model.UsersEntity;
-import openu.advanced.java_workshop.model.UsersSessionsEntity;
+import org.primefaces.event.FlowEvent;
 
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
-import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.io.Serializable;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 @Named
-@RequestScoped
+@ViewScoped
 public class RegisterBean implements Serializable {
-    private UsersEntity user = new UsersEntity();
+    private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("workshopPU");
+    private final UsersEntity user = new UsersEntity();
 
     public UsersEntity getUser() {
         return user;
     }
 
     public String register(){
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("workshopPU");
-        EntityManager entityManager = factory.createEntityManager();
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        System.out.println(user);
         UsersEntity session = entityManager.find(UsersEntity.class, user.getUsername());
 
         if (session == null){ // add new user to users table
@@ -45,6 +41,5 @@ public class RegisterBean implements Serializable {
                             "Please pick another username"));
             return "";
         }
-
     }
 }

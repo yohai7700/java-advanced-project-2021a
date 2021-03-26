@@ -1,21 +1,10 @@
 package openu.advanced.java_workshop.model;
 
 import javax.persistence.*;
-import java.sql.Date;
-import java.util.Objects;
-
-
-
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "users_sessions", schema = "public", catalog = "workshop")
-
-
-
-
-
-
-
 public class UsersSessionsEntity {
     private String username;
     private String token;
@@ -54,11 +43,11 @@ public class UsersSessionsEntity {
 
     @Basic
     @Column(name = "expiration_date")
-    public java.sql.Timestamp getExpirationDate() {
+    public Timestamp getExpirationDate() {
         return expirationDate;
     }
 
-    public void setExpirationDate(java.sql.Timestamp expirationDate) {
+    public void setExpirationDate(Timestamp expirationDate) {
         this.expirationDate = expirationDate;
     }
 
@@ -66,12 +55,22 @@ public class UsersSessionsEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         UsersSessionsEntity that = (UsersSessionsEntity) o;
-        return Objects.equals(username, that.username) && Objects.equals(token, that.token) && Objects.equals(expirationDate, that.expirationDate);
+
+        if (username != null ? !username.equals(that.username) : that.username != null) return false;
+        if (token != null ? !token.equals(that.token) : that.token != null) return false;
+        if (expirationDate != null ? !expirationDate.equals(that.expirationDate) : that.expirationDate != null)
+            return false;
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(username, token, expirationDate);
+        int result = username != null ? username.hashCode() : 0;
+        result = 31 * result + (token != null ? token.hashCode() : 0);
+        result = 31 * result + (expirationDate != null ? expirationDate.hashCode() : 0);
+        return result;
     }
 }

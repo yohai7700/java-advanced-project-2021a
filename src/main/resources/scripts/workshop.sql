@@ -54,13 +54,14 @@ DROP TABLE IF EXISTS users CASCADE;
 
 CREATE TABLE users
 (
-    username   VARCHAR(40)  NOT NULL UNIQUE,
-    password   VARCHAR(100) NOT NULL,
-    first_name VARCHAR(20),
-    last_name  VARCHAR(20),
+    username   VARCHAR NOT NULL UNIQUE,
+    password   VARCHAR NOT NULL,
+    email      VARCHAR NOT NULL,
+    first_name VARCHAR NOT NULL,
+    last_name  VARCHAR NOT NULL,
     age        INT,
-    address    VARCHAR(40),
-    isAdmin    BIT,
+    address    VARCHAR NOT NULL,
+    is_admin   BOOLEAN,
     PRIMARY KEY (username)
 );
 

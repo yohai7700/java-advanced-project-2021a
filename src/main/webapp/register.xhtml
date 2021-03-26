@@ -5,69 +5,95 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+>
+<h:outputStylesheet library="css" name="primeflex.css"/>
+<h:outputStylesheet>
+    .label {
+        width: 20%;
+        padding: 4px;
+    }
+
+    .value {
+        width: 80%;
+        padding: 4px;
+    }
+
+    .box {
+        height: 500px;
+        width: 350px;
+        padding: 20px;
+        border: #ddd solid 1px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 50px;
+    }
+
+    .error {
+        color: red;
+    }
+</h:outputStylesheet>
 
 <h:head>
     <title>Register</title>
 </h:head>
 
 <h:body>
-    <style type="text/css">
-        .box {
-            height: 500px;
-            width: 350px;
-            padding: 20px;
-            border: #ddd solid 1px;
-            margin-left: auto;
-            margin-right: auto;
-            margin-top: 50px;
-        }
+    <p:card>
+        <h:form>
+            <p:growl id="messages" showDetail="true" life="4000" />
 
-        .error {
-            color: red;
-        }
-    </style>
-    <h:form id="registerForm" styleClass="box">
-        <h1 style="text-align: center">Register</h1>
-        <div class="p-field">
-            <small class="p-d-block">Username</small>
-            <p:inputText id="username" styleClass="p-d-block" style="width: 100%;"
-                         required="true" requiredMessage="Please enter a username"
-                         value="#{registerBean.user.username}"/>
-            <h:message for="username" styleClass="error"/>
-        </div>
-        <br/>
-        <div class="p-field">
-            <small class="p-d-block">Email</small>
-            <p:inputText id="email" styleClass="p-d-block" style="width: 100%;"
-                         required="true" requiredMessage="Please enter your email"
-                         value="#{registerBean.user.email}" validatorMessage="Invalid email address">
-                <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]"/>
-            </p:inputText>
-            <h:message for="email" styleClass="error"/>
-        </div>
-        <br/>
-        <div class="p-field">
-            <small class="p-d-block">Password</small>
-            <p:password id="password" styleClass="p-d-block" style="width: 100%;"
-                        required="true" requiredMessage="Please enter a password"
-                        value="#{registerBean.user.password}" match="re-password"/>
-            <h:message for="password" styleClass="error"/>
-        </div>
-        <br/>
-        <div class="p-field">
-            <small class="p-d-block">Re-enter Password</small>
-            <p:password id="re-password" styleClass="p-d-block" style="width: 100%;"/>
-        </div>
-        <br/>
-        <div style="position: absolute; margin-left: 10%;">
-            <p:commandButton id="submit" value="Register" action="#{registerBean.register}" update="registerForm"/>
-        </div>
-        <br/><br/><br/>
-        <small class="p-d-block">
-            Already have an account? <a href="login.xhtml">Log in</a>
-        </small>
-    </h:form>
+            <p:wizard>
+                <p:tab title="Personal">
+                    <p:panel header="Personal Details">
+                        <h:panelGrid columns="2" columnClasses="label, value">
+                            <h:outputText value="Firstname: *"/>
+                            <p:inputText value="#{registerBean.user.firstName}" required="true" label="Firstname"/>
 
+                            <h:outputText value="Lastname: *"/>
+                            <p:inputText value="#{registerBean.user.lastName}" required="true" label="Lastname"/>
+
+                            <h:outputText value="Age: "/>
+                            <p:inputText value="#{registerBean.user.age}" required="true" label="Age" type="number" />
+                        </h:panelGrid>
+                    </p:panel>
+                </p:tab>
+                <p:tab title="Account">
+                    <p:panel header="Account Details">
+                        <h:panelGrid columns="2" columnClasses="label, value">
+                            <h:outputText value="Username: *"/>
+                            <p:inputText value="#{registerBean.user.username}" required="true" label="Username" />
+
+                            <h:outputText value="Password: *"/>
+                            <p:password value="#{registerBean.user.password}" required="true" label="Password" match="confirmation-password"/>
+
+                            <h:outputText value="Confirm Password: *"/>
+                            <p:password required="true" label="Confirmation Password" id="confirmation-password"/>
+
+                            <h:outputText value="Email: "/>
+                            <p:inputText value="#{registerBean.user.email}" required="true" label="Email">
+                                <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]"/>
+                            </p:inputText>
+                        </h:panelGrid>
+
+                        <p:commandButton value="Register" action="#{registerBean.register}" process="@this"/>
+                    </p:panel>
+                </p:tab>
+                <p:tab title="Confirmation">
+                    <h:panelGrid columns="2" columnClasses="label, value">
+                        <p:outputLabel value="Username: "/>
+                        <p:outputLabel value="#{registerBean.user.username}" />
+
+                        <p:outputLabel value="First Name: "/>
+                        <p:outputLabel value="#{registerBean.user.firstName}" />
+
+                        <p:outputLabel value="Last Name: "/>
+                        <p:outputLabel value="#{registerBean.user.lastName}" />
+                    </h:panelGrid>
+
+                    <p:commandButton value="Register" action="#{registerBean.register}" process="@this"/>
+                </p:tab>
+            </p:wizard>
+        </h:form>
+    </p:card>
 </h:body>
 </html>

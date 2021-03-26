@@ -1,19 +1,13 @@
-package openu.advanced.java_workshop;
+package openu.advanced.java_workshop.authentication;
 
 import openu.advanced.java_workshop.model.UsersSessionsEntity;
 
-import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.xml.registry.infomodel.User;
 import java.security.SecureRandom;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.Base64;
 import java.util.Calendar;
-import java.util.Date;
 
 public class AuthenticationToken {
 
