@@ -1,7 +1,6 @@
 package openu.advanced.java_workshop;
 
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 public class SessionUtils {
@@ -10,9 +9,8 @@ public class SessionUtils {
                 .getExternalContext().getSession(false);
     }
 
-    public static HttpServletRequest getRequest() {
-        return (HttpServletRequest) FacesContext.getCurrentInstance()
-                .getExternalContext().getRequest();
+    public static void invalidateSession() {
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
     }
 
     public static String getUserName() {

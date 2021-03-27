@@ -17,18 +17,19 @@ public class AuthenticationFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse response, FilterChain chain) {
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) {
         try {
 
             HttpServletRequest request = (HttpServletRequest) servletRequest;
-            HttpServletResponse resp = (HttpServletResponse) response;
+            HttpServletResponse response = (HttpServletResponse) servletResponse;
             HttpSession session = request.getSession(false);
+            System.out.println(session);
 
             boolean isUserConnected = session != null && session.getAttribute("username") != null;
             if (isUserConnected)
                 chain.doFilter(request, response);
             else
-                resp.sendRedirect(request.getContextPath() + "login.xhtml");
+                response.sendRedirect("/login.xhtml");
         } catch (Exception exception) {
             System.err.println(exception.getMessage());
         }

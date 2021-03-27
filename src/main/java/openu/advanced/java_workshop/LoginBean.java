@@ -48,7 +48,7 @@ public class LoginBean implements Serializable {
         if (valid) {
             HttpSession session = SessionUtils.getSession();
             session.setAttribute("username", getUsername());
-            return "secured/index.xhtml";
+            return "secured/index.xhtml?faces-redirect=true";
         } else {
             FacesContext.getCurrentInstance().addMessage(
                     null,
@@ -61,9 +61,7 @@ public class LoginBean implements Serializable {
 
     //logout event, invalidate session
     public String logout() {
-        HttpSession session = SessionUtils.getSession();
-        session.invalidate();
+        SessionUtils.invalidateSession();
         return "login";
     }
-
 }
