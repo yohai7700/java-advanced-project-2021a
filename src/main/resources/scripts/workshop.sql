@@ -66,10 +66,10 @@ CREATE TABLE users
 );
 
 
-INSERT INTO users (username, password)
-values ('dvirdov', 'password'),
-       ('yohaimazuz', 'password'),
-       ('ofekmarks', 'password');
+INSERT INTO users (username, password, email, first_name, last_name, address)
+values ('dvirdov', 'password', 'dvirdove@gmail.com', 'Dvir', 'Dov', 'Dvir Address'),
+       ('yohaimazuz', 'password', 'yohai7700@gmail.com', 'Yohai', 'Mazuz', 'Yohai Address'),
+       ('ofekmarks', 'password', 'ofekmarks@gmail.com', 'Ofek', 'Marks', 'Ofek Address');
 
 
 
