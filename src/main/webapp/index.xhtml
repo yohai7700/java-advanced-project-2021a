@@ -14,6 +14,7 @@
 
 <h:body>
     <ui:repeat var="category" value="#{homePageBean.categories}">
+        <h3><a href="category-page.xhtml?category_id=#{category.id}">#{category.name}</a></h3>
         <p:carousel value="#{homePageBean.getGames(category.id)}" var="product"
                     itemStyle="text-align:center" numVisible="1" easing="easeOutBounce"
                     style="width: 500px;" circular="true">
