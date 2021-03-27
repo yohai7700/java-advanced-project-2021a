@@ -2,93 +2,49 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
-<f:view>
-    <h:outputLabel value="Home Page"/>
-</f:view>
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:outputStylesheet library="css" name="primeflex.css"/>
 <h:head>
     <title>Home Page</title>
+    <ui:composition template="navbar.xhtml"/>
 </h:head>
 
 <h:body>
-    <h:form>
-        <div class="card">
-            <h5 style="margin-top:0">Addons</h5>
-            <div class="ui-g ui-fluid">
-                <div class="ui-g-12 ui-md-4">
-                    <div class="ui-inputgroup">
-                        <span class="ui-inputgroup-addon"><i class="pi pi-user"/></span>
-                        <p:inputText placeholder="Username"/>
+    <ui:repeat var="category" value="#{homePageBean.categories}">
+        <h3><a href="category-page.xhtml?category_id=#{category.id}">#{category.name}</a></h3>
+        <p:carousel value="#{homePageBean.getGames(category.id)}" var="product"
+                    itemStyle="text-align:center" numVisible="1" easing="easeOutBounce"
+                    style="width: 500px;" circular="true">
+            <div class="product">
+                <div class="product-grid-item p-p-5">
+                    <div class="product-grid-item-top">
+                        <span class="product-badge status-#{(product.stock > 9) ? 'in stock' :
+                        ((product.stock > 0) ? 'low stock' : 'out of stock')}">
+                            #{product.stock} items in stock
+                        </span>
                     </div>
-                </div>
-
-                <div class="ui-g-12 ui-md-4">
-                    <div class="ui-inputgroup">
-                        <span class="ui-inputgroup-addon">$</span>
-                        <p:inputText placeholder="Price"/>
-                        <span class="ui-inputgroup-addon">.00</span>
+                    <div class="product-grid-item-content">
+                        <!--<p:graphicImage name="demo/images/product/#{product.image}"/>-->
+                        <div class="product-name">
+                            <a href="game-page.xhtml?game_id=#{product.id}">#{product.name}</a>
+                        </div>
+                        <!--<p:rating readonly="true" value="3"/>-->
                     </div>
-                </div>
-
-                <div class="ui-g-12 ui-md-4">
-                    <div class="ui-inputgroup">
-                        <span class="ui-inputgroup-addon">www</span>
-                        <p:inputText placeholder="Website"/>
-                    </div>
-                </div>
-            </div>
-
-            <h5>Multiple Addons</h5>
-            <div class="ui-g">
-                <div class="ui-g-12">
-                    <div class="ui-inputgroup">
-                        <span class="ui-inputgroup-addon"><i class="pi pi-shopping-cart"/></span>
-                        <span class="ui-inputgroup-addon"><i class="pi pi-money-bill"/></span>
-                        <p:inputText placeholder="Price"/>
-                        <span class="ui-inputgroup-addon">$</span>
-                        <span class="ui-inputgroup-addon">.00</span>
+                    <div class="product-grid-item-bottom">
+                        <h:outputText value="#{product.price}" styleClass="product-price">
+                            <f:convertNumber currencySymbol="$" type="currency"/>
+                        </h:outputText>
+                        <p:commandButton type="button" value="Add To Cart"
+                                         icon="pi pi-shopping-cart"
+                                         disabled="#{product.stock == 0}">
+                        </p:commandButton>
                     </div>
                 </div>
             </div>
-
-            <h5>Button Addons</h5>
-            <div class="ui-g ui-fluid">
-                <div class="ui-g-12 ui-md-4">
-                    <div class="ui-inputgroup">
-                        <p:commandButton value="Search"/>
-                        <p:inputText placeholder="Keyword"/>
-                    </div>
-                </div>
-
-                <div class="ui-g-12 ui-md-4">
-                    <div class="ui-inputgroup">
-                        <p:inputText placeholder="Keyboard"/>
-                        <p:commandButton icon="pi pi-search" styleClass="ui-button-warning"/>
-                    </div>
-                </div>
-
-                <div class="ui-g-12 ui-md-4">
-                    <div class="ui-inputgroup">
-                        <p:commandButton icon="pi pi-check" styleClass="ui-button-success"/>
-                        <p:inputText placeholder="Vote"/>
-                        <p:commandButton icon="pi pi-times" styleClass="ui-button-danger"/>
-                    </div>
-                </div>
-            </div>
-
-            <h5>Checkbox</h5>
-            <div class="ui-g ui-fluid">
-                <div class="ui-g-12 ui-md-4">
-                    <div class="ui-inputgroup">
-                        <span class="ui-inputgroup-addon-checkbox"><p:selectBooleanCheckbox/></span>
-                        <p:inputText placeholder="Username"/>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </h:form>
+        </p:carousel>
+    </ui:repeat>
 </h:body>
 </html>
