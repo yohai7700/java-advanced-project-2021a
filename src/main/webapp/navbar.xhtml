@@ -8,7 +8,7 @@
       xmlns:c="http://java.sun.com/jstl/core">
 <h:form>
     <p:menubar>
-        <p:menuitem value="Hi Ofek" rendered="#{loginBean.username != null}"/>
+        <p:menuitem value="Hi #{loginBean.username}" rendered="#{loginBean.username != null}"/>
         <p:menuitem value="Home" icon="pi pi-fw pi-home" url="index.xhtml"/>
 
         <p:submenu label="Categories" icon="pi pi-tag product-category-icon">
