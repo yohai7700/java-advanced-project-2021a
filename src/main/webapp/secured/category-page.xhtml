@@ -5,8 +5,14 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
 <h:outputStylesheet library="css" name="primeflex.css"/>
+<h:outputStylesheet>
+    .game-tag {
+        margin-left: 15px;
+    }
+</h:outputStylesheet>
 <h:head>
     <title>#{categoryPageBean.category.name}</title>
 </h:head>
@@ -16,33 +22,29 @@
         #{categoryPageBean.category.name}
     </h1>
     <p:divider/>
-    <div class="p-grid">
-        <ui:repeat var="game" value="#{categoryPageBean.games}">
-            <h:form>
-            <div class="p-col-4">
-                <p:card style="width: 25rem; margin-bottom: 2em">
-                    <f:facet name="title">
-                        #{game.name}
-                        <p:tag style="margin-left: 15px" value="#{game.condition.toString().toUpperCase()}"/>
-                    </f:facet>
-                    <p:divider/>
-                    <p:outputLabel value="Publisher: #{game.publisher}"/>
-                    <br/>
-                    <p:outputLabel value="Developer: #{game.developer}"/>
-                    <f:facet name="footer">
-                        <div style="display: flex; align-items: center; justify-content: center;">
-                            <p:commandButton action="game-page"
-                                             value="Open Game Page (#{game.price}$)"
-                                             disabled="#{game.stock == 0}">
-                                <f:param name="game_id" value="#{game.id}"/>
-                            </p:commandButton>
-                        </div>
-                    </f:facet>
-                </p:card>
-            </div>
-            </h:form>
-        </ui:repeat>
-    </div>
+    <p:panelGrid columns="4" layout="flex">
+        <c:forEach var="game" items="#{categoryPageBean.games}">
+            <p:card>
+                <f:facet name="title">
+                    #{game.name}
+                    <p:tag styleClass="game-tag" value="#{game.condition.toString().toUpperCase()}"/>
+                    <p:tag styleClass="game-tag" severity="danger" value="NOT IN STOCK" rendered="#{game.stock == 0}"/>
+                </f:facet>
+                <p:divider/>
+                <p:outputLabel value="Publisher: #{game.publisher}"/>
+                <br/>
+                <p:outputLabel value="Developer: #{game.developer}"/>
+                <f:facet name="footer">
+                    <h:form>
+                    <div style="display: flex; align-items: center; justify-content: center;">
+                        <p:commandButton actionListener="#{categoryPageBean.openGamePage(game.id)}"
+                                         value="Open Game Page (#{game.price}$)"/>
+                    </div>
+                    </h:form>
+                </f:facet>
+            </p:card>
+        </c:forEach>
+    </p:panelGrid>
 </h:body>
 
 </html>

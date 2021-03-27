@@ -91,6 +91,12 @@
             <artifactId>commons-io</artifactId>
             <version>2.8.0</version>
         </dependency>
+        <!-- JSTL Support for c namespace tags -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
     </dependencies>
 
     <build>

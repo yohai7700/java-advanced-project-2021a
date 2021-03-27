@@ -6,12 +6,12 @@ import openu.advanced.java_workshop.model.ImagesRepository;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -22,19 +22,19 @@ import java.util.Map;
 @RequestScoped
 public class GamePageBean implements Serializable {
     private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("workshopPU");
+    @Inject
+    private ShoppingCartBean shoppingCartBean;
 
     private int getGameId() {
-        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        String gameIdParameter = req.getParameter("game_id");
+        Map<String, String> parameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        String gameIdParameter = parameterMap.get("game_id");
         //TODO: remove default category with error message
         return gameIdParameter == null ? 2 : Integer.parseInt(gameIdParameter);
     }
 
     public GamesEntity getGame() {
         EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
-        TypedQuery<GamesEntity> getGameById = entityManager.createNamedQuery("getGameById", GamesEntity.class);
-        getGameById.setParameter("id", getGameId());
-        return getGameById.getSingleResult();
+        return entityManager.find(GamesEntity.class, getGameId());
     }
 
     public List<CategoriesEntity> getCategories() {
@@ -72,5 +72,22 @@ public class GamePageBean implements Serializable {
 
     public InputStream getGameImage() throws IOException {
         return ImagesRepository.retrieveImage(getGameImagePath());
+    }
+
+    public boolean getIsGameInCart(){
+        return shoppingCartBean.getGames().contains(getGameId());
+    }
+
+    public void addToCart(){
+        shoppingCartBean.getGames().add(getGameId());
+        System.out.println(shoppingCartBean.getGames());
+    }
+
+    public void removeFromCart(){
+        shoppingCartBean.getGames().remove(getGameId());
+    }
+
+    public void onLoad(){
+        System.out.println("TEST");
     }
 }

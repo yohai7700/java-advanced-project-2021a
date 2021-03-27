@@ -44,8 +44,13 @@
 
     .game-recommendations {
         margin-left: 32px;
-        width: 250px;
+        width: 300px;
         height: 450px;
+    }
+
+    #recommendations-scroll-panel {
+        height: 450px;
+        width: 300px;
     }
 </h:outputStylesheet>
 
@@ -58,71 +63,93 @@
     <div class="game">
         <!-- Game image section - showing default image if game does not exist -->
         <p:outputPanel id="game-img" styleClass="game-img">
-            <h:graphicImage library="images" name="default-game-image.jpg" width="550px" height="450px" rendered="#{!gamePageBean.gameImageSaved}"/>
-            <p:graphicImage value="#{gamePageBean.gameImage}" width="550px" height="450px" rendered="#{gamePageBean.gameImageSaved}"/>
+            <h:graphicImage library="images" name="default-game-image.jpg" width="550px" height="450px"
+                            rendered="#{!gamePageBean.gameImageSaved}"/>
+            <p:graphicImage value="#{gamePageBean.gameImage}" width="550px" height="450px"
+                            rendered="#{gamePageBean.gameImageSaved}"/>
         </p:outputPanel>
         <div class="game-section">
             <p:outputPanel>
-            <!-- Game name and condition badge -->
-            <h1 style="display: inline">#{gamePageBean.game.name}</h1>
-            <p:tag style="display: inline; margin-left: 15px" value="#{gamePageBean.game.condition.toString().toUpperCase()}"/>
-            <!-- List of categories as links -->
-            <ui:repeat value="#{gamePageBean.categories}" var="category">
+                <!-- Game name and condition badge -->
+                <h1 style="display: inline">#{gamePageBean.game.name}</h1>
+                <p:tag style="display: inline; margin-left: 15px"
+                       value="#{gamePageBean.game.condition.toString().toUpperCase()}"/>
+                <!-- List of categories as links -->
+                <ui:repeat value="#{gamePageBean.categories}" var="category">
+                    <h:form>
+                        <h:link outcome="category-page">
+                            <f:param name="category_id" value="#{category.id}"/>
+                            <p:badge value="#{category.name}" icon="pi pi-tag product-category-icon"/>
+                        </h:link>
+                    </h:form>
+                </ui:repeat>
+                <p:divider/>
                 <h:form>
-                    <h:link outcome="category-page">
-                        <f:param name="category_id" value="#{category.id}"/>
-                        <p:badge value="#{category.name}" icon="pi pi-tag product-category-icon" />
-                    </h:link>
+                    <h:panelGrid columns="2" layout="flex">
+                        <!-- Developer value -->
+                        <p:outputLabel>Developer</p:outputLabel>
+                        <p:outputLabel>#{gamePageBean.game.developer}</p:outputLabel>
+                        <!-- Publisher value -->
+                        <p:outputLabel>Publisher</p:outputLabel>
+                        <p:outputLabel>#{gamePageBean.game.publisher}</p:outputLabel>
+                        <!-- Release Date value -->
+                        <p:outputLabel>Release Date</p:outputLabel>
+                        <p:outputLabel>#{gamePageBean.game.releaseDate}</p:outputLabel>
+                    </h:panelGrid>
+
+                    <p:spacer height="200px"/>
+                    <div style="display: flex; align-items: center; justify-content: center;">
+                        <p:commandButton actionListener="#{gamePageBean.removeFromCart}"
+                                         style="margin: 0 auto"
+                                         styleClass="ui-button-warning rounded-button"
+                                         value="Remove from cart"
+                                         icon="pi pi-shopping-cart"
+                                         update="@form"
+                                         rendered="#{gamePageBean.isGameInCart}"
+                        >
+                            <f:param name="game_id" value="#{param['game_id']}"/>
+                        </p:commandButton>
+                        <!-- Add to cart button displays if the game is in stock -->
+                        <p:commandButton actionListener="#{gamePageBean.addToCart}"
+                                         style="margin: 0 auto"
+                                         styleClass="rounded-button"
+                                         value="Add To Cart (#{gamePageBean.game.price}$)"
+                                         icon="pi pi-shopping-cart"
+                                         update="@form"
+                                         rendered="#{not gamePageBean.isGameInCart and gamePageBean.game.stock != 0}"
+                        >
+                            <f:param name="game_id" value="#{param['game_id']}"/>
+                        </p:commandButton>
+                        <!-- Out of stock message when game is out of stock -->
+                        <p:badge
+                                value="Game is out of stock"
+                                severity="danger"
+                                rendered="#{not gamePageBean.isGameInCart and gamePageBean.game.stock == 0}"
+                        />
+                    </div>
                 </h:form>
-            </ui:repeat>
-            <p:divider/>
-                <h:panelGrid columns="2" layout="flex" styleClass="showcase-text-align-center">
-                <!-- Developer value -->
-                <p:outputLabel>Developer</p:outputLabel>
-                <p:outputLabel>#{gamePageBean.game.developer}</p:outputLabel>
-                <!-- Publisher value -->
-                <p:outputLabel>Publisher</p:outputLabel>
-                <p:outputLabel>#{gamePageBean.game.publisher}</p:outputLabel>
-                <!-- Release Date value -->
-                <p:outputLabel>Release Date</p:outputLabel>
-                <p:outputLabel>#{gamePageBean.game.releaseDate}</p:outputLabel>
-                </h:panelGrid>
-                <p:spacer height="200px"/><div style="display: flex; align-items: center; justify-content: center;">
-                <p:tag value="Login to add to cart." rendered="#{not sessionBean.isUserConnected}"/>
-                <!-- Add to cart button displays if the game is in stock -->
-                <p:commandButton type="button"
-                     style="margin: 0 auto"
-                     value="Add To Cart (#{gamePageBean.game.price}$)"
-                     icon="pi pi-shopping-cart"
-                     rendered="#{gamePageBean.game.stock != 0}"
-                />
-                <!-- Out of stock message when game is out of stock -->
-                <p:badge
-                     value="Game is out of stock"
-                     severity="danger"
-                     rendered="#{gamePageBean.game.stock == 0}"
-                />
-            </div>
             </p:outputPanel>
         </div>
         <div class="game-section game-recommendations">
             <p:outputPanel id="recommendations">
                 <h2>Recommendations</h2>
-                <ui:repeat value="#{gamePageBean.recommendations}" var="recommendation">
-                    <h:form>
-                    <p:card>
-                        <f:facet name="title">#{recommendation.name}</f:facet>
-                        <p:divider />
-                        <f:facet name="footer" style="display: flex; align-items: center; justify-content: center;">
-                            <p:commandButton action="#{gamePageBean.openRecommendationPage}"
-                                 value="Open Game Page"
-                                 update="recommendations">
-                                <f:param name="recommendation_id" value="#{recommendation.id}"/>
-                            </p:commandButton>
-                        </f:facet>
-                    </p:card>
-                    </h:form>
-                </ui:repeat>
+                <p:scrollPanel id="recommendations-scroll-panel">
+                    <ui:repeat value="#{gamePageBean.recommendations}" var="recommendation">
+                        <h:form>
+                            <p:card style="margin-top: 10px">
+                                <f:facet name="title">#{recommendation.name}</f:facet>
+                                <f:facet name="footer"
+                                         style="display: flex; align-items: center; justify-content: center;">
+                                    <p:commandButton action="#{gamePageBean.openRecommendationPage}"
+                                                     value="Open Game Page"
+                                                     update="recommendations">
+                                        <f:param name="recommendation_id" value="#{recommendation.id}"/>
+                                    </p:commandButton>
+                                </f:facet>
+                            </p:card>
+                        </h:form>
+                    </ui:repeat>
+                </p:scrollPanel>
             </p:outputPanel>
         </div>
     </div>
