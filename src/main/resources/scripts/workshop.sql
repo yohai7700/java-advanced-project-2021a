@@ -59,6 +59,7 @@ CREATE TABLE users
 );
 
 
+---- Users Sessions table definition ----
 DROP TABLE IF EXISTS users_sessions CASCADE;
 
 CREATE TABLE users_sessions

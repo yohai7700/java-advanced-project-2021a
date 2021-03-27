@@ -3,7 +3,9 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+>
 <h:outputStylesheet library="css" name="primeflex.css"/>
 <h:head>
     <title>Log in</title>
@@ -33,7 +35,7 @@
         </p:panel>
 
         <p:blockUI block="login-panel" trigger="login-button" style="float:right;">
-            <p:graphicImage value="resources/images/loader.gif" />
+            <ui:include src="resources/images/loader.svg" />
         </p:blockUI>
 
     </h:form>
