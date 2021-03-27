@@ -17,7 +17,7 @@
             </c:forEach>
         </p:submenu>
 
-        <p:menuitem value="Logout" icon="pi pi-fw pi-sign-out" rendered="#{loginBean.username != null}"/>
+        <p:menuitem value="Logout" actionListener="#{navbarBean.handleLogout}" icon="pi pi-fw pi-sign-out" rendered="#{loginBean.username != null}"/>
 
         <f:facet name="options">
             <div class="ui-input-icon-left p-mr-2">
