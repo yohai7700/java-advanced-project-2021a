@@ -4,44 +4,41 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
-
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+>
+<h:outputStylesheet library="css" name="primeflex.css"/>
 <h:head>
     <title>Log in</title>
 </h:head>
 
 <h:body>
-    <style type="text/css">
-        .box {
-            height: 350px;
-            width: 350px;
-            padding: 20px;
-            border: #ddd solid 1px;
-            margin-left: auto;
-            margin-right: auto;
-            margin-top: 50px;
-        }
-    </style>
-    <div class="card box">
-        <h1 style="text-align: center">Log in</h1>
-        <div class="p-field">
-            <small class="p-d-block">Username</small>
-            <p:inputText id="username" styleClass="p-d-block" style="width: 100%;"/>
-        </div>
-        <br/>
-        <div class="p-field">
-            <small class="p-d-block">Password</small>
-            <p:password id="password" value="#{loginBean.password}" style="width: 100%;"/>
-        </div>
-        <br/>
-        <div style="position: absolute; margin-left: 10%;">
-            <p:commandButton id="submit" value="Login"/>
-        </div>
-        <br/><br/><br/>
-        <small class="p-d-block">
-            Don't have an account? <a href="create-account.xhtml">Register</a>
-        </small>
-    </div>
+    <h:form id="login-form">
+        <p:growl id="msg" showDetail="true" life="4000" />
+        <p:panel id="login-panel" header="Login"
+                 style="width: 350px; margin: 0 auto;">
+            <h:panelGrid id="loginPanel" columns="2" cellpadding="5">
+                <h:outputText value="Username" />
+                <p:inputText id="username" value="#{loginBean.username}"/>
+                <p:spacer /><p:spacer />
+                <h:outputText value="Password" />
+                <p:password id="password" value="#{loginBean.password}"
+                            feedback="false"/>
+                <p:message for="password"/>
+            </h:panelGrid>
+            <p:commandButton id="login-button" action="#{loginBean.login}"
+                             value="Login" update="login-form" ajax="true"
+                             style="margin: auto; display: block"/>
+            <small class="p-d-block" style="display: block">
+                Don't have an account?
+                <a href="register.xhtml" style="float:start;">Register</a>
+            </small>
+        </p:panel>
+
+        <p:blockUI block="login-panel" trigger="login-button" style="float:right;">
+            <ui:include src="resources/images/loader.svg" />
+        </p:blockUI>
+
+    </h:form>
+
 </h:body>
 </html>

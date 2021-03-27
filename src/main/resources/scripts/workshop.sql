@@ -47,13 +47,28 @@ DROP TABLE IF EXISTS users CASCADE;
 
 CREATE TABLE users
 (
-    username   VARCHAR(40)  NOT NULL UNIQUE,
-    password   VARCHAR(100) NOT NULL,
-    first_name VARCHAR(20),
-    last_name  VARCHAR(20),
+    username   VARCHAR NOT NULL UNIQUE,
+    password   VARCHAR NOT NULL,
+    email      VARCHAR NOT NULL,
+    first_name VARCHAR NOT NULL,
+    last_name  VARCHAR NOT NULL,
     age        INT,
-    address    VARCHAR(40),
-    isAdmin    BIT,
+    address    VARCHAR NOT NULL,
+    is_admin   BOOLEAN,
+    PRIMARY KEY (username)
+);
+
+
+---- Users Sessions table definition ----
+DROP TABLE IF EXISTS users_sessions CASCADE;
+
+CREATE TABLE users_sessions
+(
+    username        VARCHAR(40) NOT NULL UNIQUE,
+    token           VARCHAR(40) NOT NULL,
+    expiration_date TIMESTAMP   NOT NULL,
+
+    FOREIGN KEY (username) REFERENCES users (username),
     PRIMARY KEY (username)
 );
 
@@ -101,3 +116,9 @@ VALUES (1, 2),
        (10, 3),
        (11, 3),
        (11, 4);
+
+---- Users table population
+INSERT INTO users (username, password, email, first_name, last_name, address)
+values ('dvirdov', 'password', 'dvirdove@gmail.com', 'Dvir', 'Dov', 'Dvir Address'),
+       ('yohaimazuz', 'password', 'yohai7700@gmail.com', 'Yohai', 'Mazuz', 'Yohai Address'),
+       ('ofekmarks', 'password', 'ofekmarks@gmail.com', 'Ofek', 'Marks', 'Ofek Address');

@@ -1,37 +1,46 @@
 package openu.advanced.java_workshop;
 
-import javax.enterprise.context.SessionScoped;
+import openu.advanced.java_workshop.model.UsersEntity;
+import org.primefaces.event.FlowEvent;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import java.io.Serializable;
 
 @Named
-@SessionScoped
+@ViewScoped
 public class RegisterBean implements Serializable {
+    private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("workshopPU");
+    private final UsersEntity user = new UsersEntity();
 
-    private String username, email, password;
-
-    public String getPassword() {
-        return password;
+    public UsersEntity getUser() {
+        return user;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    public String register(){
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        System.out.println(user);
+        UsersEntity session = entityManager.find(UsersEntity.class, user.getUsername());
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+        if (session == null){ // add new user to users table
+            entityManager.getTransaction().begin();
+            entityManager.persist(user);
+            entityManager.getTransaction().commit();
+            return "login";
+        }
+        else{//
+            FacesContext.getCurrentInstance().addMessage(
+                    null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN,
+                            "Username is already taken",
+                            "Please pick another username"));
+            return "";
+        }
     }
 }
 

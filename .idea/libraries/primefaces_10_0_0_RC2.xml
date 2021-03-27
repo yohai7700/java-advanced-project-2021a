@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="primefaces-10.0.0-RC2">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../JavaAdvanceDeps/primefaces-10.0.0-RC2.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/JavaAdvanceDeps/primefaces-10.0.0-RC2.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

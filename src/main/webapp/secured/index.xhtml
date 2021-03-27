@@ -9,10 +9,10 @@
 <h:outputStylesheet library="css" name="primeflex.css"/>
 <h:head>
     <title>Home Page</title>
-    <ui:composition template="navbar.xhtml"/>
 </h:head>
 
 <h:body>
+    <ui:composition template="navbar.xhtml"/>
     <ui:repeat var="category" value="#{homePageBean.categories}">
         <h3><a href="category-page.xhtml?category_id=#{category.id}">#{category.name}</a></h3>
         <p:carousel value="#{homePageBean.getGames(category.id)}" var="product"

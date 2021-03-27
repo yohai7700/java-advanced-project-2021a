@@ -55,15 +55,10 @@
 </h:outputStylesheet>
 
 <h:head>
-    <title>#{ggjamePageBean.game.name}</title>
+    <title>#{gamePageBean.game.name}</title>
 </h:head>
 
 <h:body>
-    <f:view>
-        <f:metadata>
-            <f:viewAction action="#{gamePageBean.onLoad}"/>
-        </f:metadata>
-    </f:view>
     <div class="navbar-place-holder">Navigation bar place holder</div>
     <div class="game">
         <!-- Game image section - showing default image if game does not exist -->

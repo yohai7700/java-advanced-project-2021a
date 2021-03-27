@@ -9,6 +9,8 @@
         <class>openu.advanced.java_workshop.model.CategoriesEntity</class>
         <class>openu.advanced.java_workshop.model.CategoryMembersEntity</class>
         <class>openu.advanced.java_workshop.model.GamesEntity</class>
+        <class>openu.advanced.java_workshop.model.UsersEntity</class>
+        <class>openu.advanced.java_workshop.model.UsersSessionsEntity</class>
         <properties>
             <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5433/workshop"/>
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
