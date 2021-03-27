@@ -26,9 +26,6 @@ public class AuthenticationFilter implements Filter {
             System.out.println(session);
 
             boolean isUserConnected = session != null && session.getAttribute("username") != null;
-            if(session != null){
-                System.out.println(session.getAttribute("username"));
-            }
             if (isUserConnected)
                 chain.doFilter(request, response);
             else
