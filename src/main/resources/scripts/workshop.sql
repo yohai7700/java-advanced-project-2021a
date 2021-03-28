@@ -73,6 +73,19 @@ CREATE TABLE users_sessions
 );
 
 
+---- Coupons table definition
+DROP TABLE IF EXISTS coupons;
+
+CREATE TABLE coupons
+(
+    code    VARCHAR NOT NULL UNIQUE,
+    value   FLOAT   NOT NULL,
+    is_used BOOLEAN NOT NULL DEFAULT FALSE,
+
+    PRIMARY KEY (code)
+);
+
+
 -------- Tables data populations --------
 
 ---- Games table population ----
@@ -117,8 +130,13 @@ VALUES (1, 2),
        (11, 3),
        (11, 4);
 
----- Users table population
-INSERT INTO users (username, password, email, first_name, last_name, address)
-values ('dvirdov', 'password', 'dvirdove@gmail.com', 'Dvir', 'Dov', 'Dvir Address'),
-       ('yohaimazuz', 'password', 'yohai7700@gmail.com', 'Yohai', 'Mazuz', 'Yohai Address'),
-       ('ofekmarks', 'password', 'ofekmarks@gmail.com', 'Ofek', 'Marks', 'Ofek Address');
+---- Users table population ----
+INSERT INTO users (username, password, email, first_name, last_name, address, is_admin)
+values ('dvirdov', 'password', 'dvirdove@gmail.com', 'Dvir', 'Dov', 'Dvir Address', FALSE),
+       ('yohaimazuz', 'password', 'yohai7700@gmail.com', 'Yohai', 'Mazuz', 'Yohai Address', TRUE),
+       ('ofekmarks', 'password', 'ofekmarks@gmail.com', 'Ofek', 'Marks', 'Ofek Address', TRUE);
+
+---- Coupons table population ----
+INSERT INTO coupons (code, value)
+values ('code1', 150),
+       ('code2', 200);

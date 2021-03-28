@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Created by IntelliJ IDEA.
+  User: yohai
+  Date: 28/03/2021
+  Time: 20:57
+-->
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+<h:outputStylesheet library="css" name="primeflex.css"/>
+
+<h:head>
+    <title>Coupons Management</title>
+</h:head>
+
+<h:body>
+    <ui:composition template="/secured/navbar.xhtml" />
+    <p:dataTable value="#{couponsManagementBean.coupons}" var="coupon">
+        <f:facet name="header">
+            <span style="font-weight: bold">COUPONS</span>
+        </f:facet>
+        <p:column headerText="Code">
+            <h:outputText value="#{coupon.code}"/>
+        </p:column>
+        <p:column headerText="Value">
+            <h:outputText value="#{coupon.value}" style="font-weight: 700">
+                <f:convertNumber currencySymbol="$" type="currency"/>
+            </h:outputText>
+        </p:column>
+        <p:column headerText="Status">
+            <p:outputLabel value="#{coupon.used ? 'Used' : 'Not used'}"/>
+        </p:column>
+    </p:dataTable>
+</h:body>
+
+</html>

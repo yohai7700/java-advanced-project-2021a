@@ -1,7 +1,5 @@
 package openu.advanced.java_workshop.model;
 
-import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
 
 @Entity
@@ -13,7 +11,6 @@ public class UsersEntity {
     private String lastName;
     private Integer age;
     private String address;
-    @Type(type = "numeric_boolean")
     private Boolean isAdmin;
     private String email;
 
@@ -79,7 +76,7 @@ public class UsersEntity {
 
     @Basic
     @Column(name = "is_admin")
-    public Boolean getIsAdmin() {
+    public boolean getIsAdmin() {
         return isAdmin;
     }
 

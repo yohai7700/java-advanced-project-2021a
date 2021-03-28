@@ -18,6 +18,14 @@ public class LoginBean implements Serializable {
 
     private String password, username;
 
+    public UsersEntity getUser() {
+        System.out.println("User");
+        System.out.println(user);
+        return user;
+    }
+
+    private UsersEntity user;
+
     public String getPassword() {
         return password;
     }
@@ -34,19 +42,20 @@ public class LoginBean implements Serializable {
         this.username = username;
     }
 
-    private boolean validate(String username, String password){
+    private UsersEntity validate(String username, String password){
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("workshopPU");
         EntityManager entityManager = factory.createEntityManager();
         UsersEntity user = entityManager.find(UsersEntity.class, username);
 
-        //returning true whether the username exists and password matching
-        return user != null && user.getPassword().equals(password);
+        return user != null && user.getPassword().equals(password) ? user : null;
     }
 
     public String login() {
-        boolean valid = validate(getUsername(), getPassword());
-        if (valid) {
+        UsersEntity user = validate(getUsername(), getPassword());
+        if (user != null) {
+            this.user = user;
             HttpSession session = SessionUtils.getSession();
+            session.setAttribute("user", user);
             session.setAttribute("username", getUsername());
             return "secured/index.xhtml?faces-redirect=true";
         } else {

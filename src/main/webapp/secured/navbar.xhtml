@@ -29,6 +29,8 @@
             </c:forEach>
         </p:submenu>
 
+        <p:menuitem value="Coupons Management" url="/secured/admin/coupons-management.xhtml" rendered="#{loginBean.user.isAdmin}"/>
+
         <f:facet name="options">
             <div class="ui-input-icon-left p-mr-2 search-bar">
                 <p:inputText/>
