@@ -1,0 +1,46 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: yohai
+  Date: 27/03/2021
+  Time: 22:33
+-->
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:outputStylesheet library="css" name="primeflex.css"/>
+<h:outputStylesheet>
+    .game-tag {
+        margin-left: 15px;
+    }
+
+</h:outputStylesheet>
+
+<h:form>
+<p:card>
+    <f:facet name="title">
+        #{game.name}
+    </f:facet>
+    <p:tag styleClass="game-tag" value="#{game.condition.toString().toUpperCase()}"/>
+    <p:tag styleClass="game-tag" severity="danger" value="NOT IN STOCK" rendered="#{game.stock == 0}"/>
+    <p:divider/>
+    <p:outputLabel value="Publisher: #{game.publisher}"/>
+    <br/>
+    <p:outputLabel value="Developer: #{game.developer}"/>
+    <f:facet name="footer">
+            <div style="display: flex; align-items: center; justify-content: center;">
+                <p:button outcome="game-page" value="Open Game Page (#{game.price}$)">
+                    <f:param name="game_id" value="#{game.id}"/>
+                    <f:param name="faces-redirect" value="true" />
+                </p:button>
+            </div>
+    </f:facet>
+</p:card>
+</h:form>
+
+</html>
