@@ -14,11 +14,6 @@ public class ShoppingCartBean implements Serializable {
      */
     private final Set<Integer> games = new HashSet<>();
 
-    public ShoppingCartBean(){
-        games.add(1);
-        games.add(3);
-    }
-
     public Set<Integer> getGames() {
         return games;
     }

@@ -15,8 +15,8 @@
 
 <h:form>
     <p:menubar>
-        <p:submenu value="#{loginBean.username}" icon="pi pi-user">
-            <p:menuitem  value="Checkout" action="checkout.xhtml"/>
+        <p:submenu label="#{loginBean.username}" icon="pi pi-user">
+            <p:menuitem  value="Checkout" action="checkout.xhtml" icon="pi pi-shopping-cart"/>
 
             <p:menuitem value="Logout" actionListener="#{navbarBean.handleLogout}" icon="pi pi-fw pi-sign-out" rendered="#{loginBean.username != null}"/>
         </p:submenu>

@@ -13,7 +13,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:c="http://java.sun.com/jstl/core"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core"
 >
 <h:outputStylesheet library="css" name="primeflex.css"/>
 
@@ -22,25 +22,39 @@
 </h:head>
 
 <h:outputStylesheet>
+    .checkout {
+        margin: 0 auto;
+        width: 1400px;
+    }
+
     .checkout-button-container {
         justify-content: center;
+    }
+
+    table.no-padding td {
+        padding: 0;
     }
 </h:outputStylesheet>
 
 <h:body>
-    <h1 style="text-align: center;"> Checkout </h1>
-    <p:divider/>
-    <div style="display: flex; justify-content: center">
-        <p:commandButton value="Checkout" style="margin: auto"/>
+    <ui:composition template="navbar.xhtml" />
+    <div class="checkout">
+        <h1 style="text-align: center;"> Checkout </h1>
+        <p:divider/>
+        <div style="display: flex; justify-content: center">
+            <p:commandButton value="Checkout" style="margin: auto"/>
+        </div>
+        <!-- TODO: Display cards with full game information -->
+        <p:panelGrid columns="2" layout="flex">
+            <c:forEach var="game" items="#{checkoutBean.games}">
+                <p:panelGrid columns="1" layout="flex" styleClass="no-padding">
+                    <ui:composition template="game-card.xhtml">
+                        <f:param game="game" value="#{game}" />
+                    </ui:composition>
+                </p:panelGrid>
+            </c:forEach>
+        </p:panelGrid>
     </div>
-    <!-- TODO: Display cards with full game information -->
-    <p:panelGrid columns="2" layout="flex">
-        <c:forEach var="gameId" items="#{shoppingCartBean.games}">
-            <p:card>
-                #{gameId}
-            </p:card>
-        </c:forEach>
-    </p:panelGrid>
 </h:body>
 
 </html>

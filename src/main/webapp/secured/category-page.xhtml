@@ -20,10 +20,10 @@
     <p:divider/>
     <p:panelGrid columns="4" layout="flex">
         <c:forEach var="game" items="#{categoryPageBean.games}">
-            <p:panelGrid layout="flex" columns="1">
-            <ui:composition template="game-card.xhtml">
-                <f:param name="game" value="#{game}" />
-            </ui:composition>
+            <p:panelGrid layout="flex" columns="1" styleClass="no-padding">
+                <ui:composition template="game-card.xhtml">
+                    <f:param name="game" value="#{game}" />
+                </ui:composition>
             </p:panelGrid>
         </c:forEach>
     </p:panelGrid>

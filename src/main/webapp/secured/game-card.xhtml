@@ -19,28 +19,31 @@
         margin-left: 15px;
     }
 
+    table.no-padding td {
+        padding: 0;
+    }
 </h:outputStylesheet>
 
 <h:form>
-<p:card>
-    <f:facet name="title">
-        #{game.name}
-    </f:facet>
-    <p:tag styleClass="game-tag" value="#{game.condition.toString().toUpperCase()}"/>
-    <p:tag styleClass="game-tag" severity="danger" value="NOT IN STOCK" rendered="#{game.stock == 0}"/>
-    <p:divider/>
-    <p:outputLabel value="Publisher: #{game.publisher}"/>
-    <br/>
-    <p:outputLabel value="Developer: #{game.developer}"/>
-    <f:facet name="footer">
-            <div style="display: flex; align-items: center; justify-content: center;">
-                <p:button outcome="game-page" value="Open Game Page (#{game.price}$)">
-                    <f:param name="game_id" value="#{game.id}"/>
-                    <f:param name="faces-redirect" value="true" />
-                </p:button>
-            </div>
-    </f:facet>
-</p:card>
+        <p:card>
+            <f:facet name="title">
+                #{game.name}
+            </f:facet>
+            <p:tag styleClass="game-tag" value="#{game.condition.toString().toUpperCase()}"/>
+            <p:tag styleClass="game-tag" severity="danger" value="NOT IN STOCK" rendered="#{game.stock == 0}"/>
+            <p:divider/>
+            <p:outputLabel value="Publisher: #{game.publisher}"/>
+            <br/>
+            <p:outputLabel value="Developer: #{game.developer}"/>
+            <f:facet name="footer">
+                    <div style="display: flex; align-items: center; justify-content: center;">
+                        <p:button outcome="game-page" value="Open Game Page (#{game.price}$)">
+                            <f:param name="game_id" value="#{game.id}"/>
+                            <f:param name="faces-redirect" value="true" />
+                        </p:button>
+                    </div>
+            </f:facet>
+        </p:card>
 </h:form>
 
 </html>
