@@ -21,7 +21,7 @@
         <setting name="validation-enabled" value="true" />
         <datasource-mapping>
           <factory-entry name="default" />
-          <factory-entry name="workshopPU" />
+          <factory-entry name="workshopPU" value="d5dffcc8-a435-4550-a5cd-d834fe8737a9" />
         </datasource-mapping>
         <naming-strategy-map />
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/resources/META-INF/persistence.xml" />
