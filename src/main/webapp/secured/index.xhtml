@@ -7,44 +7,35 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:outputStylesheet library="css" name="primeflex.css"/>
+<h:outputStylesheet>
+    .categories-section {
+        margin: 0 auto;
+        width: 1400px;
+    }
+</h:outputStylesheet>
+
 <h:head>
     <title>Home Page</title>
 </h:head>
 
 <h:body>
     <ui:composition template="navbar.xhtml"/>
-    <ui:repeat var="category" value="#{homePageBean.categories}">
-        <h3><a href="category-page.xhtml?category_id=#{category.id}">#{category.name}</a></h3>
-        <p:carousel value="#{homePageBean.getGames(category.id)}" var="product"
-                    itemStyle="text-align:center" numVisible="1" easing="easeOutBounce"
-                    style="width: 500px;" circular="true">
-            <div class="product">
-                <div class="product-grid-item p-p-5">
-                    <div class="product-grid-item-top">
-                        <span class="product-badge status-#{(product.stock > 9) ? 'in stock' :
-                        ((product.stock > 0) ? 'low stock' : 'out of stock')}">
-                            #{product.stock} items in stock
-                        </span>
-                    </div>
-                    <div class="product-grid-item-content">
-                        <!--<p:graphicImage name="demo/images/product/#{product.image}"/>-->
-                        <div class="product-name">
-                            <a href="game-page.xhtml?game_id=#{product.id}">#{product.name}</a>
-                        </div>
-                        <!--<p:rating readonly="true" value="3"/>-->
-                    </div>
-                    <div class="product-grid-item-bottom">
-                        <h:outputText value="#{product.price}" styleClass="product-price">
-                            <f:convertNumber currencySymbol="$" type="currency"/>
-                        </h:outputText>
-                        <p:commandButton type="button" value="Add To Cart"
-                                         icon="pi pi-shopping-cart"
-                                         disabled="#{product.stock == 0}">
-                        </p:commandButton>
-                    </div>
-                </div>
+    <div class="categories-section">
+        <ui:repeat var="category" value="#{homePageBean.categories}">
+            <div style="padding: 20px">
+                <h2>
+                    <p:link href="category-page.xhtml">
+                        <f:param name="category_id" value="#{category.id}"/>
+                        #{category.name}
+                    </p:link>
+                </h2>
+                <p:carousel value="#{homePageBean.getGames(category.id)}" var="game" circular="true">
+                    <ui:composition template="game-card.xhtml">
+                        <f:param name="game" value="#{game}" />
+                    </ui:composition>
+                </p:carousel>
             </div>
-        </p:carousel>
-    </ui:repeat>
+        </ui:repeat>
+    </div>
 </h:body>
 </html>

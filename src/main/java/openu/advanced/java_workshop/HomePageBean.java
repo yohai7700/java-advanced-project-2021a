@@ -3,14 +3,13 @@ package openu.advanced.java_workshop;
 import openu.advanced.java_workshop.model.CategoriesEntity;
 import openu.advanced.java_workshop.model.GamesEntity;
 
-import javax.faces.bean.ManagedBean;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import java.util.List;
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Named;
 
 @Named
 @RequestScoped
@@ -26,8 +25,9 @@ public class HomePageBean {
 
     public List<GamesEntity> getGames(int id){
         EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
-        TypedQuery<GamesEntity> getCategoryById = entityManager.createNamedQuery("findGamesByCategoryId", GamesEntity.class);
-        getCategoryById.setParameter("categoryId", id);
-        return getCategoryById.getResultList();
+        TypedQuery<GamesEntity> findGamesByCategoryId = entityManager.createNamedQuery("findGamesByCategoryId", GamesEntity.class);
+        findGamesByCategoryId.setMaxResults(6);
+        findGamesByCategoryId.setParameter("categoryId", id);
+        return findGamesByCategoryId.getResultList();
     }
 }

@@ -19,12 +19,9 @@ public class AuthenticationFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) {
         try {
-
             HttpServletRequest request = (HttpServletRequest) servletRequest;
             HttpServletResponse response = (HttpServletResponse) servletResponse;
             HttpSession session = request.getSession(false);
-            System.out.println(session);
-
             boolean isUserConnected = session != null && session.getAttribute("username") != null;
             if (isUserConnected)
                 chain.doFilter(request, response);

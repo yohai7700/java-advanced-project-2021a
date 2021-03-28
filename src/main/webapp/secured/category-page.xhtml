@@ -8,41 +8,23 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:c="http://java.sun.com/jsp/jstl/core">
 <h:outputStylesheet library="css" name="primeflex.css"/>
-<h:outputStylesheet>
-    .game-tag {
-        margin-left: 15px;
-    }
-</h:outputStylesheet>
 <h:head>
     <title>#{categoryPageBean.category.name}</title>
 </h:head>
 
 <h:body>
+    <ui:composition template="navbar.xhtml"/>
     <h1 style="text-align: center;">
         #{categoryPageBean.category.name}
     </h1>
     <p:divider/>
     <p:panelGrid columns="4" layout="flex">
         <c:forEach var="game" items="#{categoryPageBean.games}">
-            <p:card>
-                <f:facet name="title">
-                    #{game.name}
-                    <p:tag styleClass="game-tag" value="#{game.condition.toString().toUpperCase()}"/>
-                    <p:tag styleClass="game-tag" severity="danger" value="NOT IN STOCK" rendered="#{game.stock == 0}"/>
-                </f:facet>
-                <p:divider/>
-                <p:outputLabel value="Publisher: #{game.publisher}"/>
-                <br/>
-                <p:outputLabel value="Developer: #{game.developer}"/>
-                <f:facet name="footer">
-                    <h:form>
-                    <div style="display: flex; align-items: center; justify-content: center;">
-                        <p:commandButton actionListener="#{categoryPageBean.openGamePage(game.id)}"
-                                         value="Open Game Page (#{game.price}$)"/>
-                    </div>
-                    </h:form>
-                </f:facet>
-            </p:card>
+            <p:panelGrid layout="flex" columns="1">
+            <ui:composition template="game-card.xhtml">
+                <f:param name="game" value="#{game}" />
+            </ui:composition>
+            </p:panelGrid>
         </c:forEach>
     </p:panelGrid>
 </h:body>

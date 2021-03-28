@@ -6,9 +6,21 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:c="http://java.sun.com/jstl/core">
+
+<h:outputStylesheet>
+    .search-bar {
+        margin-right: 10px
+    }
+</h:outputStylesheet>
+
 <h:form>
     <p:menubar>
-        <p:menuitem value="Hi #{loginBean.username}" rendered="#{loginBean.username != null}"/>
+        <p:submenu value="#{loginBean.username}" icon="pi pi-user">
+            <p:menuitem  value="Checkout" action="checkout.xhtml"/>
+
+            <p:menuitem value="Logout" actionListener="#{navbarBean.handleLogout}" icon="pi pi-fw pi-sign-out" rendered="#{loginBean.username != null}"/>
+        </p:submenu>
+
         <p:menuitem value="Home" icon="pi pi-fw pi-home" url="index.xhtml"/>
 
         <p:submenu label="Categories" icon="pi pi-tag product-category-icon">
@@ -17,10 +29,8 @@
             </c:forEach>
         </p:submenu>
 
-        <p:menuitem value="Logout" actionListener="#{navbarBean.handleLogout}" icon="pi pi-fw pi-sign-out" rendered="#{loginBean.username != null}"/>
-
         <f:facet name="options">
-            <div class="ui-input-icon-left p-mr-2">
+            <div class="ui-input-icon-left p-mr-2 search-bar">
                 <p:inputText/>
             </div>
             <p:button value="Search" icon="pi pi-fw pi-search" styleClass="ui-button-info"/>
