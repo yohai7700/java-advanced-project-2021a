@@ -16,20 +16,27 @@
 <h:form>
     <p:menubar>
         <p:submenu label="#{loginBean.username}" icon="pi pi-user">
-            <p:menuitem  value="Checkout" action="checkout.xhtml" icon="pi pi-shopping-cart"/>
-
+            <p:menuitem
+                    value="Checkout (${shoppingCartBean.games.size()} items)"
+                    action="/secured/checkout.xhtml"
+                    icon="pi pi-shopping-cart"
+                    disabled="#{shoppingCartBean.games.size() eq 0}"
+            />
             <p:menuitem value="Logout" actionListener="#{navbarBean.handleLogout}" icon="pi pi-fw pi-sign-out" rendered="#{loginBean.username != null}"/>
         </p:submenu>
 
-        <p:menuitem value="Home" icon="pi pi-fw pi-home" url="index.xhtml"/>
+        <p:menuitem value="Home" icon="pi pi-fw pi-home" url="/secured/index.xhtml"/>
 
         <p:submenu label="Categories" icon="pi pi-tag product-category-icon">
             <c:forEach var="category" items="#{homePageBean.categories}">
-                <p:menuitem value="#{category.name}" url="category-page.xhtml?category_id=#{category.id}"/>
+                <p:menuitem value="#{category.name}" url="/secured/category-page.xhtml?category_id=#{category.id}"/>
             </c:forEach>
         </p:submenu>
 
-        <p:menuitem value="Coupons Management" url="/secured/admin/coupons-management.xhtml" rendered="#{loginBean.user.isAdmin}"/>
+        <p:submenu label="Management" icon="pi pi-cog">
+            <p:menuitem value="Coupons" icon="pi pi-ticket" url="/secured/admin/coupons-management.xhtml" rendered="#{loginBean.user.isAdmin}"/>
+            <p:menuitem value="Users" icon="pi pi-users" url="/secured/admin/users-management.xhtml" rendered="#{loginBean.user.isAdmin}"/>
+        </p:submenu>
 
         <f:facet name="options">
             <div class="ui-input-icon-left p-mr-2 search-bar">
