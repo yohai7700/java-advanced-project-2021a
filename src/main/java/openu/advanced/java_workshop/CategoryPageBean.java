@@ -46,7 +46,6 @@ public class CategoryPageBean implements Serializable {
     }
 
     public void openGamePage(int gameId) throws IOException {
-        System.out.println("gameId=" + gameId);
         String url = "game-page.xhtml?game_id=" + gameId;
         FacesContext.getCurrentInstance().getExternalContext().redirect(url);
     }

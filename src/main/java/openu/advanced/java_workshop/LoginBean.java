@@ -19,8 +19,6 @@ public class LoginBean implements Serializable {
     private String password, username;
 
     public UsersEntity getUser() {
-        System.out.println("User");
-        System.out.println(user);
         return user;
     }
 
