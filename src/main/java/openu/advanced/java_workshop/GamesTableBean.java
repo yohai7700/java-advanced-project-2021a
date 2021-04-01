@@ -2,11 +2,20 @@ package openu.advanced.java_workshop;
 
 import openu.advanced.java_workshop.model.Condition;
 import openu.advanced.java_workshop.model.Game;
+import openu.advanced.java_workshop.model.GamesEntity;
+import org.hibernate.jdbc.Work;
 
+import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
 import javax.naming.NamingException;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
 import javax.sql.rowset.CachedRowSet;
 import javax.sql.rowset.RowSetProvider;
+import javax.transaction.Transaction;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,31 +24,34 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@ManagedBean
+@Named
+@ViewScoped
 public class GamesTableBean implements Serializable {
-    private List<Game> convertResultSetToList(ResultSet resultSet) throws SQLException {
-        List<Game> games = new ArrayList<>();
-        while(resultSet.next()){
-            Game game = new Game();
-            game.setId(resultSet.getInt("id"));
-            game.setName(resultSet.getString("name"));
-            game.setPublisher(resultSet.getString("publisher"));
-            game.setDeveloper(resultSet.getString("developer"));
-            game.setReleaseDate(resultSet.getDate("release_date"));
-            game.setStock(resultSet.getInt("stock"));
-            game.setPrice(resultSet.getFloat("price"));
-            game.setCondition(Condition.valueOf(resultSet.getString("condition")));
-            games.add(game);
-        }
-        return games;
+    private GamesEntity newGame;
+
+    public List<GamesEntity> getGames() {
+        EntityManager entityManager = WorkshopDatabase.getEntityManagerFactory().createEntityManager();
+        TypedQuery<GamesEntity> getAllGames = entityManager.createNamedQuery("getAllGames", GamesEntity.class);
+        return getAllGames.getResultList();
     }
 
-    public List<Game> getGames() throws SQLException, NamingException {
-        try (Connection connection = WorkshopDatabase.getConnection()) {
-            PreparedStatement getGames = connection.prepareStatement("SELECT * FROM games");
-            CachedRowSet rowSet = RowSetProvider.newFactory().createCachedRowSet();
-            rowSet.populate(getGames.executeQuery());
-            return convertResultSetToList(rowSet);
-        }
+    public void openAddGameDialog() {
+        newGame = new GamesEntity();
+    }
+
+    public GamesEntity getNewGame() {
+        return newGame;
+    }
+
+    public Condition[] getConditions(){
+        return Condition.values();
+    }
+
+    public void saveGame(){
+        EntityManager entityManager = WorkshopDatabase.getEntityManagerFactory().createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+        entityManager.persist(newGame);
+        transaction.commit();
     }
 }

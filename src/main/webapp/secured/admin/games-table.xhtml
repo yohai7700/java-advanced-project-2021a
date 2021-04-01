@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Created by IntelliJ IDEA.
+  User: yohai
+  Date: 07/03/2021
+  Time: 18:50
+-->
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:outputStylesheet library="css" name="primeflex.css"/>
+<h:outputStylesheet>
+    .page {
+        margin: 30px auto;
+        width: 90%;
+    }
+</h:outputStylesheet>
+
+<h:head>
+    <title>Games Table</title>
+</h:head>
+
+<h:body>
+    <ui:composition template="/secured/navbar.xhtml"/>
+    <div class="page">
+        <h:form>
+            <!-- Management Operations tool bar -->
+            <p:toolbar style="margin-bottom: 20px">
+                <p:toolbarGroup>
+                    <p:commandButton value="New"
+                                     icon="pi pi-plus"
+                                     styleClass="ui-button-success"
+                                     actionListener="#{gamesTableBean.openAddGameDialog}"
+                                     oncomplete="PF('add-game-dialog').show()"
+                                     update="@form:add-game-form"
+                                     style="margin-right: .5rem"/>
+                </p:toolbarGroup>
+            </p:toolbar>
+
+            <!-- Data table that shows all games -->
+            <p:dataTable id="games-data-table"
+                         rows="8"
+                         value="#{gamesTableBean.games}"
+                         var="game"
+                         rowKey="#{game.id}"
+                         paginator="true"
+                         paginatorPosition="bottom"
+                         reflow="true"
+                         scrollable="true"
+                         scrollHeight="400"
+            >
+                <f:facet name="header">
+                    <span style="font-weight: bold">GAMES</span>
+                </f:facet>
+                <p:column headerText="ID">
+                    <h:outputText value="#{game.id}"/>
+                </p:column>
+                <p:column headerText="Name">
+                    <h:outputText value="#{game.name}"/>
+                </p:column>
+                <p:column headerText="Publisher">
+                    <h:outputText value="#{game.publisher}"/>
+                </p:column>
+                <p:column headerText="Developer">
+                    <h:outputText value="#{game.developer}"/>
+                </p:column>
+                <p:column headerText="Release Date">
+                    <h:outputText value="#{game.releaseDate.toString()}"/>
+                </p:column>
+                <p:column headerText="Price">
+                    <h:outputText value="#{game.price}"/>
+                </p:column>
+                <p:column headerText="Stock">
+                    <h:outputText value="#{game.stock}"/>
+                </p:column>
+                <p:column headerText="Condition">
+                    <h:outputText value="#{game.condition.toString()}"/>
+                </p:column>
+            </p:dataTable>
+
+            <!--Add game dialog -->
+            <p:dialog header="Add New Game"
+                      showEffect="fade"
+                      responsive="true"
+                      modal="true"
+                      widgetVar="add-game-dialog"
+            >
+                <p:outputPanel id="add-game-form" styleClass="ui-fluid">
+                    <p:outputPanel rendered="#{not empty gamesTableBean.newGame}">
+                        <div class="p-field">
+                            <p:outputLabel for="name">Name</p:outputLabel>
+                            <p:inputText id="name" value="#{gamesTableBean.newGame.name}" required="true"/>
+                        </div>
+                        <div class="p-field">
+                            <p:outputLabel for="developer">Developer</p:outputLabel>
+                            <p:inputText id="developer" value="#{gamesTableBean.newGame.developer}" required="true"/>
+                        </div>
+                        <div class="p-field">
+                            <p:outputLabel for="publisher">Publisher</p:outputLabel>
+                            <p:inputText id="publisher" value="#{gamesTableBean.newGame.publisher}" required="true"/>
+                        </div>
+                        <div class="p-field">
+                            <p:outputLabel for="release-date">Release Date</p:outputLabel>
+                            <p:datePicker id="release-date" label="Release Date" value="#{gamesTableBean.newGame.releaseDate}" required="true"/>
+                        </div>
+                        <div class="p-formgrid p-grid">
+                            <div class="p-field p-col">
+                                <p:outputLabel for="price">Price</p:outputLabel>
+                                <p:inputNumber id="price" value="#{gamesTableBean.newGame.price}"
+                                               symbol=" USD" symbolPosition="s"
+                                               required="true"
+                                               decimalSeparator="." thousandSeparator=","/>
+                            </div>
+                            <div class="p-field p-col">
+                                <p:outputLabel for="stock">Stock</p:outputLabel>
+                                <p:spinner id="stock" min="0" value="#{gamesTableBean.newGame.stock}" required="true"/>
+                            </div>
+                        </div>
+                        <div class="p-field">
+                            <p:selectOneMenu value="#{gamesTableBean.newGame.condition}" required="true">
+                                <f:selectItems value="#{gamesTableBean.conditions}"/>
+                            </p:selectOneMenu>
+                        </div>
+                    </p:outputPanel>
+                </p:outputPanel>
+
+                <f:facet name="footer">
+                    <p:commandButton
+                            value="Save"
+                            icon="pi pi-check"
+                            actionListener="#{gamesTableBean.saveGame}"
+                            update="add-game-form @form:games-data-table"
+                            process="add-game-form @this"
+                            oncomplete="PF('add-game-dialog').hide()"
+                    />
+                </f:facet>
+            </p:dialog>
+        </h:form>
+    </div>
+</h:body>
+
+</html>

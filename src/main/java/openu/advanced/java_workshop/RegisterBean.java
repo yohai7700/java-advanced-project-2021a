@@ -24,9 +24,9 @@ public class RegisterBean implements Serializable {
 
     public String register(){
         EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
-        UsersEntity session = entityManager.find(UsersEntity.class, user.getUsername());
+        UsersEntity existingUser = entityManager.find(UsersEntity.class, user.getUsername());
 
-        if (session == null){ // add new user to users table
+        if (existingUser == null){ // add new user to users table
             entityManager.getTransaction().begin();
             entityManager.persist(user);
             entityManager.getTransaction().commit();
