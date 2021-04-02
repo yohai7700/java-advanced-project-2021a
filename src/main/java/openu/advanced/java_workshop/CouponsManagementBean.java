@@ -5,10 +5,7 @@ import openu.advanced.java_workshop.model.UsersSessionsEntity;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.security.SecureRandom;
 import java.util.Base64;
@@ -24,7 +21,7 @@ public class CouponsManagementBean implements Serializable {
         return newCoupon;
     }
 
-    public List<CouponsEntity> getCoupons(){
+    public List<CouponsEntity> getCoupons() {
         EntityManager entityManager = WorkshopDatabase.getEntityManagerFactory().createEntityManager();
         TypedQuery<CouponsEntity> findAllCoupons = entityManager.createNamedQuery("findAllCoupons", CouponsEntity.class);
         return findAllCoupons.getResultList();
@@ -55,14 +52,16 @@ public class CouponsManagementBean implements Serializable {
         String coupon = generateNewCouponCode();
         this.addCouponToDB(coupon);
     }
-    public void deleteCoupon(String couponCode){
+
+    public void deleteCoupon(String couponCode) {
         EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
         CouponsEntity coupon = entityManager.find(CouponsEntity.class, couponCode);
-        entityManager.getTransaction().begin();
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
         if (coupon != null) {
             entityManager.remove(entityManager.contains(coupon) ? coupon :
                     entityManager.merge(coupon));
         }
-        entityManager.getTransaction().commit();
+        transaction.commit();
     }
 }
