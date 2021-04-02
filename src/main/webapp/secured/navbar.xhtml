@@ -33,9 +33,10 @@
             </c:forEach>
         </p:submenu>
 
-        <p:submenu label="Management" icon="pi pi-cog">
-            <p:menuitem value="Coupons" icon="pi pi-ticket" url="/secured/admin/coupons-management.xhtml" rendered="#{loginBean.user.isAdmin}"/>
-            <p:menuitem value="Users" icon="pi pi-users" url="/secured/admin/users-management.xhtml" rendered="#{loginBean.user.isAdmin}"/>
+        <p:submenu label="Management" icon="pi pi-cog" rendered="#{loginBean.user.isAdmin}">
+            <p:menuitem value="Coupons" icon="pi pi-ticket" url="/secured/admin/coupons-management.xhtml"/>
+            <p:menuitem value="Users" icon="pi pi-users" url="/secured/admin/users-management.xhtml"/>
+            <p:menuitem value="Games" icon="pi pi-list" url="/secured/admin/games-table.xhtml"/>
         </p:submenu>
 
         <f:facet name="options">
