@@ -1,5 +1,7 @@
 package openu.advanced.java_workshop.model;
 
+import org.hibernate.annotations.Generated;
+
 import javax.persistence.*;
 import java.sql.Date;
 
@@ -34,6 +36,7 @@ public class GamesEntity {
 
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
@@ -78,6 +81,21 @@ public class GamesEntity {
         return releaseDate;
     }
 
+    @Transient
+    public java.util.Date getSimpleReleaseDate(){
+        if(releaseDate == null) {
+            return null;
+        }
+        return new java.util.Date(releaseDate.getTime());
+    }
+
+    public void setSimpleReleaseDate(java.util.Date releaseDate){
+        if(releaseDate == null) {
+            this.releaseDate = null;
+            return;
+        }
+        this.releaseDate = new java.sql.Date(releaseDate.getTime());
+    }
     public void setReleaseDate(Date releaseDate) {
         this.releaseDate = releaseDate;
     }
