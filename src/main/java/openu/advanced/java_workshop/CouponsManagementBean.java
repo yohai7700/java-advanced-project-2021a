@@ -1,6 +1,7 @@
 package openu.advanced.java_workshop;
 
 import openu.advanced.java_workshop.model.CouponsEntity;
+import openu.advanced.java_workshop.model.UsersSessionsEntity;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
@@ -16,6 +17,7 @@ import java.util.List;
 @Named
 @RequestScoped
 public class CouponsManagementBean implements Serializable {
+    private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = WorkshopDatabase.getEntityManagerFactory();
     private final CouponsEntity newCoupon = new CouponsEntity();
 
     public CouponsEntity getNewCoupon() {
@@ -52,5 +54,15 @@ public class CouponsManagementBean implements Serializable {
     public void addCoupon() {
         String coupon = generateNewCouponCode();
         this.addCouponToDB(coupon);
+    }
+    public void deleteCoupon(String couponCode){
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        CouponsEntity coupon = entityManager.find(CouponsEntity.class, couponCode);
+        entityManager.getTransaction().begin();
+        if (coupon != null) {
+            entityManager.remove(entityManager.contains(coupon) ? coupon :
+                    entityManager.merge(coupon));
+        }
+        entityManager.getTransaction().commit();
     }
 }

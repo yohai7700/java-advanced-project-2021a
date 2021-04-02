@@ -60,31 +60,9 @@
         <p:column headerText="Delete coupon?">
             <p:commandButton icon="pi pi-times" styleClass="rounded-button ui-button-danger ui-button-flat"
                              style="margin: auto; padding: 10px"
-                             action="#{coupon.remove}" update="coupons"/>
+                             action="#{couponsManagementBean.deleteCoupon(coupon.code)}" update="coupons"/>
         </p:column>
     </p:dataTable>
-<!--    <h:form>-->
-<!--        <div style="margin:10px">-->
-<!--            <h2>-->
-<!--                create new coupon:-->
-<!--            </h2>-->
-<!--        </div>-->
-<!--        <div>-->
-<!--            <span class="ui-float-label" style="margin: auto;">-->
-<!--                <p:inputText value="#{couponsManagementBean.newCoupon.value}"-->
-<!--                             required="true"/>-->
-<!--                <p:outputLabel for="@previous" value="new coupon's value" style="text-align: center"/>-->
-<!--            </span>-->
-<!--            <p:commandButton action="#{couponsManagementBean.addCoupon}" style="margin: auto;"-->
-<!--                             value="Generate new token" icon="pi pi-check"-->
-<!--                             update="coupons" ajax="true">-->
-<!--                <p:confirm header="Confirmation" message="Delete the selected products?"-->
-<!--                           icon="pi pi-exclamation-triangle"/>-->
-<!--            </p:commandButton>-->
-
-<!--        </div>-->
-<!--    </h:form>-->
-
 </h:body>
 
 </html>
