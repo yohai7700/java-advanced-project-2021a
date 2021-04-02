@@ -22,8 +22,27 @@
 </h:head>
 
 <h:body>
-    <ui:composition template="/secured/navbar.xhtml" />
-    <p:dataTable value="#{couponsManagementBean.coupons}" var="coupon">
+    <ui:composition template="/secured/navbar.xhtml"/>
+
+    <p:toolbar style="margin:20px 0px">
+        <p:toolbarGroup>
+            <h3>add new coupon</h3>
+        </p:toolbarGroup>
+        <p:toolbarGroup align="right">
+            <h:form>
+                <p:outputLabel  value="new coupon's value: " />
+                <p:inputText id="float-input" value="#{couponsManagementBean.newCoupon.value}"
+                             required="true" style="margin:0 20px"/>
+
+                <p:commandButton action="#{couponsManagementBean.addCoupon}" style="margin: auto;"
+                                 value="Generate new token" icon="pi pi-check"
+                                 update="coupons" ajax="true">
+                </p:commandButton>
+            </h:form>
+        </p:toolbarGroup>
+    </p:toolbar>
+
+    <p:dataTable id="coupons" value="#{couponsManagementBean.coupons}" var="coupon">
         <f:facet name="header">
             <span style="font-weight: bold">COUPONS</span>
         </f:facet>
@@ -37,6 +56,11 @@
         </p:column>
         <p:column headerText="Status">
             <p:outputLabel value="#{coupon.used ? 'Used' : 'Not used'}"/>
+        </p:column>
+        <p:column headerText="Delete coupon?">
+            <p:commandButton icon="pi pi-times" styleClass="rounded-button ui-button-danger ui-button-flat"
+                             style="margin: auto; padding: 10px"
+                             action="#{couponsManagementBean.deleteCoupon(coupon.code)}" update="coupons"/>
         </p:column>
     </p:dataTable>
 </h:body>

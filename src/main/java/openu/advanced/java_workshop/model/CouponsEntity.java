@@ -64,4 +64,13 @@ public class CouponsEntity {
         result = 31 * result + (isUsed ? 1 : 0);
         return result;
     }
+
+    public void remove(){
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("workshopPU");
+        EntityManager entityManager = factory.createEntityManager();
+
+        entityManager.getTransaction().begin();
+        entityManager.remove(entityManager.contains(this) ? this : entityManager.merge(this));
+        entityManager.getTransaction().commit();
+    }
 }
