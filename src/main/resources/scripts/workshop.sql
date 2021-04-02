@@ -85,6 +85,30 @@ CREATE TABLE coupons
     PRIMARY KEY (code)
 );
 
+---- Purchases table definition
+DROP TABLE IF EXISTS purchases;
+
+CREATE TABLE purchases
+(
+    id      INT       NOT NULL GENERATED ALWAYS AS IDENTITY UNIQUE ,
+    date    TIMESTAMP NOT NULL,
+    address VARCHAR,
+    PRIMARY KEY (id)
+);
+
+---- Purchases Games table definition
+
+DROP TABLE IF EXISTS purchases_games;
+
+CREATE TABLE purchases_games
+(
+    purchase_id INT NOT NULL,
+    game_id     INT NOT NULL,
+
+    PRIMARY KEY (game_id, purchase_id),
+    FOREIGN KEY (purchase_id) REFERENCES purchases (id),
+    FOREIGN KEY (game_id) REFERENCES games (id)
+);
 
 -------- Tables data populations --------
 
