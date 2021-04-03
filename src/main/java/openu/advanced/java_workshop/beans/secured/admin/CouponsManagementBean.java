@@ -1,5 +1,6 @@
-package openu.advanced.java_workshop;
+package openu.advanced.java_workshop.beans.secured.admin;
 
+import openu.advanced.java_workshop.WorkshopDatabase;
 import openu.advanced.java_workshop.model.CouponsEntity;
 import openu.advanced.java_workshop.model.UsersSessionsEntity;
 

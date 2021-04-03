@@ -1,4 +1,4 @@
-package openu.advanced.java_workshop;
+package openu.advanced.java_workshop.beans;
 
 import openu.advanced.java_workshop.model.UsersEntity;
 import org.primefaces.event.FlowEvent;

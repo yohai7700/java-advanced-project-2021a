@@ -1,4 +1,4 @@
-package openu.advanced.java_workshop;
+package openu.advanced.java_workshop.beans.secured;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;

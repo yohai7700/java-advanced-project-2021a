@@ -1,5 +1,7 @@
-package openu.advanced.java_workshop;
+package openu.advanced.java_workshop.beans.secured;
 
+import openu.advanced.java_workshop.SessionUtils;
+import openu.advanced.java_workshop.WorkshopDatabase;
 import openu.advanced.java_workshop.model.PurchasesEntity;
 import openu.advanced.java_workshop.model.UsersEntity;
 

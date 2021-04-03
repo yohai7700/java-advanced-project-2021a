@@ -1,5 +1,6 @@
-package openu.advanced.java_workshop;
+package openu.advanced.java_workshop.beans;
 
+import openu.advanced.java_workshop.SessionUtils;
 import openu.advanced.java_workshop.model.UsersEntity;
 
 import javax.enterprise.context.SessionScoped;
