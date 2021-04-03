@@ -16,13 +16,73 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
 >
 <h:outputStylesheet library="css" name="primeflex.css"/>
+<h:outputStylesheet name="css/style.css"/>
 
 <h:head>
     <title>Users Management</title>
 </h:head>
 
 <h:body>
-    <ui:composition template="/secured/navbar.xhtml" />
+    <ui:composition template="/secured/navbar.xhtml"/>
+    <div class="page-content">
+        <h:form>
+            <p:dataTable value="#{usersManagementBean.users}" var="user" tableStyle="table-layout: auto;">
+                <f:facet name="header">
+                    <div style="display: flex; justify-content: space-between; align-items: center">
+                        <span style="font-weight: bold">USERS</span>
+                        <!-- TODO: Add sorting and searching to games table
+                        <span class="filter-container ui-input-icon-left">
+                            <i class="pi pi-search"/>
+                            <p:inputText id="globalFilter" onkeyup="PF('gamesDataTable').filter()" placeholder="Search"/>
+                        </span>
+                        -->
+                    </div>
+                </f:facet>
+
+                <p:column headerText="Username">
+                    <h:outputText value="#{user.username}"/>
+                </p:column>
+                <p:column headerText="First Name">
+                    <h:outputText value="#{user.firstName}"/>
+                </p:column>
+                <p:column headerText="Last Name">
+                    <h:outputText value="#{user.lastName}"/>
+                </p:column>
+                <p:column headerText="Age">
+                    <h:outputText value="#{user.age}" rendered="#{not empty user.age}"/>
+                    <p:tag value="N/A" rendered="#{empty user.age}"/>
+                </p:column>
+                <p:column headerText="Address">
+                    <h:outputText value="#{user.address}"/>
+                </p:column>
+                <p:column headerText="Email" width="auto">
+                    <h:outputText value="#{user.email}"/>
+                </p:column>
+                <p:column headerText="Admin Status">
+                    <div style="display: flex; justify-content: center">
+                        <p:tag value="Admin" rendered="#{user.isAdmin}"/>
+                        <p:commandButton
+                                value="Make Admin"
+                                styleClass="ui-button ui-button-danger"
+                                actionListener="#{usersManagementBean.makeUserAdmin(user.username)}"
+                                rendered="#{not user.isAdmin}"
+                                update="@form"
+                        >
+                            <p:confirm header="Confirmation"
+                                       message="Make #{user.username} admin?"
+                                       icon="pi pi-exclamation-triangle"/>
+                        </p:commandButton>
+                    </div>
+                </p:column>
+            </p:dataTable>
+
+            <p:confirmDialog global="true" showEffect="fade" width="300">
+                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
+                                 icon="pi pi-times"/>
+            </p:confirmDialog>
+        </h:form>
+    </div>
 </h:body>
 
 </html>

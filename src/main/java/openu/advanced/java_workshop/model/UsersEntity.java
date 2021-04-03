@@ -4,6 +4,12 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "users", schema = "public", catalog = "workshop")
+@NamedQueries(
+        @NamedQuery(
+                name = "findAllUsers",
+                query = "SELECT user FROM UsersEntity user"
+        )
+)
 public class UsersEntity {
     private String username;
     private String password;
