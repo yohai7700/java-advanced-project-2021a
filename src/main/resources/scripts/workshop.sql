@@ -55,6 +55,7 @@ CREATE TABLE users
     age        INT,
     address    VARCHAR NOT NULL,
     is_admin   BOOLEAN,
+    balance    FLOAT DEFAULT 0,
     PRIMARY KEY (username)
 );
 
@@ -90,10 +91,10 @@ DROP TABLE IF EXISTS purchases CASCADE;
 
 CREATE TABLE purchases
 (
-    id      INT       NOT NULL GENERATED ALWAYS AS IDENTITY UNIQUE ,
-    username VARCHAR NOT NULL,
-    date    TIMESTAMP NOT NULL,
-    address VARCHAR,
+    id       INT       NOT NULL GENERATED ALWAYS AS IDENTITY UNIQUE,
+    username VARCHAR   NOT NULL,
+    date     TIMESTAMP NOT NULL,
+    address  VARCHAR,
     PRIMARY KEY (id)
 );
 

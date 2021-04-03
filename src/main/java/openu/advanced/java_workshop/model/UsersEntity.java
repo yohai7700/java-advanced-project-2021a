@@ -19,9 +19,10 @@ public class UsersEntity {
     private String address;
     private Boolean isAdmin;
     private String email;
+    private Double balance;
 
     @Id
-    @Column(name = "username")
+    @Column(name = "username", nullable = false, length = -1)
     public String getUsername() {
         return username;
     }
@@ -31,7 +32,7 @@ public class UsersEntity {
     }
 
     @Basic
-    @Column(name = "password")
+    @Column(name = "password", nullable = false, length = -1)
     public String getPassword() {
         return password;
     }
@@ -41,7 +42,7 @@ public class UsersEntity {
     }
 
     @Basic
-    @Column(name = "first_name")
+    @Column(name = "first_name", nullable = false, length = -1)
     public String getFirstName() {
         return firstName;
     }
@@ -51,7 +52,7 @@ public class UsersEntity {
     }
 
     @Basic
-    @Column(name = "last_name")
+    @Column(name = "last_name", nullable = false, length = -1)
     public String getLastName() {
         return lastName;
     }
@@ -61,7 +62,7 @@ public class UsersEntity {
     }
 
     @Basic
-    @Column(name = "age")
+    @Column(name = "age", nullable = true)
     public Integer getAge() {
         return age;
     }
@@ -71,7 +72,7 @@ public class UsersEntity {
     }
 
     @Basic
-    @Column(name = "address")
+    @Column(name = "address", nullable = false, length = -1)
     public String getAddress() {
         return address;
     }
@@ -121,7 +122,7 @@ public class UsersEntity {
     }
 
     @Basic
-    @Column(name = "email")
+    @Column(name = "email", nullable = false, length = -1)
     public String getEmail() {
         return email;
     }
@@ -142,5 +143,15 @@ public class UsersEntity {
                 ", isAdmin=" + isAdmin +
                 ", email='" + email + '\'' +
                 '}';
+    }
+
+    @Basic
+    @Column(name = "balance", nullable = true, precision = 0)
+    public Double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Double balance) {
+        this.balance = balance;
     }
 }
