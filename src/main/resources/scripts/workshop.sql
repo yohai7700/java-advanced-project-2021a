@@ -86,11 +86,12 @@ CREATE TABLE coupons
 );
 
 ---- Purchases table definition
-DROP TABLE IF EXISTS purchases;
+DROP TABLE IF EXISTS purchases CASCADE;
 
 CREATE TABLE purchases
 (
     id      INT       NOT NULL GENERATED ALWAYS AS IDENTITY UNIQUE ,
+    username VARCHAR NOT NULL,
     date    TIMESTAMP NOT NULL,
     address VARCHAR,
     PRIMARY KEY (id)
@@ -164,3 +165,7 @@ values ('dvirdov', 'password', 'dvirdove@gmail.com', 'Dvir', 'Dov', 'Dvir Addres
 INSERT INTO coupons (code, value)
 values ('code1', 150),
        ('code2', 200);
+
+---- Purchases table population ----
+INSERT INTO purchases (username, date, address)
+VALUES ('yohaimazuz', '2020-08-10', NULL);

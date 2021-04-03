@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Created by IntelliJ IDEA.
+  User: yohaimazuz
+  Date: 03/04/2021
+  Time: 8:52
+-->
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+<h:outputStylesheet library="css" name="primeflex.css"/>
+<h:outputStylesheet>
+    .page {
+        width: 90%;
+        margin: 30px auto;
+    }
+</h:outputStylesheet>
+
+<h:head>
+    <title>Account Details</title>
+</h:head>
+
+<h:body>
+    <ui:composition template="navbar.xhtml" />
+    <div class="page">
+        <p:panel header="Account Details">
+            <p:panelGrid columns="2" layout="grid">
+                <p:outputLabel value="Username: #{accountDetailsBean.user.username}"/>
+                <p:outputLabel value="Address: #{accountDetailsBean.user.address}"/>
+                <p:outputLabel value="Age: #{accountDetailsBean.user.age}"/>
+                <p:outputLabel value="Name: #{accountDetailsBean.user.lastName}, #{accountDetailsBean.user.firstName}"/>
+                <p:outputLabel value="Email: #{accountDetailsBean.user.email}"/>
+            </p:panelGrid>
+        </p:panel>
+
+        <p:dataTable style="margin-top: 30px" value="#{accountDetailsBean.purchases}" var="purchase" >
+            <f:facet name="header">
+                <div style="display: flex; justify-content: space-between; align-items: center">
+                    <span style="font-weight: bold">PURCHASES</span>
+                </div>
+            </f:facet>
+
+            <p:column headerText="Address">
+                <h:outputText value="#{purchase.address}"/>
+            </p:column>
+
+            <p:column headerText="Date">
+                <h:outputText value="#{purchase.date}"/>
+            </p:column>
+        </p:dataTable>
+    </div>
+</h:body>
+
+</html>

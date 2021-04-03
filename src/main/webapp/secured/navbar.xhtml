@@ -17,12 +17,17 @@
     <p:menubar>
         <p:submenu label="#{loginBean.username}" icon="pi pi-user">
             <p:menuitem
+                    value="Account Details"
+                    icon="pi pi-user"
+                    url="/secured/account-details.xhtml"
+            />
+            <p:menuitem
                     value="Checkout (${shoppingCartBean.games.size()} items)"
-                    action="/secured/checkout.xhtml"
+                    url="/secured/checkout.xhtml"
                     icon="pi pi-shopping-cart"
                     disabled="#{shoppingCartBean.games.size() eq 0}"
             />
-            <p:menuitem value="Logout" actionListener="#{navbarBean.handleLogout}" icon="pi pi-fw pi-sign-out" rendered="#{loginBean.username != null}"/>
+            <p:menuitem value="Logout" actionListener="#{navbarBean.handleLogout}" icon="pi pi-fw pi-sign-out"/>
         </p:submenu>
 
         <p:menuitem value="Home" icon="pi pi-fw pi-home" url="/secured/index.xhtml"/>
