@@ -5,14 +5,18 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "purchases", schema = "public", catalog = "workshop")
-@NamedQueries(
+@NamedQueries({
         @NamedQuery(
                 name = "findAllPurchasesByUsername",
                 query = "SELECT purchase " +
                         "FROM PurchasesEntity purchase " +
                         "WHERE purchase.username = :username"
+        ),
+        @NamedQuery(
+                name = "findAllPurchases",
+                query = "SELECT purchase FROM PurchasesEntity purchase"
         )
-)
+})
 public class PurchasesEntity {
     private int id;
     private Timestamp date;
