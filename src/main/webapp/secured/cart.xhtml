@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:outputStylesheet library="css" name="primeflex.css"/>
+<h:head>
+    <title>Shopping Cart</title>
+</h:head>
+
+<h:outputStylesheet>
+    * {
+        box-sizing: border-box;
+    }
+
+    .card {
+        background: #ffffff;
+        padding: 2rem;
+        border: 1px solid #eaebec;
+        border-radius: 4px;
+        margin-bottom: 2rem;
+    }
+
+    #form {
+        display: block;
+        margin-top: 0em;
+    }
+
+    .product {
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .p-p-5 {
+        padding: 2rem !important;
+    }
+
+    .product .product-list-item .product-list-detail {
+        flex: 1 1 0;
+        -ms-flex: 1 1 0;
+    }
+
+    .product .product-name {
+        font-size: 1rem;
+        font-weight: 700;
+    }
+
+    .product .product-description {
+        margin: 0 0 1rem 0;
+    }
+
+    .product .product-list-item .product-list-action {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+    }
+
+    .product .product-list-item .product-price {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: .5rem;
+        align-self: flex-end;
+    }
+
+    .checkout {
+        display: flex;
+        justify-content: center;
+    }
+</h:outputStylesheet>
+
+<h:body>
+    <h:panelGroup id="navbar" layout="block">
+        <ui:composition template="navbar.xhtml"/>
+    </h:panelGroup>
+    <f:event type="preRenderView" listener="#{shoppingCartBean.isEmpty()}" />
+    <h:form rendered="#{!shoppingCartBean.isEmpty()}">
+        <h2 class="checkout">
+            <h:outputLabel value="Your total is #{shoppingCartBean.total}$" style="margin-right: 10px"/>
+             <a href="checkout.xhtml">Proceed to checkout</a>
+        </h2>
+        <div class="card">
+            <ui:repeat value="#{shoppingCartBean.games}" var="product">
+                <div class="product">
+                    <div class="product-list-item border-1 p-p-5">
+                        <h:graphicImage library="images" name="default-game-image.jpg" width="240px" height="160px"
+                                        rendered="#{!gamePageBean.gameImageSaved}"/>
+                        <p:graphicImage name="#{product.getImagePath(product.id)}" width="240px" height="160px"
+                                        rendered="#{gamePageBean.gameImageSaved}"/>
+                        <div class="product-list-detail">
+                            <div class="product-name">#{product.name}</div>
+                            <div class="product-description">#{product.developer}</div>
+                        </div>
+                        <div class="product-list-action">
+                            <p:commandButton actionListener="#{shoppingCartBean.removeGame(product)}"
+                                             styleClass="ui-button-raised ui-button-danger"
+                                             style="width: 110px"
+                                             value="Remove"
+                                             icon="pi pi-minus-circle"
+                                             update="@form @(#navbar)"
+                                             rendered="#{product.stock != 0}"/>
+                            <h:outputText value="#{product.price}" styleClass="product-price">
+                                <f:convertNumber currencySymbol="$" type="currency"/>
+                            </h:outputText>
+                        </div>
+                    </div>
+                </div>
+            </ui:repeat>
+        </div>
+    </h:form>
+</h:body>
+</html>

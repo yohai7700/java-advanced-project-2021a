@@ -19,8 +19,7 @@ public class CheckoutBean implements Serializable {
     public List<GamesEntity> getGames(){
         EntityManager entityManager = WorkshopDatabase.getEntityManagerFactory().createEntityManager();
         List<GamesEntity> games = new ArrayList<>();
-        for(int gameId: shoppingCartBean.getGames()){
-            GamesEntity game = entityManager.find(GamesEntity.class, gameId);
+        for(GamesEntity game : shoppingCartBean.getGames()){
             games.add(game);
         }
         return games;
