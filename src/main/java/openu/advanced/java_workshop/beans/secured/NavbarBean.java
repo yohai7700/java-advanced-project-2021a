@@ -1,4 +1,6 @@
-package openu.advanced.java_workshop;
+package openu.advanced.java_workshop.beans.secured;
+
+import openu.advanced.java_workshop.beans.LoginBean;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;

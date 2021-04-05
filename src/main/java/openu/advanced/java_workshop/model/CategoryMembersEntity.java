@@ -5,6 +5,14 @@ import javax.persistence.*;
 @Entity
 @Table(name = "category_members", schema = "public", catalog = "workshop")
 @IdClass(CategoryMembersEntityPK.class)
+@NamedQueries(
+        @NamedQuery(
+                name = "findCategoryMembersByGameId",
+                query = "SELECT categoryMember " +
+                        "FROM CategoryMembersEntity categoryMember " +
+                        "WHERE categoryMember.gameId = :gameId"
+        )
+)
 public class CategoryMembersEntity {
     private int gameId;
     private int categoryId;

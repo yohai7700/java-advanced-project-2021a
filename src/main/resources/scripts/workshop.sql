@@ -55,6 +55,7 @@ CREATE TABLE users
     age        INT,
     address    VARCHAR NOT NULL,
     is_admin   BOOLEAN,
+    balance    FLOAT DEFAULT 0,
     PRIMARY KEY (username)
 );
 
@@ -85,6 +86,31 @@ CREATE TABLE coupons
     PRIMARY KEY (code)
 );
 
+---- Purchases table definition
+DROP TABLE IF EXISTS purchases CASCADE;
+
+CREATE TABLE purchases
+(
+    id       INT       NOT NULL GENERATED ALWAYS AS IDENTITY UNIQUE,
+    username VARCHAR   NOT NULL,
+    date     TIMESTAMP NOT NULL,
+    address  VARCHAR,
+    PRIMARY KEY (id)
+);
+
+---- Purchases Games table definition
+
+DROP TABLE IF EXISTS purchases_games;
+
+CREATE TABLE purchases_games
+(
+    purchase_id INT NOT NULL,
+    game_id     INT NOT NULL,
+
+    PRIMARY KEY (game_id, purchase_id),
+    FOREIGN KEY (purchase_id) REFERENCES purchases (id),
+    FOREIGN KEY (game_id) REFERENCES games (id)
+);
 
 -------- Tables data populations --------
 
@@ -140,3 +166,7 @@ values ('dvirdov', 'password', 'dvirdove@gmail.com', 'Dvir', 'Dov', 'Dvir Addres
 INSERT INTO coupons (code, value)
 values ('code1', 150),
        ('code2', 200);
+
+---- Purchases table population ----
+INSERT INTO purchases (username, date, address)
+VALUES ('yohaimazuz', '2020-08-10', NULL);

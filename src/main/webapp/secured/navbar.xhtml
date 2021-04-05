@@ -11,18 +11,14 @@
     .search-bar {
         margin-right: 10px
     }
-
-    menubar {
-        margin-bottom: 10px;
-    }
 </h:outputStylesheet>
 
 <h:form>
     <p:menubar>
         <p:submenu label="#{loginBean.username}" icon="pi pi-user">
             <p:menuitem
-                    value="Cart (${shoppingCartBean.games.size()} items)"
-                    action="/secured/cart.xhtml"
+                    value="Checkout (${shoppingCartBean.games.size()} items)"
+                    action="/secured/checkout.xhtml"
                     icon="pi pi-shopping-cart"
                     disabled="#{shoppingCartBean.games.size() eq 0}"
             />

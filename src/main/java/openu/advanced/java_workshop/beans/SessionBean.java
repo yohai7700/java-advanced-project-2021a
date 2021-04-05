@@ -1,4 +1,4 @@
-package openu.advanced.java_workshop;
+package openu.advanced.java_workshop.beans;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;

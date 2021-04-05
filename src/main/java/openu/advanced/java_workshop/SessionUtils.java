@@ -1,5 +1,7 @@
 package openu.advanced.java_workshop;
 
+import openu.advanced.java_workshop.model.UsersEntity;
+
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
@@ -19,12 +21,9 @@ public class SessionUtils {
         return session.getAttribute("username").toString();
     }
 
-    public static String getUserId() {
-        HttpSession session = getSession();
-        if (session != null)
-            return (String) session.getAttribute("userid");
-        else
-            return null;
+    public static UsersEntity getUser(){
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+                .getExternalContext().getSession(false);
+        return (UsersEntity) session.getAttribute("user");
     }
-
 }

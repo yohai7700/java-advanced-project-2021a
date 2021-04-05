@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Created by IntelliJ IDEA.
+  User: yohaimazuz
+  Date: 03/04/2021
+  Time: 14:59
+-->
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+<h:outputStylesheet library="css" name="primeflex.css"/>
+<h:outputStylesheet name="css/style.css"/>
+
+<h:outputStylesheet>
+    .title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+</h:outputStylesheet>
+
+<h:head>
+    <title>Purchases Management</title>
+</h:head>
+
+<h:body>
+    <ui:composition template="/secured/navbar.xhtml"/>
+    <div class="page-content">
+        <h:form>
+            <p:dataTable value="#{purchasesManagementBean.purchases}" var="purchase">
+                <f:facet name="header">
+                    <div class="title">
+                        <span style="font-weight: bold">PURCHASES</span>
+                    </div>
+                </f:facet>
+
+                <p:column headerText="Username">
+                    <h:outputText value="#{purchase.username}"/>
+                </p:column>
+
+                <p:column headerText="Address">
+                    <h:outputText value="#{purchase.address}"/>
+                </p:column>
+
+                <p:column headerText="Date">
+                    <h:outputText value="#{purchase.date}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </div>
+</h:body>
+
+</html>
