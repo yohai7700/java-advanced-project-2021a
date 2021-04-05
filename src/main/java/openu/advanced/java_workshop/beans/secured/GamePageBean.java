@@ -75,14 +75,14 @@ public class GamePageBean implements Serializable {
     }
 
     public boolean getIsGameInCart(){
-        return shoppingCartBean.getGames().contains(getGameId());
+        return shoppingCartBean.getGames().contains(getGame());
     }
 
-    public void addToCart(){
-        shoppingCartBean.getGames().add(getGameId());
+    public void addToCart() {
+        shoppingCartBean.addGame(getGame());
     }
 
     public void removeFromCart(){
-        shoppingCartBean.getGames().remove(getGameId());
+        shoppingCartBean.removeGame(getGame());
     }
 }
