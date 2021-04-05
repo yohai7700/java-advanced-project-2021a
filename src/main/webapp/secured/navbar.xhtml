@@ -17,8 +17,8 @@
     <p:menubar>
         <p:submenu label="#{loginBean.username}" icon="pi pi-user">
             <p:menuitem
-                    value="Checkout (${shoppingCartBean.games.size()} items)"
-                    action="/secured/checkout.xhtml"
+                    value="Cart (${shoppingCartBean.games.size()} items)"
+                    action="/secured/cart.xhtml"
                     icon="pi pi-shopping-cart"
                     disabled="#{shoppingCartBean.games.size() eq 0}"
             />
