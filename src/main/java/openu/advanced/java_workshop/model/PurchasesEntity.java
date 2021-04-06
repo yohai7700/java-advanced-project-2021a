@@ -2,6 +2,7 @@ package openu.advanced.java_workshop.model;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Objects;
 
 @Entity
 @Table(name = "purchases", schema = "public", catalog = "workshop")
@@ -19,12 +20,13 @@ import java.sql.Timestamp;
 })
 public class PurchasesEntity {
     private int id;
+    private String username;
     private Timestamp date;
     private String address;
-    private String username;
 
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
@@ -34,7 +36,17 @@ public class PurchasesEntity {
     }
 
     @Basic
-    @Column(name = "date", nullable = false)
+    @Column(name = "username")
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @Basic
+    @Column(name = "date")
     public Timestamp getDate() {
         return date;
     }
@@ -44,7 +56,7 @@ public class PurchasesEntity {
     }
 
     @Basic
-    @Column(name = "address", nullable = true, length = -1)
+    @Column(name = "address")
     public String getAddress() {
         return address;
     }
@@ -57,31 +69,12 @@ public class PurchasesEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         PurchasesEntity that = (PurchasesEntity) o;
-
-        if (id != that.id) return false;
-        if (date != null ? !date.equals(that.date) : that.date != null) return false;
-        if (address != null ? !address.equals(that.address) : that.address != null) return false;
-
-        return true;
+        return id == that.id && Objects.equals(username, that.username) && Objects.equals(date, that.date) && Objects.equals(address, that.address);
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + (date != null ? date.hashCode() : 0);
-        result = 31 * result + (address != null ? address.hashCode() : 0);
-        return result;
-    }
-
-    @Basic
-    @Column(name = "username", nullable = false, length = -1)
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+        return Objects.hash(id, username, date, address);
     }
 }
