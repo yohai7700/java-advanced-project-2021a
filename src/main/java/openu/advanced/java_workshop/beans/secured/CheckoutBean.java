@@ -1,5 +1,6 @@
 package openu.advanced.java_workshop.beans.secured;
 
+import openu.advanced.java_workshop.SessionUtils;
 import openu.advanced.java_workshop.WorkshopDatabase;
 import openu.advanced.java_workshop.beans.LoginBean;
 import openu.advanced.java_workshop.model.*;
@@ -31,66 +32,68 @@ public class CheckoutBean implements Serializable {
     public List<GamesEntity> getGames() {
         EntityManager entityManager = WorkshopDatabase.getEntityManagerFactory().createEntityManager();
         List<GamesEntity> games = new ArrayList<>();
-        for(GamesEntity game : shoppingCartBean.getGames()){
+        for (GamesEntity game : shoppingCartBean.getGames()) {
             games.add(game);
         }
         return games;
     }
 
     public void checkout() {
-        double balance = loginBean.getUser().getBalance();
+        double balance = SessionUtils.getUser().getBalance();
         double price = shoppingCartBean.getTotal();
         double balanceAfterPurchase = balance - price;
         if (balanceAfterPurchase < 0) {
             String errorMsg = "Can't make the purchase - you dont have enough credit.";
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", errorMsg);
-            PrimeFaces.current().dialog().showMessageDynamic(message);
+            showMsgOnScreen(errorMsg, true);
 
-        }
-        else{
-            int purchaseID = addPurchaseToDB();
-            addPurchaseGamesToDB(purchaseID);
-            updateBalance(balanceAfterPurchase);
+        } else {
+            EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
+            EntityTransaction transaction = entityManager.getTransaction();
+            transaction.begin();
+
+            int purchaseID = addPurchaseToDB(entityManager);
+            addPurchaseGamesToDB(entityManager, purchaseID);
+            updateBalance(entityManager, balanceAfterPurchase);
+            transaction.commit();
+            showMsgOnScreen("purchase made successfully", false);
         }
     }
 
-    private int addPurchaseToDB() {
-        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
-        EntityTransaction transaction = entityManager.getTransaction();
-        transaction.begin();
 
+    private void showMsgOnScreen(String msg, boolean isErrorMsg) {
+        FacesMessage message;
+        if (isErrorMsg)
+            message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Error", msg);
+        else
+            message = new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    "Info", msg);
+        PrimeFaces.current().dialog().showMessageDynamic(message);
+    }
+
+    private int addPurchaseToDB(EntityManager entityManager) {
         PurchasesEntity newPurchase = new PurchasesEntity();
         newPurchase.setUsername(loginBean.getUsername());
         newPurchase.setDate(getCurrentDate());
         entityManager.persist(newPurchase);
-
-
-        transaction.commit();
         return newPurchase.getId();
     }
 
-    private void addPurchaseGamesToDB(int purchaseID) {
-        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
-        EntityTransaction transaction = entityManager.getTransaction();
+    private void addPurchaseGamesToDB(EntityManager entityManager, int purchaseID) {
 
-        for (GamesEntity game : getGames()){
-            transaction.begin();
+        for (GamesEntity game : getGames()) {
             PurchasesGamesEntity purchasesGamesEntity = new PurchasesGamesEntity();
             purchasesGamesEntity.setGameId(game.getId());
             purchasesGamesEntity.setPurchaseId(purchaseID);
             entityManager.persist(purchasesGamesEntity);
-            transaction.commit();
         }
     }
 
-    private boolean updateBalance(double newBalance) {
-        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
-        EntityTransaction transaction = entityManager.getTransaction();
-        transaction.begin();
-        UsersEntity user = entityManager.find(UsersEntity.class, loginBean.getUser().getUsername());
+    private boolean updateBalance(EntityManager entityManager, double newBalance) {
+        UsersEntity user = entityManager.find(UsersEntity.class, loginBean.getUser()
+                .getUsername());
         if (user != null) {
             user.setBalance(newBalance);
-            transaction.commit();
             return true;
         }
         return false;
@@ -98,7 +101,6 @@ public class CheckoutBean implements Serializable {
 
     private java.sql.Timestamp getCurrentDate() {
         Calendar c = Calendar.getInstance();
-        c.add(Calendar.DATE, 1);
         return new java.sql.Timestamp(c.getTimeInMillis());
     }
 }
