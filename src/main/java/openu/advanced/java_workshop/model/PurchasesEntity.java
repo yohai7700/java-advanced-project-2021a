@@ -2,6 +2,7 @@ package openu.advanced.java_workshop.model;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Objects;
 
 @Entity
@@ -11,7 +12,8 @@ import java.util.Objects;
                 name = "findAllPurchasesByUsername",
                 query = "SELECT purchase " +
                         "FROM PurchasesEntity purchase " +
-                        "WHERE purchase.username = :username"
+                        "WHERE purchase.username = :username " +
+                        "ORDER BY purchase.date DESC"
         ),
         @NamedQuery(
                 name = "findAllPurchases",
@@ -63,6 +65,15 @@ public class PurchasesEntity {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    @Transient
+    public String getDisplayDate(){
+        if(date == null){
+            return null;
+        }
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy hh:mm");
+        return dateFormat.format(date);
     }
 
     @Override

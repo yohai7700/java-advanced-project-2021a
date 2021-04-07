@@ -7,6 +7,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:outputStylesheet library="css" name="primeflex.css"/>
+<h:outputStylesheet name="css/style.css"/>
 <h:head>
     <title>Shopping Cart</title>
 </h:head>
@@ -75,40 +76,42 @@
     <h:panelGroup id="navbar" layout="block">
         <ui:composition template="navbar.xhtml"/>
     </h:panelGroup>
-    <f:event type="preRenderView" listener="#{shoppingCartBean.isEmpty()}" />
-    <h:form rendered="#{!shoppingCartBean.isEmpty()}">
-        <h2 class="checkout">
-            <h:outputLabel value="Your total is #{shoppingCartBean.total}$" style="margin-right: 10px"/>
-             <a href="checkout.xhtml">Proceed to checkout</a>
-        </h2>
-        <div class="card">
-            <ui:repeat value="#{shoppingCartBean.games}" var="product">
-                <div class="product">
-                    <div class="product-list-item border-1 p-p-5">
-                        <h:graphicImage library="images" name="default-game-image.jpg" width="240px" height="160px"
-                                        rendered="#{!gamePageBean.gameImageSaved}"/>
-                        <p:graphicImage name="#{product.getImagePath(product.id)}" width="240px" height="160px"
-                                        rendered="#{gamePageBean.gameImageSaved}"/>
-                        <div class="product-list-detail">
-                            <div class="product-name">#{product.name}</div>
-                            <div class="product-description">#{product.developer}</div>
-                        </div>
-                        <div class="product-list-action">
-                            <p:commandButton actionListener="#{shoppingCartBean.removeGame(product)}"
-                                             styleClass="ui-button-raised ui-button-danger"
-                                             style="width: 110px"
-                                             value="Remove"
-                                             icon="pi pi-minus-circle"
-                                             update="@form @(#navbar)"
-                                             rendered="#{product.stock != 0}"/>
-                            <h:outputText value="#{product.price}" styleClass="product-price">
-                                <f:convertNumber currencySymbol="$" type="currency"/>
-                            </h:outputText>
+    <f:event type="preRenderView" listener="#{shoppingCartBean.isEmpty()}"/>
+    <div class="page-content">
+        <h:form rendered="#{!shoppingCartBean.isEmpty()}">
+            <h2 class="checkout">
+                <h:outputLabel value="Your total is #{shoppingCartBean.total}$" style="margin-right: 10px"/>
+                <a href="checkout.xhtml">Proceed to checkout</a>
+            </h2>
+            <div class="card">
+                <ui:repeat value="#{shoppingCartBean.games}" var="product">
+                    <div class="product">
+                        <div class="product-list-item border-1 p-p-5">
+                            <h:graphicImage library="images" name="default-game-image.jpg" width="240px" height="160px"
+                                            rendered="#{!gamePageBean.gameImageSaved}"/>
+                            <p:graphicImage name="#{product.getImagePath(product.id)}" width="240px" height="160px"
+                                            rendered="#{gamePageBean.gameImageSaved}"/>
+                            <div class="product-list-detail">
+                                <div class="product-name">#{product.name}</div>
+                                <div class="product-description">#{product.developer}</div>
+                            </div>
+                            <div class="product-list-action">
+                                <p:commandButton actionListener="#{shoppingCartBean.removeGame(product)}"
+                                                 styleClass="ui-button-raised ui-button-danger"
+                                                 style="width: 110px"
+                                                 value="Remove"
+                                                 icon="pi pi-minus-circle"
+                                                 update="@form @(#navbar)"
+                                                 rendered="#{product.stock != 0}"/>
+                                <h:outputText value="#{product.price}" styleClass="product-price">
+                                    <f:convertNumber currencySymbol="$" type="currency"/>
+                                </h:outputText>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </ui:repeat>
-        </div>
-    </h:form>
+                </ui:repeat>
+            </div>
+        </h:form>
+    </div>
 </h:body>
 </html>

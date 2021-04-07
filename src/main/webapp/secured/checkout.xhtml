@@ -17,6 +17,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
 >
 <h:outputStylesheet library="css" name="primeflex.css"/>
+<h:outputStylesheet name="css/style.css"/>
 
 <h:head>
     <title>Checkout</title>
@@ -35,26 +36,67 @@
     table.no-padding td {
         padding: 0;
     }
+
+    .centered-section {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+    }
 </h:outputStylesheet>
 
 <h:body>
-    <ui:composition template="navbar.xhtml" />
-    <div class="checkout">
-        <h1 style="text-align: center;"> Checkout </h1>
-        <p:divider/>
-        <div style="display: flex; justify-content: center">
-            <p:commandButton value="Checkout" style="margin: auto" action="#{checkoutBean.checkout}"/>
-        </div>
-        <!-- TODO: Display cards with full game information -->
-        <p:panelGrid columns="2" layout="flex">
-            <c:forEach var="game" items="#{checkoutBean.games}">
-                <p:panelGrid columns="1" layout="flex" styleClass="no-padding">
-                    <ui:composition template="game-card.xhtml">
-                        <f:param game="game" value="#{game}" />
-                    </ui:composition>
-                </p:panelGrid>
-            </c:forEach>
-        </p:panelGrid>
+    <ui:composition template="navbar.xhtml"/>
+    <div class="page-content">
+        <h:form>
+            <p:growl id="messages" showDetail="true"/>
+            <h1 style="text-align: center;"> Checkout (#{checkoutBean.games.size()} items) </h1>
+            <p:divider/>
+            <!-- TODO: Display cards with full game information -->
+            <p:panel header="Shipping" style="margin-bottom: 15px">
+                <h:outputText value="Shipping Address: " style="margin-right: 20px"/>
+                <p:inputText value="#{checkoutBean.address}"/>
+            </p:panel>
+            <p:panel header="Purchase Details">
+                <p:dataTable
+                        value="#{checkoutBean.games}"
+                        var="game"
+                        rows="3"
+                        paginator="true"
+                        paginatorPosition="bottom"
+                >
+                    <p:column headerText="Name">
+                        <h:outputText value="#{game.name}"/>
+                    </p:column>
+                    <p:column headerText="Publisher">
+                        <h:outputText value="#{game.publisher}"/>
+                    </p:column>
+                    <p:column headerText="Price">
+                        <h:outputText value="#{game.price}"/>
+                    </p:column>
+                </p:dataTable>
+                <div class="centered-section">
+                    <div style="margin-bottom: 10px">
+                        <strong>Your Balance: </strong>
+                        <h:outputText value="#{checkoutBean.user.balance}">
+                            <f:convertNumber currencySymbol="$" type="currency"/>
+                        </h:outputText>
+                        <br/>
+                        <strong>Total games price: </strong>
+                        <h:outputText value="#{checkoutBean.totalPrice}">
+                            <f:convertNumber currencySymbol="$" type="currency"/>
+                        </h:outputText>
+                    </div>
+                </div>
+                <div class="centered-section">
+                    <p:commandButton
+                            value="Checkout"
+                            style="margin: auto"
+                            update="@form"
+                            action="#{checkoutBean.checkout}"
+                    />
+                </div>
+            </p:panel>
+        </h:form>
     </div>
 </h:body>
 

@@ -2,79 +2,91 @@ package openu.advanced.java_workshop.beans.secured;
 
 import openu.advanced.java_workshop.SessionUtils;
 import openu.advanced.java_workshop.WorkshopDatabase;
-import openu.advanced.java_workshop.beans.LoginBean;
-import openu.advanced.java_workshop.model.*;
-import org.primefaces.PrimeFaces;
+import openu.advanced.java_workshop.model.GamesEntity;
+import openu.advanced.java_workshop.model.PurchasesEntity;
+import openu.advanced.java_workshop.model.PurchasesGamesEntity;
+import openu.advanced.java_workshop.model.UsersEntity;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
+
+class UserNotFoundException extends Exception {
+}
 
 @Named
 @RequestScoped
 public class CheckoutBean implements Serializable {
+    private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = WorkshopDatabase.getEntityManagerFactory();
+    String address;
+
     @Inject
     ShoppingCartBean shoppingCartBean;
-    @Inject
-    LoginBean loginBean;
 
-    private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = WorkshopDatabase.getEntityManagerFactory();
-
-    public List<GamesEntity> getGames() {
-        EntityManager entityManager = WorkshopDatabase.getEntityManagerFactory().createEntityManager();
-        List<GamesEntity> games = new ArrayList<>();
-        for (GamesEntity game : shoppingCartBean.getGames()) {
-            games.add(game);
-        }
-        return games;
+    private static java.sql.Timestamp getCurrentDate() {
+        Calendar c = Calendar.getInstance();
+        return new java.sql.Timestamp(c.getTimeInMillis());
     }
 
-    public void checkout() {
-        double balance = SessionUtils.getUser().getBalance();
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public List<GamesEntity> getGames() {
+        return shoppingCartBean.getGames();
+    }
+
+    public void checkout() throws UserNotFoundException, IOException {
+        double balance = getUser().getBalance();
         double price = shoppingCartBean.getTotal();
         double balanceAfterPurchase = balance - price;
         if (balanceAfterPurchase < 0) {
-            String errorMsg = "Can't make the purchase - you dont have enough credit.";
-            showMsgOnScreen(errorMsg, true);
-
+            showMessageOnScreen("Can't make the purchase - you dont have enough credit.", true);
         } else {
             EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
             EntityTransaction transaction = entityManager.getTransaction();
             transaction.begin();
-
             int purchaseID = addPurchaseToDB(entityManager);
             addPurchaseGamesToDB(entityManager, purchaseID);
             updateBalance(entityManager, balanceAfterPurchase);
             transaction.commit();
-            showMsgOnScreen("purchase made successfully", false);
+            shoppingCartBean.clear();
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/secured/index.xhtml");
         }
     }
 
-
-    private void showMsgOnScreen(String msg, boolean isErrorMsg) {
+    private void showMessageOnScreen(String msg, boolean isErrorMsg) {
         FacesMessage message;
-        if (isErrorMsg)
+        if (isErrorMsg) {
             message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "Error", msg);
-        else
+        } else {
             message = new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "Info", msg);
-        PrimeFaces.current().dialog().showMessageDynamic(message);
+        }
+        FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
     private int addPurchaseToDB(EntityManager entityManager) {
         PurchasesEntity newPurchase = new PurchasesEntity();
-        newPurchase.setUsername(loginBean.getUsername());
+        UsersEntity user = getUser();
+        newPurchase.setUsername(user.getUsername());
         newPurchase.setDate(getCurrentDate());
+        String purchaseAddress = address != null ? address : user.getAddress();
+        newPurchase.setAddress(purchaseAddress);
         entityManager.persist(newPurchase);
         return newPurchase.getId();
     }
@@ -89,18 +101,27 @@ public class CheckoutBean implements Serializable {
         }
     }
 
-    private boolean updateBalance(EntityManager entityManager, double newBalance) {
-        UsersEntity user = entityManager.find(UsersEntity.class, loginBean.getUser()
-                .getUsername());
-        if (user != null) {
-            user.setBalance(newBalance);
-            return true;
+    private void updateBalance(EntityManager entityManager, double newBalance) throws UserNotFoundException {
+        String username = SessionUtils.getUserName();
+        UsersEntity user = entityManager.find(UsersEntity.class, username);
+        if (user == null) {
+            throw new UserNotFoundException();
         }
-        return false;
+        user.setBalance(newBalance);
     }
 
-    private java.sql.Timestamp getCurrentDate() {
-        Calendar c = Calendar.getInstance();
-        return new java.sql.Timestamp(c.getTimeInMillis());
+    public UsersEntity getUser() {
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        String username = SessionUtils.getUserName();
+        return entityManager.find(UsersEntity.class, username);
+    }
+
+    public double getTotalPrice() {
+        List<GamesEntity> games = getGames();
+        double totalPrice = 0;
+        for (GamesEntity game : games) {
+            totalPrice += game.getPrice();
+        }
+        return totalPrice;
     }
 }
