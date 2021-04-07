@@ -19,6 +19,10 @@ public class ShoppingCartBean implements Serializable {
 
     public List<GamesEntity> getGames() { return games; }
 
+    public void clear(){
+        games.clear();
+    }
+
     public void addGame(GamesEntity game) { games.add(game); }
 
     public void removeGame(GamesEntity game) { games.remove(game); }

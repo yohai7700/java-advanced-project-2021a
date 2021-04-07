@@ -94,7 +94,7 @@ CREATE TABLE purchases
     id       INT       NOT NULL GENERATED ALWAYS AS IDENTITY UNIQUE,
     username VARCHAR   NOT NULL,
     date     TIMESTAMP NOT NULL,
-    address  VARCHAR,
+    address  VARCHAR   NOT NULL,
     PRIMARY KEY (id)
 );
 
