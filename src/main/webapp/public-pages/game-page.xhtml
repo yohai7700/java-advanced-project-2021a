@@ -104,7 +104,7 @@
                         >
                             <f:param name="game_id" value="#{param['game_id']}"/>
                         </p:commandButton>
-                        <!-- Add to cart button displays if the game is in stock -->
+                        <!-- login to Add to cart button displays if user not connected -->
                         <p:commandButton
                                          action="/login.xhtml"
                                          style="margin: 0 auto"
@@ -113,9 +113,8 @@
                                          icon="pi pi-sign-in"
                                          update="@form @(#navbar)"
                                          rendered="#{not gamePageBean.isUserSignedIn()}">
-<!--                            <f:param name="game_id" value="#{param['game_id']}"/>-->
                         </p:commandButton>
-                        <!-- login to Add to cart button displays if user not connected -->
+                        <!-- Add to cart button displays if the game is in stock -->
                         <p:commandButton actionListener="#{gamePageBean.addToCart}"
                                          style="margin: 0 auto"
                                          styleClass="rounded-button"
