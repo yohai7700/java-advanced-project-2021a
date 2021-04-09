@@ -1,8 +1,11 @@
-package openu.advanced.java_workshop.beans.secured;
+package openu.advanced.java_workshop.beans.public_pages;
 
+import openu.advanced.java_workshop.SessionUtils;
+import openu.advanced.java_workshop.beans.secured.ShoppingCartBean;
 import openu.advanced.java_workshop.model.CategoriesEntity;
 import openu.advanced.java_workshop.model.GamesEntity;
 import openu.advanced.java_workshop.model.ImagesRepository;
+import openu.advanced.java_workshop.model.UsersEntity;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
@@ -24,6 +27,7 @@ public class GamePageBean implements Serializable {
     private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("workshopPU");
     @Inject
     private ShoppingCartBean shoppingCartBean;
+
 
     private int getGameId() {
         Map<String, String> parameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
@@ -84,5 +88,9 @@ public class GamePageBean implements Serializable {
 
     public void removeFromCart(){
         shoppingCartBean.removeGame(getGame());
+    }
+
+    public boolean isUserSignedIn(){
+        return SessionUtils.getUser() != null;
     }
 }

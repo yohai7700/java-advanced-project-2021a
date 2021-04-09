@@ -56,7 +56,7 @@ public class LoginBean implements Serializable {
             HttpSession session = SessionUtils.getSession();
             session.setAttribute("user", user);
             session.setAttribute("username", username);
-            return "secured/index.xhtml?faces-redirect=true";
+            return "public-pages/index.xhtml?faces-redirect=true";
         } else {
             FacesContext.getCurrentInstance().addMessage(
                     null,

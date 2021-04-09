@@ -1,4 +1,4 @@
-package openu.advanced.java_workshop.beans.secured;
+package openu.advanced.java_workshop.beans.public_pages;
 
 import openu.advanced.java_workshop.model.CategoriesEntity;
 import openu.advanced.java_workshop.model.GamesEntity;
