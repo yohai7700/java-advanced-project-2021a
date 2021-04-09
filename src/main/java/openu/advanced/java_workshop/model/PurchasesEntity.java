@@ -2,6 +2,8 @@ package openu.advanced.java_workshop.model;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Objects;
 import java.util.Objects;
 
 /**
@@ -17,7 +19,8 @@ import java.util.Objects;
                 name = "findAllPurchasesByUsername",
                 query = "SELECT purchase " +
                         "FROM PurchasesEntity purchase " +
-                        "WHERE purchase.username = :username"
+                        "WHERE purchase.username = :username " +
+                        "ORDER BY purchase.date DESC"
         ),
 
         // Returns all of the purchases
@@ -28,16 +31,17 @@ import java.util.Objects;
 })
 public class PurchasesEntity {
     private int id;
+    private String username;
     private Timestamp date;
     private String address;
-    private String username;
 
     /**
      * Gives other classes access to the id attribute
      * @return the id of the purchase
      */
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
     }
@@ -55,7 +59,17 @@ public class PurchasesEntity {
      * @return the date of the purchase
      */
     @Basic
-    @Column(name = "date", nullable = false)
+    @Column(name = "username")
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @Basic
+    @Column(name = "date")
     public Timestamp getDate() {
         return date;
     }
@@ -73,7 +87,7 @@ public class PurchasesEntity {
      * @return the address of the purchase
      */
     @Basic
-    @Column(name = "address", nullable = true, length = -1)
+    @Column(name = "address")
     public String getAddress() {
         return address;
     }
@@ -86,6 +100,26 @@ public class PurchasesEntity {
         this.address = address;
     }
 
+    @Transient
+    public String getDisplayDate(){
+        if(date == null){
+            return null;
+        }
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy hh:mm");
+        return dateFormat.format(date);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PurchasesEntity that = (PurchasesEntity) o;
+        return id == that.id && Objects.equals(username, that.username) && Objects.equals(date, that.date) && Objects.equals(address, that.address);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, date, address);
     /**
      * Gives other classes access to the username attribute
      * @return the username of the purchase

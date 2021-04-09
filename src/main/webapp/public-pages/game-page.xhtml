@@ -98,11 +98,21 @@
                                          style="margin: 0 auto"
                                          styleClass="ui-button-warning rounded-button"
                                          value="Remove from cart"
-                                         icon="pi pi-shopping-cart"
+                                         sicon="pi pi-shopping-cart"
                                          update="@form @(#navbar)"
-                                         rendered="#{gamePageBean.isGameInCart}"
+                                         rendered="#{gamePageBean.isGameInCart and gamePageBean.isUserSignedIn()}"
                         >
                             <f:param name="game_id" value="#{param['game_id']}"/>
+                        </p:commandButton>
+                        <!-- login to Add to cart button displays if user not connected -->
+                        <p:commandButton
+                                         action="/login.xhtml"
+                                         style="margin: 0 auto"
+                                         styleClass="rounded-button"
+                                         value="Login To Add To Cart"
+                                         icon="pi pi-sign-in"
+                                         update="@form @(#navbar)"
+                                         rendered="#{not gamePageBean.isUserSignedIn()}">
                         </p:commandButton>
                         <!-- Add to cart button displays if the game is in stock -->
                         <p:commandButton actionListener="#{gamePageBean.addToCart}"
@@ -111,7 +121,8 @@
                                          value="Add To Cart (#{gamePageBean.game.price}$)"
                                          icon="pi pi-shopping-cart"
                                          update="@form @(#navbar)"
-                                         rendered="#{not gamePageBean.isGameInCart and gamePageBean.game.stock != 0}">
+                                         rendered="#{not gamePageBean.isGameInCart and gamePageBean.game.stock != 0
+                                         and gamePageBean.isUserSignedIn()}">
                             <f:param name="game_id" value="#{param['game_id']}"/>
                         </p:commandButton>
                         <!-- Out of stock message when game is out of stock -->

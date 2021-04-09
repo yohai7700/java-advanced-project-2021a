@@ -5,6 +5,7 @@ import openu.advanced.java_workshop.WorkshopDatabase;
 import openu.advanced.java_workshop.model.CouponsEntity;
 import openu.advanced.java_workshop.model.PurchasesEntity;
 import openu.advanced.java_workshop.model.UsersEntity;
+
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -31,7 +32,13 @@ public class AccountDetailsBean {
     }
 
     public UsersEntity getUser() {
-        return SessionUtils.getUser();
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        return getUser(entityManager);
+    }
+
+    private UsersEntity getUser(EntityManager entityManager) {
+        String username = SessionUtils.getUserName();
+        return entityManager.find(UsersEntity.class, username);
     }
 
     public List<PurchasesEntity> getPurchases() {
@@ -41,20 +48,29 @@ public class AccountDetailsBean {
         return findAllPurchasesByUsername.getResultList();
     }
 
+    private boolean validateCoupon(CouponsEntity coupon) {
+        if (coupon == null) {
+            addNotification(FacesMessage.SEVERITY_ERROR, "Invalid Coupon", "The coupon was not found.");
+            return false;
+        }
+        if (coupon.isUsed()) {
+            addNotification(FacesMessage.SEVERITY_ERROR, "Invalid Coupon", "This coupon was already used.");
+            return false;
+        }
+        return true;
+    }
+
     public void useCoupon() {
         EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
         CouponsEntity coupon = entityManager.find(CouponsEntity.class, couponCode);
-        if (coupon == null) {
-            addNotification(FacesMessage.SEVERITY_ERROR, "Invalid Coupon", "The coupon was not found.");
+        UsersEntity user = getUser(entityManager);
+
+        if(!validateCoupon(coupon)){
             return;
         }
-        if (coupon.isUsed()) {
-            addNotification(FacesMessage.SEVERITY_ERROR, "Invalid Coupon", "This coupon was already used.");
-            return;
-        }
-        UsersEntity user = getUser();
+
         user.setBalance(user.getBalance() + coupon.getValue());
         coupon.setUsed(true);
         transaction.commit();

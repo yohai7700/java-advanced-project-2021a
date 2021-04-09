@@ -27,6 +27,10 @@ public class ShoppingCartBean implements Serializable {
      */
     public List<GamesEntity> getGames() { return games; }
 
+    public void clear(){
+        games.clear();
+    }
+
     /**
      * Adds a game to the shopping cart
      * @param game the game the user wants to add to the shopping cart

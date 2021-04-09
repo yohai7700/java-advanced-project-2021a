@@ -4,6 +4,7 @@ import org.hibernate.annotations.Generated;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.Objects;
 
 /**
@@ -212,6 +213,16 @@ public class GamesEntity {
      */
     public void setCondition(Condition condition) {
         this.condition = condition;
+    }
+
+    @Transient
+    public String getDisplayDate(){
+        java.util.Date releaseDate = getSimpleReleaseDate();
+        if(releaseDate == null){
+            return null;
+        }
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy hh:mm");
+        return dateFormat.format(releaseDate);
     }
 
     /**

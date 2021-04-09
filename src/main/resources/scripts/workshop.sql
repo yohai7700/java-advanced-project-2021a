@@ -94,7 +94,7 @@ CREATE TABLE purchases
     id       INT       NOT NULL GENERATED ALWAYS AS IDENTITY UNIQUE,
     username VARCHAR   NOT NULL,
     date     TIMESTAMP NOT NULL,
-    address  VARCHAR,
+    address  VARCHAR   NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -157,10 +157,10 @@ VALUES (1, 2),
        (11, 4);
 
 ---- Users table population ----
-INSERT INTO users (username, password, email, first_name, last_name, address, is_admin)
-values ('dvirdov', 'password', 'dvirdove@gmail.com', 'Dvir', 'Dov', 'Dvir Address', FALSE),
-       ('yohaimazuz', 'password', 'yohai7700@gmail.com', 'Yohai', 'Mazuz', 'Yohai Address', TRUE),
-       ('ofekmarks', 'password', 'ofekmarks@gmail.com', 'Ofek', 'Marks', 'Ofek Address', TRUE);
+INSERT INTO users (username, password, email, first_name, last_name, address, is_admin, balance)
+values ('dvirdov', 'password', 'dvirdove@gmail.com', 'Dvir', 'Dov', 'Dvir Address', FALSE, 1000),
+       ('yohaimazuz', 'password', 'yohai7700@gmail.com', 'Yohai', 'Mazuz', 'Yohai Address', TRUE, 0),
+       ('ofekmarks', 'password', 'ofekmarks@gmail.com', 'Ofek', 'Marks', 'Ofek Address', TRUE, 0);
 
 ---- Coupons table population ----
 INSERT INTO coupons (code, value)
