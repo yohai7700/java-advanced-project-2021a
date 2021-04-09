@@ -10,12 +10,33 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+/**
+ * This class filters the sessions ran by users from all other session, implementing the Filter interface
+ */
+
 @WebFilter(filterName = "AuthFilter", urlPatterns = { "/secured/*" })
 public class AuthenticationFilter implements Filter {
+
+    /**
+     * For Implementation of Filter
+     */
     @Override
     public void init(FilterConfig filterConfig) {
     }
 
+    /**
+     * For Implementation of Filter
+     */
+    @Override
+    public void destroy() {
+    }
+
+    /**
+     * TODO - Document
+     * @param servletRequest
+     * @param servletResponse
+     * @param chain
+     */
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) {
         try {
@@ -30,9 +51,5 @@ public class AuthenticationFilter implements Filter {
         } catch (Exception exception) {
             System.err.println(exception.getMessage());
         }
-    }
-
-    @Override
-    public void destroy() {
     }
 }

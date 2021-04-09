@@ -9,8 +9,16 @@ import java.io.Serializable;
 @Named
 @SessionScoped
 public class SessionBean implements Serializable {
-    public boolean getIsUserConnected(){
+
+    /**
+     * Finds if the current session is being run by a user or a guest
+     * @return true if the current session is being run by a user and false if it is being run by a guest
+     */
+    public boolean getIsUserConnected()
+    {
+        // Gets the current session
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        // If the user attribute is null, the session is run by a guest and not a user
         return session.getAttribute("username") != null;
     }
 }

@@ -11,6 +11,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ */
+
 @Named
 @RequestScoped
 public class CheckoutBean implements Serializable {
