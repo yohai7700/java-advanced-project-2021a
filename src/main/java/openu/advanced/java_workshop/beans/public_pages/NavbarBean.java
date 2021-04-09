@@ -1,6 +1,8 @@
-package openu.advanced.java_workshop.beans.secured;
+package openu.advanced.java_workshop.beans.public_pages;
 
+import openu.advanced.java_workshop.SessionUtils;
 import openu.advanced.java_workshop.beans.LoginBean;
+import openu.advanced.java_workshop.model.UsersEntity;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -14,6 +16,10 @@ import java.io.Serializable;
 public class NavbarBean implements Serializable {
     @Inject
     LoginBean loginBean;
+
+    public UsersEntity getUser() {
+        return SessionUtils.getUser();
+    }
 
     public void handleLogout() throws IOException {
         loginBean.logout();

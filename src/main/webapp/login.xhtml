@@ -13,21 +13,22 @@
 
 <h:body>
     <h:form id="login-form">
-        <p:growl id="msg" showDetail="true" life="4000" />
+        <p:growl id="msg" showDetail="true" life="4000"/>
         <p:panel id="login-panel" header="Login"
                  style="width: 350px; margin: auto;">
             <h:panelGrid id="loginPanel" columns="2" cellpadding="5">
-                <h:outputText value="Username" />
+                <h:outputText value="Username"/>
                 <p:inputText id="username" value="#{loginBean.username}"/>
-                <p:spacer /><p:spacer />
-                <h:outputText value="Password" />
+                <p:spacer/><p:spacer/>
+                <h:outputText value="Password"/>
                 <p:password id="password" value="#{loginBean.password}"
                             feedback="false"/>
                 <p:message for="password"/>
             </h:panelGrid>
             <p:commandButton id="login-button" action="#{loginBean.login}"
                              value="Login" update="login-form" ajax="true"
-                             style="margin: auto; display: block"/>
+                             style="margin: auto; display: block"
+                            />
             <small class="p-d-block" style="display: block">
                 Don't have an account?
                 <a href="register.xhtml" style="float:start;">Register</a>
@@ -35,7 +36,7 @@
         </p:panel>
 
         <p:blockUI block="login-panel" trigger="login-button" style="float:right;">
-            <ui:include src="resources/images/loader.svg" />
+            <ui:include src="resources/images/loader.svg"/>
         </p:blockUI>
 
     </h:form>
