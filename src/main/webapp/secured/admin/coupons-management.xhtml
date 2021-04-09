@@ -23,7 +23,7 @@
 </h:head>
 
 <h:body>
-    <ui:composition template="/secured/navbar.xhtml"/>
+    <ui:composition template="/public-pages/navbar.xhtml"/>
     <div class="page-content">
         <p:toolbar style="margin:20px 0px">
             <p:toolbarGroup>
@@ -59,9 +59,11 @@
                 <p:outputLabel value="#{coupon.used ? 'Used' : 'Not used'}"/>
             </p:column>
             <p:column headerText="Delete coupon?">
-                <p:commandButton icon="pi pi-times" styleClass="rounded-button ui-button-danger ui-button-flat"
-                                 style="margin: auto; padding: 10px"
-                                 action="#{couponsManagementBean.deleteCoupon(coupon.code)}" update="coupons"/>
+                <div style="display:flex; justify-content: center;">
+                    <p:commandButton icon="pi pi-times" styleClass="rounded-button ui-button-danger ui-button-flat"
+                                     style="margin: auto; padding: 10px"
+                                     action="#{couponsManagementBean.deleteCoupon(coupon.code)}" update="coupons"/>
+                </div>
             </p:column>
         </p:dataTable>
     </div>

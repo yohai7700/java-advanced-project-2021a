@@ -18,10 +18,13 @@ public class SessionUtils {
     public static String getUserName() {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
                 .getExternalContext().getSession(false);
+        if (session.getAttribute("username") == null) {
+            return null;
+        }
         return session.getAttribute("username").toString();
     }
 
-    public static UsersEntity getUser(){
+    public static UsersEntity getUser() {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
                 .getExternalContext().getSession(false);
         return (UsersEntity) session.getAttribute("user");
