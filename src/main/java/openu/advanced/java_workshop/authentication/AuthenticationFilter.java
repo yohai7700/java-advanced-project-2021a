@@ -1,10 +1,12 @@
 package openu.advanced.java_workshop.authentication;
 
 import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+@WebFilter(filterName = "AuthFilter", urlPatterns = { "/secured/*" })
 public class AuthenticationFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) {
