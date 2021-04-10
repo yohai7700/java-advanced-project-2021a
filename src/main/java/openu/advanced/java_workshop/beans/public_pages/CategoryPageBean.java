@@ -23,12 +23,16 @@ import java.util.List;
 @RequestScoped
 public class CategoryPageBean implements Serializable {
     private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("workshopPU");
+    public static final int NOT_FOUND_CATEGORY_ID = -1;
 
+    /**
+     * Returns the current page category id by the query parameters on the context URL.
+     * @return category id of current page, or -1 of wasn't found
+     */
     public int getCategoryId() {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         String categoryIdParameter = req.getParameter("category_id");
-        //TODO: remove default category with error message
-        return categoryIdParameter == null ? 4 :Integer.parseInt(categoryIdParameter);
+        return categoryIdParameter == null ? NOT_FOUND_CATEGORY_ID : Integer.parseInt(categoryIdParameter);
     }
 
     public CategoriesEntity getCategory(){

@@ -8,25 +8,40 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:c="http://java.sun.com/jsp/jstl/core">
 <h:outputStylesheet library="css" name="primeflex.css"/>
+<h:outputStylesheet name="css/style.css"/>
+
 <h:head>
-    <title>#{categoryPageBean.category.name}</title>
-</h:head>
+    <!-- Display the category name as title, if not found  show a default message -->
+    <h:panelGroup rendered="#{categoryPageBean.categoryId == -1}" layout="block">
+        <title>Category not found</title>
+    </h:panelGroup>
+    <h:panelGroup rendered="#{categoryPageBean.categoryId != -1}" layout="block">
+        <title>#{categoryPageBean.category.name}</title>
+    </h:panelGroup></h:head>
 
 <h:body>
     <ui:composition template="navbar.xhtml"/>
-    <h1 style="text-align: center;">
-        #{categoryPageBean.category.name}
-    </h1>
-    <p:divider/>
-    <p:panelGrid columns="4" layout="flex">
-        <c:forEach var="game" items="#{categoryPageBean.games}">
-            <p:panelGrid layout="flex" columns="1" styleClass="no-padding">
-                <ui:composition template="game-card.xhtml">
-                    <f:param name="game" value="#{game}" />
-                </ui:composition>
+    <div class="page-content">
+        <h:outputText
+                value="The category wasn't found, please return to home page."
+                rendered="#{categoryPageBean.categoryId == -1}"
+        />
+        <h:panelGroup layout="block" rendered="#{categoryPageBean.categoryId != -1}">
+            <h1 style="text-align: center;">
+                #{categoryPageBean.category.name}
+            </h1>
+            <p:divider/>
+            <p:panelGrid columns="4" layout="flex" rendered="#{categoryPageBean.categoryId != -1}">
+                <c:forEach var="game" items="#{categoryPageBean.games}">
+                    <p:panelGrid layout="flex" columns="1" styleClass="no-padding">
+                        <ui:composition template="game-card.xhtml">
+                            <f:param name="game" value="#{game}"/>
+                        </ui:composition>
+                    </p:panelGrid>
+                </c:forEach>
             </p:panelGrid>
-        </c:forEach>
-    </p:panelGrid>
+        </h:panelGroup>
+    </div>
 </h:body>
 
 </html>

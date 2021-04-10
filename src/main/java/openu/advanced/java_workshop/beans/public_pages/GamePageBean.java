@@ -25,18 +25,24 @@ import java.util.Map;
 @RequestScoped
 public class GamePageBean implements Serializable {
     private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("workshopPU");
+    public static final int NOT_FOUND_GAME_ID = -1;
+
     @Inject
     private ShoppingCartBean shoppingCartBean;
 
-
-    private int getGameId() {
+    /**
+     * Returns the current page game id by the query parameters on the context URL.
+     * @return game id of current page, or -1 of wasn't found
+     */
+    public int getGameId() {
         Map<String, String> parameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String gameIdParameter = parameterMap.get("game_id");
-        //TODO: remove default category with error message
-        return gameIdParameter == null ? 2 : Integer.parseInt(gameIdParameter);
+        return gameIdParameter == null ? NOT_FOUND_GAME_ID : Integer.parseInt(gameIdParameter);
     }
 
     public GamesEntity getGame() {
+        int gameId = getGameId();
+        if(gameId == NOT_FOUND_GAME_ID) return null;
         EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
         return entityManager.find(GamesEntity.class, getGameId());
     }
