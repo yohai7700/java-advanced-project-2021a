@@ -14,29 +14,12 @@
 </h:outputStylesheet>
 
 <h:form>
-    <p:menubar>
-        <p:menuitem value="Login" icon="pi pi-sign-in" url="/login.xhtml" rendered="#{not empty navbarBean.user}"/>
-        <p:submenu label="#{loginBean.username}" icon="pi pi-user" rendered="#{navbarBean.user != null}">
-            <p:menuitem
-                    value="Account Details"
-                    icon="pi pi-user"
-                    url="/secured/account-details.xhtml"
-            />
-            <p:menuitem
-                    value="Cart (${shoppingCartBean.games.size()} items)"
-                    action="/secured/cart.xhtml"
-                    icon="pi pi-shopping-cart"
-                    disabled="#{shoppingCartBean.games.size() eq 0}"
-            />
-            <p:menuitem value="Logout" actionListener="#{navbarBean.handleLogout}" icon="pi pi-fw pi-sign-out"
-                        rendered="#{loginBean.username != null}"/>
-        </p:submenu>
-
+    <p:menubar style="height: inherit">
         <p:menuitem value="Home" icon="pi pi-fw pi-home" url="/public-pages/index.xhtml"/>
-
         <p:submenu label="Categories" icon="pi pi-tag product-category-icon">
             <c:forEach var="category" items="#{homePageBean.categories}">
-                <p:menuitem value="#{category.name}" url="/public-pages/category-page.xhtml?category_id=#{category.id}"/>
+                <p:menuitem value="#{category.name}"
+                            url="/public-pages/category-page.xhtml?category_id=#{category.id}"/>
             </c:forEach>
         </p:submenu>
 
@@ -47,10 +30,23 @@
             <p:menuitem value="Purchases" icon="pi pi-shopping-cart" url="/secured/admin/purchases-management.xhtml"/>
         </p:submenu>
         <f:facet name="options">
-            <div class="ui-input-icon-left p-mr-2 search-bar">
-                <p:inputText/>
-            </div>
-            <p:button value="Search" icon="pi pi-fw pi-search" styleClass="ui-button-info"/>
+            <p:button value="Login" icon="pi pi-sign-in" href="/login.xhtml" rendered="#{empty navbarBean.user}"/>
+            <p:menubar rendered="#{not empty navbarBean.user}" style="padding: 0">
+                <p:submenu label="#{loginBean.username}" icon="pi pi-user" >
+                    <p:menuitem
+                            value="Account Details"
+                            icon="pi pi-user"
+                            url="/secured/account-details.xhtml"
+                    />
+                    <p:menuitem
+                            value="Cart (${shoppingCartBean.games.size()} items)"
+                            action="/secured/cart.xhtml"
+                            icon="pi pi-shopping-cart"
+                            disabled="#{shoppingCartBean.games.size() eq 0}"
+                    />
+                    <p:menuitem value="Logout" actionListener="#{navbarBean.handleLogout}" icon="pi pi-fw pi-sign-out"/>
+                </p:submenu>
+            </p:menubar>
         </f:facet>
     </p:menubar>
 </h:form>
