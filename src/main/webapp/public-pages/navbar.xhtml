@@ -31,7 +31,7 @@
         </p:submenu>
         <f:facet name="options">
             <p:button value="Login" icon="pi pi-sign-in" href="/login.xhtml" rendered="#{empty navbarBean.user}"/>
-            <p:menubar rendered="#{navbarBean.user != null}" style="padding: 0">
+            <p:menubar rendered="#{not empty navbarBean.user}" style="padding: 0">
                 <p:submenu label="#{loginBean.username}" icon="pi pi-user" >
                     <p:menuitem
                             value="Account Details"
