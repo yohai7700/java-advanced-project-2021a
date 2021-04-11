@@ -44,8 +44,7 @@
                             icon="pi pi-shopping-cart"
                             disabled="#{shoppingCartBean.games.size() eq 0}"
                     />
-                    <p:menuitem value="Logout" actionListener="#{navbarBean.handleLogout}" icon="pi pi-fw pi-sign-out"
-                                rendered="#{loginBean.username != null}"/>
+                    <p:menuitem value="Logout" actionListener="#{navbarBean.handleLogout}" icon="pi pi-fw pi-sign-out"/>
                 </p:submenu>
             </p:menubar>
         </f:facet>
