@@ -6,6 +6,10 @@ import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 import java.io.Serializable;
 
+/**
+ * A bean class for session related functions
+ */
+
 @Named
 @SessionScoped
 public class SessionBean implements Serializable {

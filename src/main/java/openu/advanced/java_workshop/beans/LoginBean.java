@@ -32,10 +32,18 @@ public class LoginBean implements Serializable {
         return user;
     }
 
+    /**
+     * Gives other classes access to the password attribute
+     * @return the password of the category
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     * Gives other classes the ability to modify the password attribute
+     * @param password the new name of the user
+     */
     public void setPassword(String password) {
         this.password = password;
     }

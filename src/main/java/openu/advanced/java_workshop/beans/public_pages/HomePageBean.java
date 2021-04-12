@@ -1,5 +1,6 @@
 package openu.advanced.java_workshop.beans.public_pages;
 
+import openu.advanced.java_workshop.WorkshopDatabase;
 import openu.advanced.java_workshop.model.CategoriesEntity;
 import openu.advanced.java_workshop.model.GamesEntity;
 
@@ -19,15 +20,12 @@ import java.util.List;
 @RequestScoped
 public class HomePageBean {
 
-    // Used to run queries
-    private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("workshopPU");
-
     /**
      * Get all of the categories in the database, to show their games in the homepage
      * @return a list of all the categories
      */
     public List<CategoriesEntity> getCategories() {
-        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        EntityManager entityManager = WorkshopDatabase.getEntityManagerFactory().createEntityManager();
         TypedQuery<CategoriesEntity> getCategories = entityManager.createNamedQuery("findAllCategories", CategoriesEntity.class);
         return getCategories.getResultList();
     }
@@ -41,7 +39,7 @@ public class HomePageBean {
      */
     public List<GamesEntity> getGames(int id) {
         // Getting the query
-        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        EntityManager entityManager =  WorkshopDatabase.getEntityManagerFactory().createEntityManager();
         TypedQuery<GamesEntity> findGamesByCategoryId = entityManager.createNamedQuery("findGamesByCategoryId", GamesEntity.class);
 
         // Shows at most a constant number of games in the category's carousel

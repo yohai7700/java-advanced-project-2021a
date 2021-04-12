@@ -20,7 +20,7 @@ import java.util.List;
 @Named
 @RequestScoped
 public class CouponsManagementBean implements Serializable {
-    private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = WorkshopDatabase.getEntityManagerFactory();
+
     private final CouponsEntity newCoupon = new CouponsEntity();
 
     /**
@@ -36,9 +36,10 @@ public class CouponsManagementBean implements Serializable {
      * @return the list of the coupons
      */
     public List<CouponsEntity> getCoupons() {
-        EntityManager entityManager = WorkshopDatabase.getEntityManagerFactory().createEntityManager();
         // Calling the query findAllCoupons in CouponsEntity
-        TypedQuery<CouponsEntity> findAllCoupons = entityManager.createNamedQuery("findAllCoupons", CouponsEntity.class);
+        EntityManager entityManager = WorkshopDatabase.getEntityManagerFactory().createEntityManager();
+        TypedQuery<CouponsEntity> findAllCoupons =
+                entityManager.createNamedQuery("findAllCoupons", CouponsEntity.class);
         return findAllCoupons.getResultList();
     }
 
@@ -51,8 +52,8 @@ public class CouponsManagementBean implements Serializable {
         Base64.Encoder base64Encoder = Base64.getUrlEncoder(); // Encodes from bytes to strings
 
         byte[] randomBytes = new byte[AuthenticationToken.TOKEN_LEN];
-        secureRandom.nextBytes(randomBytes);
-        return base64Encoder.encodeToString(randomBytes);
+        secureRandom.nextBytes(randomBytes); // Creates random array of bytes
+        return base64Encoder.encodeToString(randomBytes); // Encodes the array of bytes to a string
     }
 
     /**
@@ -60,13 +61,9 @@ public class CouponsManagementBean implements Serializable {
      * @param couponCode the code of the coupon to add to the database
      */
     private void addCouponToDB(String couponCode) {
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("workshopPU");
-        EntityManager entityManager = factory.createEntityManager();
-
+        EntityManager entityManager = WorkshopDatabase.getEntityManagerFactory().createEntityManager();
         entityManager.getTransaction().begin();
-
         newCoupon.setCode(couponCode);
-        System.out.println(newCoupon.getValue());
         entityManager.persist(newCoupon);
         entityManager.getTransaction().commit();
     }
@@ -84,14 +81,15 @@ public class CouponsManagementBean implements Serializable {
      * @param couponCode the coupon
      */
     public void deleteCoupon(String couponCode) {
-        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        // Finds the coupon with the given code
+        EntityManager entityManager = WorkshopDatabase.getEntityManagerFactory().createEntityManager();
         CouponsEntity coupon = entityManager.find(CouponsEntity.class, couponCode);
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
-        if (coupon != null) {
-            entityManager.remove(entityManager.contains(coupon) ? coupon :
-                    entityManager.merge(coupon));
-        }
+
+        // Deletes the coupon
+        if (coupon != null && entityManager.contains(coupon))
+            entityManager.remove(coupon);
         transaction.commit();
     }
 }

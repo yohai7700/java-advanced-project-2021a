@@ -27,6 +27,9 @@ public class ShoppingCartBean implements Serializable {
      */
     public List<GamesEntity> getGames() { return games; }
 
+    /**
+     * Removes all the games in the shopping cart
+     */
     public void clear(){
         games.clear();
     }
