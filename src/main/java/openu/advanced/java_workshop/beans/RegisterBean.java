@@ -36,7 +36,6 @@ public class RegisterBean implements Serializable {
      * an empty String otherwise (if the username is already taken)
      */
     public String register(){
-
         /* Finding if there's a user in the database with the same username
         that the guest tried to register with */
         EntityManager entityManager = WorkshopDatabase.getEntityManagerFactory().createEntityManager();

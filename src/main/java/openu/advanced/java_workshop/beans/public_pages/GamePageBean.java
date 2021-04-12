@@ -6,15 +6,12 @@ import openu.advanced.java_workshop.beans.secured.ShoppingCartBean;
 import openu.advanced.java_workshop.model.CategoriesEntity;
 import openu.advanced.java_workshop.model.GamesEntity;
 import openu.advanced.java_workshop.model.ImagesRepository;
-import openu.advanced.java_workshop.model.UsersEntity;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,7 +36,7 @@ public class GamePageBean implements Serializable {
      * Returns the id of the game that we are in it's page
      * @return the id of the game
      */
-    private int getGameId() {
+    public int getGameId() {
         Map<String, String> parameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String gameIdParameter = parameterMap.get("game_id");
         return gameIdParameter == null ? NOT_FOUND_GAME_ID : Integer.parseInt(gameIdParameter);

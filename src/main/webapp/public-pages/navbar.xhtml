@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    A xhtml file for the navigation bar component
+-->
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
@@ -15,7 +20,7 @@
 <h:form>
     <p:menubar>
         <!-- Option to login if there's no user connected in the current session -->
-        <p:menuitem value="Login" icon="pi pi-sign-in" url="/login.xhtml" rendered="#{not empty navbarBean.user}"/>
+        <p:menuitem value="Login" icon="pi pi-sign-in" url="/login.xhtml" rendered="#{navbarBean.user == null}"/>
         <!-- User related options -->
         <p:submenu label="#{loginBean.username}" icon="pi pi-user" rendered="#{navbarBean.user != null}">
             <p:menuitem

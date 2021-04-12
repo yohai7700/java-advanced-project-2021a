@@ -99,7 +99,7 @@ public class CheckoutBean implements Serializable {
             shoppingCartBean.clear(); // Clearing the shopping cart
 
             // Redirecting to the home page
-            FacesContext.getCurrentInstance().getExternalContext().redirect("/secured/index.xhtml");
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/public-pages/index.xhtml");
         }
     }
 

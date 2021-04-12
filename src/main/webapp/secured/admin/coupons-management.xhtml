@@ -25,6 +25,7 @@
     <ui:composition template="/public-pages/navbar.xhtml"/>
 
     <div class="page-content">
+        <!-- Area to add a new coupon to the website -->
         <p:toolbar style="margin:20px 0px">
             <p:toolbarGroup>
                 <h3>add new coupon</h3>
@@ -35,6 +36,7 @@
                     <p:inputText id="float-input" value="#{couponsManagementBean.newCoupon.value}"
                                  required="true" style="margin:0 20px"/>
 
+                    <!-- Button to add the coupon -->
                     <p:commandButton action="#{couponsManagementBean.addCoupon}" style="margin: auto;"
                                      value="Generate new token" icon="pi pi-check"
                                      update="coupons" ajax="true">
@@ -43,6 +45,7 @@
             </p:toolbarGroup>
         </p:toolbar>
 
+        <!-- List of all the coupon in the website with their code, value and an option to delete the coupon -->
         <p:dataTable id="coupons" value="#{couponsManagementBean.coupons}" var="coupon">
             <f:facet name="header">
                 <span style="font-weight: bold">COUPONS</span>

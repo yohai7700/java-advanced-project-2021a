@@ -81,7 +81,7 @@
         <h:form rendered="#{!shoppingCartBean.isEmpty()}">
             <h2 class="checkout">
                 <h:outputLabel value="Your total is #{shoppingCartBean.total}$" style="margin-right: 10px"/>
-                <a href="checkout.xhtml">Proceed to checkout</a>
+                <a href="/secured/checkout.xhtml">Proceed to checkout</a>
             </h2>
             <div class="card">
                 <ui:repeat value="#{shoppingCartBean.games}" var="product">
