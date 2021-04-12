@@ -119,15 +119,15 @@
                                 <f:param name="game_id" value="#{param['game_id']}"/>
                             </p:commandButton>
                             <!-- login to Add to cart button displays if user not connected -->
-                            <p:commandButton
-                                    action="/login.xhtml"
+                            <p:button
+                                    href="/login.xhtml"
                                     style="margin: 0 auto"
                                     styleClass="rounded-button"
                                     value="Login To Add To Cart"
                                     icon="pi pi-sign-in"
                                     update="@form @(#navbar)"
                                     rendered="#{not gamePageBean.isUserSignedIn()}">
-                            </p:commandButton>
+                            </p:button>
                             <!-- Add to cart button displays if the game is in stock -->
                             <p:commandButton actionListener="#{gamePageBean.addToCart}"
                                              style="margin: 0 auto"
@@ -159,7 +159,7 @@
                                     <f:facet name="title">#{recommendation.name}</f:facet>
                                     <f:facet name="footer"
                                              style="display: flex; align-items: center; justify-content: center;">
-                                        <p:commandButton action="#{gamePageBean.openRecommendationPage}"
+                                        <p:commandButton actionListener="#{gamePageBean.openRecommendationPage}"
                                                          value="Open Game Page"
                                                          update="recommendations">
                                             <f:param name="recommendation_id" value="#{recommendation.id}"/>

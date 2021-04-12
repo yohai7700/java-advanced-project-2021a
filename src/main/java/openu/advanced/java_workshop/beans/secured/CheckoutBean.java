@@ -2,10 +2,7 @@ package openu.advanced.java_workshop.beans.secured;
 
 import openu.advanced.java_workshop.SessionUtils;
 import openu.advanced.java_workshop.WorkshopDatabase;
-import openu.advanced.java_workshop.model.GamesEntity;
-import openu.advanced.java_workshop.model.PurchasesEntity;
-import openu.advanced.java_workshop.model.PurchasesGamesEntity;
-import openu.advanced.java_workshop.model.UsersEntity;
+import openu.advanced.java_workshop.model.*;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -64,7 +61,7 @@ public class CheckoutBean implements Serializable {
             updateBalance(entityManager, balanceAfterPurchase);
             transaction.commit();
             shoppingCartBean.clear();
-            FacesContext.getCurrentInstance().getExternalContext().redirect("/secured/index.xhtml");
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/public-pages/index.xhtml");
         }
     }
 
@@ -95,11 +92,21 @@ public class CheckoutBean implements Serializable {
 
         for (GamesEntity game : getGames()) {
             PurchasesGamesEntity purchasesGamesEntity = new PurchasesGamesEntity();
+            decreaseStockInDB(game.getId(), entityManager);
             purchasesGamesEntity.setGameId(game.getId());
             purchasesGamesEntity.setPurchaseId(purchaseID);
             entityManager.persist(purchasesGamesEntity);
         }
     }
+
+    private void decreaseStockInDB(int gameID, EntityManager entityManager) {
+        GamesEntity game = entityManager.find(GamesEntity.class, gameID);
+        if (game != null) {
+            game.setStock(game.getStock()-1);
+            entityManager.persist(game);
+        }
+    }
+
 
     private void updateBalance(EntityManager entityManager, double newBalance) throws UserNotFoundException {
         String username = SessionUtils.getUserName();
