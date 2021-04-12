@@ -17,23 +17,19 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
+ * Created By: Yohai Mazuz
  * This bean handles management of the category-page.xhtml page
  */
-
 @Named
 @RequestScoped
 public class CategoryPageBean implements Serializable {
+    private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("workshopPU");
 
-    /**
-     * Returns the id of the page's category
-     * @return the category's id
-     */
     public int getCategoryId() {
         HttpServletRequest req =
                 (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         String categoryIdParameter = req.getParameter("category_id");
-        //TODO: remove default category with error message
-        return categoryIdParameter == null ? 4 :Integer.parseInt(categoryIdParameter);
+        return categoryIdParameter == null ? NOT_FOUND_CATEGORY_ID : Integer.parseInt(categoryIdParameter);
     }
 
     /**
@@ -60,5 +56,10 @@ public class CategoryPageBean implements Serializable {
                 entityManager.createNamedQuery("findGamesByCategoryId", GamesEntity.class);
         getCategoryById.setParameter("categoryId", getCategoryId());
         return getCategoryById.getResultList();
+    }
+
+    public void openGamePage(int gameId) throws IOException {
+        String url = "game-page.xhtml?game_id=" + gameId;
+        FacesContext.getCurrentInstance().getExternalContext().redirect(url);
     }
 }

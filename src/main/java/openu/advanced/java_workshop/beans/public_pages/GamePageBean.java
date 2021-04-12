@@ -29,9 +29,16 @@ import java.util.Map;
 @RequestScoped
 public class GamePageBean implements Serializable {
     private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("workshopPU");
+    public static final int NOT_FOUND_GAME_ID = -1;
+
     @Inject
     private ShoppingCartBean shoppingCartBean; // To add the game to the shopping cart
 
+    /**
+     * Returns the current page game id by the query parameters on the context URL.
+     * @return game id of current page, or -1 of wasn't found
+     */
+    public int getGameId() {
     /**
      * Returns the id of the game that we are in it's page
      * @return the id of the game
@@ -39,8 +46,7 @@ public class GamePageBean implements Serializable {
     private int getGameId() {
         Map<String, String> parameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String gameIdParameter = parameterMap.get("game_id");
-        //TODO: remove default category with error message
-        return gameIdParameter == null ? 2 : Integer.parseInt(gameIdParameter);
+        return gameIdParameter == null ? NOT_FOUND_GAME_ID : Integer.parseInt(gameIdParameter);
     }
 
     /**
@@ -48,6 +54,8 @@ public class GamePageBean implements Serializable {
      * @return the game
      */
     public GamesEntity getGame() {
+        int gameId = getGameId();
+        if(gameId == NOT_FOUND_GAME_ID) return null;
         EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
         return entityManager.find(GamesEntity.class, getGameId());
     }
@@ -134,5 +142,13 @@ public class GamePageBean implements Serializable {
      */
     public void removeFromCart(){
         shoppingCartBean.removeGame(getGame());
+    }
+
+    /**
+     * Finds if the session is run by a user or a guest
+     * @return true if the session is run by a user and false otherwise
+     */
+    public boolean isUserSignedIn(){
+        return SessionUtils.getUser() != null;
     }
 }

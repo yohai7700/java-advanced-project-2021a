@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
-    A xhtml page for showing a game
+  Created by IntelliJ IDEA.
+  User: yohai
+  Date: 20/03/2021
+  Time: 18:22
 -->
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+<h:outputStylesheet name="css/primeflex.css"/>
+<h:outputStylesheet name="css/style.css"/>
 
 <h:outputStylesheet>
     .game {
@@ -47,9 +51,13 @@
 </h:outputStylesheet>
 
 <h:head>
-    <title>#{gamePageBean.game.name}</title>
-</h:head>
-
+    <!-- Display the game name as title, if not found show a default message -->
+    <h:panelGroup rendered="#{gamePageBean.gameId == -1}" layout="block">
+        <title>Category not found</title>
+    </h:panelGroup>
+    <h:panelGroup rendered="#{gamePageBean.gameId != -1}" layout="block">
+        <title>#{gamePageBean.game.name}</title>
+    </h:panelGroup></h:head>
 <h:body>
     <!-- Navigation Bar -->
     <h:panelGroup id="navbar" layout="block">
@@ -57,41 +65,48 @@
     </h:panelGroup>
 
     <div class="game">
-        <!-- Game image section - showing default image if game does not exist -->
-        <p:outputPanel id="game-img" styleClass="game-img">
-            <h:graphicImage library="images" name="default-game-image.jpg" width="550px" height="450px"
-                            rendered="#{!gamePageBean.gameImageSaved}"/>
-            <p:graphicImage value="#{gamePageBean.gameImage}" width="550px" height="450px"
-                            rendered="#{gamePageBean.gameImageSaved}"/>
-        </p:outputPanel>
-        <div class="game-section">
-            <p:outputPanel>
-                <!-- Game name and condition badge -->
-                <h1 style="display: inline">#{gamePageBean.game.name}</h1>
-                <p:tag style="display: inline; margin-left: 15px"
-                       value="#{gamePageBean.game.condition.toString().toUpperCase()}"/>
-                <!-- List of categories as links -->
-                <ui:repeat value="#{gamePageBean.categories}" var="category">
+        <h:panelGroup rendered="#{gamePageBean.gameId == -1}" layout="block">
+            <h:outputText
+                    value="The game wasn't found, please return to home page."
+                    rendered="#{gamePageBean.gameId == -1}"
+            />
+        </h:panelGroup>
+        <h:panelGroup rendered="#{gamePageBean.gameId != -1}" layout="block">
+            <!-- Game image section - showing default image if game does not exist -->
+            <p:outputPanel id="game-img" styleClass="game-img">
+                <h:graphicImage library="images" name="default-game-image.jpg" width="550px" height="450px"
+                                rendered="#{!gamePageBean.gameImageSaved}"/>
+                <p:graphicImage value="#{gamePageBean.gameImage}" width="550px" height="450px"
+                                rendered="#{gamePageBean.gameImageSaved}"/>
+            </p:outputPanel>
+            <div class="game-section">
+                <p:outputPanel>
+                    <!-- Game name and condition badge -->
+                    <h1 style="display: inline">#{gamePageBean.game.name}</h1>
+                    <p:tag style="display: inline; margin-left: 15px"
+                           value="#{gamePageBean.game.condition.toString().toUpperCase()}"/>
+                    <!-- List of categories as links -->
+                    <ui:repeat value="#{gamePageBean.categories}" var="category">
+                        <h:form>
+                            <h:link outcome="category-page">
+                                <f:param name="category_id" value="#{category.id}"/>
+                                <p:badge value="#{category.name}" icon="pi pi-tag product-category-icon"/>
+                            </h:link>
+                        </h:form>
+                    </ui:repeat>
+                    <p:divider/>
                     <h:form>
-                        <h:link outcome="category-page">
-                            <f:param name="category_id" value="#{category.id}"/>
-                            <p:badge value="#{category.name}" icon="pi pi-tag product-category-icon"/>
-                        </h:link>
-                    </h:form>
-                </ui:repeat>
-                <p:divider/>
-                <h:form>
-                    <h:panelGrid columns="2" layout="flex">
-                        <!-- Developer value -->
-                        <p:outputLabel>Developer</p:outputLabel>
-                        <p:outputLabel>#{gamePageBean.game.developer}</p:outputLabel>
-                        <!-- Publisher value -->
-                        <p:outputLabel>Publisher</p:outputLabel>
-                        <p:outputLabel>#{gamePageBean.game.publisher}</p:outputLabel>
-                        <!-- Release Date value -->
-                        <p:outputLabel>Release Date</p:outputLabel>
-                        <p:outputLabel>#{gamePageBean.game.releaseDate}</p:outputLabel>
-                    </h:panelGrid>
+                        <h:panelGrid columns="2" layout="flex">
+                            <!-- Developer value -->
+                            <p:outputLabel>Developer</p:outputLabel>
+                            <p:outputLabel>#{gamePageBean.game.developer}</p:outputLabel>
+                            <!-- Publisher value -->
+                            <p:outputLabel>Publisher</p:outputLabel>
+                            <p:outputLabel>#{gamePageBean.game.publisher}</p:outputLabel>
+                            <!-- Release Date value -->
+                            <p:outputLabel>Release Date</p:outputLabel>
+                            <p:outputLabel>#{gamePageBean.game.releaseDate}</p:outputLabel>
+                        </h:panelGrid>
 
                     <p:spacer height="200px"/>
                     <div style="display: flex; align-items: center; justify-content: center;">
@@ -136,7 +151,6 @@
                 </h:form>
             </p:outputPanel>
         </div>
-        <!-- Scroll bar with a list of recommended games (decided by the current game) and links to their pages -->
         <div class="game-section game-recommendations">
             <p:outputPanel id="recommendations">
                 <h2>Recommendations</h2>
