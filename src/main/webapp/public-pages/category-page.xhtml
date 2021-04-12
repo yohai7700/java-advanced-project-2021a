@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    A xhtml page for showing the games in a category
+-->
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
@@ -11,7 +16,7 @@
 <h:outputStylesheet name="css/style.css"/>
 
 <h:head>
-    <!-- Display the category name as title, if not found  show a default message -->
+    <!-- Displays the category name as title. If not found, show the default message -->
     <h:panelGroup rendered="#{categoryPageBean.categoryId == -1}" layout="block">
         <title>Category not found</title>
     </h:panelGroup>
@@ -20,12 +25,15 @@
     </h:panelGroup></h:head>
 
 <h:body>
+    <!-- Navigation Bar -->
     <ui:composition template="navbar.xhtml"/>
+
     <div class="page-content">
+        <!-- In case the category wasn't found -->
         <h:outputText
                 value="The category wasn't found, please return to home page."
-                rendered="#{categoryPageBean.categoryId == -1}"
-        />
+                rendered="#{categoryPageBean.categoryId == -1}"/>
+        <!-- Otherwise, we show all the games in the vategory as cards, with a link to the games' pages -->
         <h:panelGroup layout="block" rendered="#{categoryPageBean.categoryId != -1}">
             <h1 style="text-align: center;">
                 #{categoryPageBean.category.name}

@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!--
-  Created by IntelliJ IDEA.
-  User: yohai
-  Date: 26/03/2021
-  Time: 15:04
+    A xhtml page for the checkout operation
 -->
-<!DOCTYPE html
-        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:c="http://java.sun.com/jstl/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
 >
@@ -45,16 +42,21 @@
 </h:outputStylesheet>
 
 <h:body>
+    <!-- Navigation Bar -->
     <ui:composition template="../public-pages/navbar.xhtml"/>
+
     <div class="page-content">
         <h:form>
             <p:growl id="messages" showDetail="true"/>
-            <h1 style="text-align: center;"> Checkout (#{checkoutBean.games.size()} items) </h1>
+            <h1 style="text-align: center;"> Checkout (#{checkoutBean.games.size()} items)</h1>
             <p:divider/>
+            <!-- The shipping address to get the games in the purchase -->
             <p:panel header="Shipping" style="margin-bottom: 15px">
                 <h:outputText value="Shipping Address: " style="margin-right: 20px"/>
                 <p:inputText value="#{checkoutBean.address}"/>
             </p:panel>
+
+            <!-- List of games bought in the purchase -->
             <p:panel header="Purchase Details">
                 <p:dataTable
                         value="#{checkoutBean.games}"
@@ -63,29 +65,38 @@
                         paginator="true"
                         paginatorPosition="bottom"
                 >
+                    <!-- Name of the game -->
                     <p:column headerText="Name">
                         <h:outputText value="#{game.name}"/>
                     </p:column>
+
+                    <!-- Publisher of the game -->
                     <p:column headerText="Publisher">
                         <h:outputText value="#{game.publisher}"/>
                     </p:column>
+
+                    <!-- Price of the game -->
                     <p:column headerText="Price">
                         <h:outputText value="#{game.price}"/>
                     </p:column>
                 </p:dataTable>
+
                 <div class="centered-section">
                     <div style="margin-bottom: 10px">
+                        <!-- The balance of the user in the checkout page -->
                         <strong>Your Balance: </strong>
                         <h:outputText value="#{checkoutBean.user.balance}">
                             <f:convertNumber currencySymbol="$" type="currency"/>
                         </h:outputText>
                         <br/>
+                        <!-- The total cost of the games in the purchase -->
                         <strong>Total games price: </strong>
                         <h:outputText value="#{checkoutBean.totalPrice}">
                             <f:convertNumber currencySymbol="$" type="currency"/>
                         </h:outputText>
                     </div>
                 </div>
+                <!-- Button to confirm the purchase -->
                 <div class="centered-section">
                     <p:commandButton
                             value="Checkout"
@@ -98,5 +109,4 @@
         </h:form>
     </div>
 </h:body>
-
 </html>
