@@ -1,6 +1,7 @@
 package openu.advanced.java_workshop.beans.public_pages;
 
 import openu.advanced.java_workshop.SessionUtils;
+import openu.advanced.java_workshop.WorkshopDatabase;
 import openu.advanced.java_workshop.beans.secured.ShoppingCartBean;
 import openu.advanced.java_workshop.model.CategoriesEntity;
 import openu.advanced.java_workshop.model.GamesEntity;
@@ -28,17 +29,12 @@ import java.util.Map;
 @Named
 @RequestScoped
 public class GamePageBean implements Serializable {
-    private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("workshopPU");
+
     public static final int NOT_FOUND_GAME_ID = -1;
 
     @Inject
     private ShoppingCartBean shoppingCartBean; // To add the game to the shopping cart
 
-    /**
-     * Returns the current page game id by the query parameters on the context URL.
-     * @return game id of current page, or -1 of wasn't found
-     */
-    public int getGameId() {
     /**
      * Returns the id of the game that we are in it's page
      * @return the id of the game
@@ -56,7 +52,7 @@ public class GamePageBean implements Serializable {
     public GamesEntity getGame() {
         int gameId = getGameId();
         if(gameId == NOT_FOUND_GAME_ID) return null;
-        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        EntityManager entityManager = WorkshopDatabase.getEntityManagerFactory().createEntityManager();
         return entityManager.find(GamesEntity.class, getGameId());
     }
 
@@ -65,7 +61,7 @@ public class GamePageBean implements Serializable {
      * @return a list of all the categories
      */
     public List<CategoriesEntity> getCategories() {
-        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        EntityManager entityManager = WorkshopDatabase.getEntityManagerFactory().createEntityManager();
         TypedQuery<CategoriesEntity> getCategoriesByGameId =
                 entityManager.createNamedQuery("getCategoriesByGameId", CategoriesEntity.class);
         getCategoriesByGameId.setParameter("gameId", getGameId());
@@ -78,7 +74,7 @@ public class GamePageBean implements Serializable {
      * @return a list of recommended games
      */
     public List<GamesEntity> getRecommendations() {
-        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        EntityManager entityManager = WorkshopDatabase.getEntityManagerFactory().createEntityManager();
         TypedQuery<GamesEntity> getRecommendationsByGameId =
                 entityManager.createNamedQuery("getRecommendationsByGameId", GamesEntity.class);
         getRecommendationsByGameId.setParameter("gameId", getGameId()).setMaxResults(MAX_RECOMMENDATIONS);

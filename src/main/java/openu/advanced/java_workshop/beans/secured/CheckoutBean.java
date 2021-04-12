@@ -32,7 +32,6 @@ class UserNotFoundException extends Exception {
 @Named
 @RequestScoped
 public class CheckoutBean implements Serializable {
-    private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = WorkshopDatabase.getEntityManagerFactory();
     String address;
 
     @Inject
@@ -90,7 +89,7 @@ public class CheckoutBean implements Serializable {
         } else { // There's enough money in the in the user's account to buy all the games in the shopping cart
             /* We add the purchase to the purchases table, add the games to the purchases_games table
             and update the balance to the balance after the purchase */
-            EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
+            EntityManager entityManager = WorkshopDatabase.getEntityManagerFactory().createEntityManager();
             EntityTransaction transaction = entityManager.getTransaction();
             transaction.begin();
             int purchaseID = addPurchaseToDB(entityManager);
@@ -174,7 +173,7 @@ public class CheckoutBean implements Serializable {
      * @return the entity of the user
      */
     public UsersEntity getUser() {
-        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        EntityManager entityManager = WorkshopDatabase.getEntityManagerFactory().createEntityManager();
         String username = SessionUtils.getUserName();
         return entityManager.find(UsersEntity.class, username);
     }

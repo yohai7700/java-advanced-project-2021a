@@ -23,7 +23,7 @@ import java.util.List;
 @Named
 @RequestScoped
 public class CategoryPageBean implements Serializable {
-    private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("workshopPU");
+    public static final int NOT_FOUND_CATEGORY_ID = -1;
 
     public int getCategoryId() {
         HttpServletRequest req =

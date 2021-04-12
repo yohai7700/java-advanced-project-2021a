@@ -1,5 +1,6 @@
 package openu.advanced.java_workshop.beans;
 
+import openu.advanced.java_workshop.WorkshopDatabase;
 import openu.advanced.java_workshop.model.UsersEntity;
 import org.primefaces.event.FlowEvent;
 
@@ -19,7 +20,6 @@ import java.io.Serializable;
 @Named
 @ViewScoped
 public class RegisterBean implements Serializable {
-    private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("workshopPU");
     private final UsersEntity user = new UsersEntity();
 
     /**
@@ -39,7 +39,7 @@ public class RegisterBean implements Serializable {
 
         /* Finding if there's a user in the database with the same username
         that the guest tried to register with */
-        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        EntityManager entityManager = WorkshopDatabase.getEntityManagerFactory().createEntityManager();
         UsersEntity existingUser = entityManager.find(UsersEntity.class, user.getUsername());
 
         if (existingUser == null) { // A unique username - we'll add the new user to the database
