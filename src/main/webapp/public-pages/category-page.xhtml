@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    A xhtml page for showing the games in a category
+-->
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
@@ -13,12 +18,15 @@
 </h:head>
 
 <h:body>
+    <!-- Navigation Bar -->
     <ui:composition template="navbar.xhtml"/>
+
     <h1 style="text-align: center;">
         #{categoryPageBean.category.name}
     </h1>
     <p:divider/>
-    <p:panelGrid columns="4" layout="flex">
+    <p:panelGrid columns="4" layout="flex"> <!-- 4 games in a row -->
+        <!-- We have a card for every game in the category -->
         <c:forEach var="game" items="#{categoryPageBean.games}">
             <p:panelGrid layout="flex" columns="1" styleClass="no-padding">
                 <ui:composition template="game-card.xhtml">
@@ -28,5 +36,4 @@
         </c:forEach>
     </p:panelGrid>
 </h:body>
-
 </html>

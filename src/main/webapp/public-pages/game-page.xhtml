@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!--
-  Created by IntelliJ IDEA.
-  User: yohai
-  Date: 20/03/2021
-  Time: 18:22
+    A xhtml page for showing a game
 -->
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
@@ -52,9 +51,11 @@
 </h:head>
 
 <h:body>
+    <!-- Navigation Bar -->
     <h:panelGroup id="navbar" layout="block">
         <ui:composition template="navbar.xhtml"/>
     </h:panelGroup>
+
     <div class="game">
         <!-- Game image section - showing default image if game does not exist -->
         <p:outputPanel id="game-img" styleClass="game-img">
@@ -135,6 +136,7 @@
                 </h:form>
             </p:outputPanel>
         </div>
+        <!-- Scroll bar with a list of recommended games (decided by the current game) and links to their pages -->
         <div class="game-section game-recommendations">
             <p:outputPanel id="recommendations">
                 <h2>Recommendations</h2>

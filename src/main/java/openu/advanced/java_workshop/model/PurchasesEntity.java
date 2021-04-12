@@ -1,10 +1,9 @@
 package openu.advanced.java_workshop.model;
 
-import javax.persistence.*;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.Objects;
-import java.util.Objects;
+        import javax.persistence.*;
+        import java.sql.Timestamp;
+        import java.text.SimpleDateFormat;
+        import java.util.Objects;
 
 /**
  * Entity class for the purchases table in the database
@@ -37,6 +36,7 @@ public class PurchasesEntity {
 
     /**
      * Gives other classes access to the id attribute
+     *
      * @return the id of the purchase
      */
     @Id
@@ -48,6 +48,7 @@ public class PurchasesEntity {
 
     /**
      * Gives other classes the ability to modify the id attribute
+     *
      * @param id the new id of the purchase
      */
     public void setId(int id) {
@@ -55,8 +56,9 @@ public class PurchasesEntity {
     }
 
     /**
-     * Gives other classes access to the date attribute
-     * @return the date of the purchase
+     * Gives other classes access to the username attribute
+     *
+     * @return the username of the purchase
      */
     @Basic
     @Column(name = "username")
@@ -64,10 +66,20 @@ public class PurchasesEntity {
         return username;
     }
 
+    /**
+     * Gives other classes the ability to modify the username attribute
+     *
+     * @param username the new name of the user who did the purchase
+     */
     public void setUsername(String username) {
         this.username = username;
     }
 
+    /**
+     * Gives other classes access to the date attribute
+     *
+     * @return the date of the purchase
+     */
     @Basic
     @Column(name = "date")
     public Timestamp getDate() {
@@ -76,6 +88,7 @@ public class PurchasesEntity {
 
     /**
      * Gives other classes the ability to modify the date attribute
+     *
      * @param date the new date of the purchase
      */
     public void setDate(Timestamp date) {
@@ -84,6 +97,7 @@ public class PurchasesEntity {
 
     /**
      * Gives other classes access to the address attribute
+     *
      * @return the address of the purchase
      */
     @Basic
@@ -94,15 +108,30 @@ public class PurchasesEntity {
 
     /**
      * Gives other classes the ability to modify the address attribute
+     *
      * @param address the new address of the purchase
      */
     public void setAddress(String address) {
         this.address = address;
     }
 
+    @Basic
+    @Column(name = "username", nullable = false, length = -1)
+    /**
+     * Gives other classes access to the username attribute
+     * @return the username of the purchase
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     @Transient
-    public String getDisplayDate(){
-        if(date == null){
+    public String getDisplayDate() {
+        if (date == null) {
             return null;
         }
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy hh:mm");
@@ -120,46 +149,34 @@ public class PurchasesEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, username, date, address);
-    /**
-     * Gives other classes access to the username attribute
-     * @return the username of the purchase
-     */
-    @Basic
-    @Column(name = "username", nullable = false, length = -1)
-    public String getUsername() {
-        return username;
-    }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+        /**
+         * Checks if this object is equal to another object (if all of the attributes are equal)
+         * @param o the other object we compare this object to
+         * @return true if the objects are equal and false otherwise
+         */
+        @Override
+        public boolean equals (Object o){
+            if (this == o) return true; // If the objects are the same (also null) we return true
 
-    /**
-     * Checks if this object is equal to another object (if all of the attributes are equal)
-     * @param o the other object we compare this object to
-     * @return true if the objects are equal and false otherwise
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true; // If the objects are the same (also null) we return true
+            // If o isn't an instance of this class, the objects aren't equal
+            if (o == null || o instanceof PurchasesEntity) return false;
 
-        // If o isn't an instance of this class, the objects aren't equal
-        if (o == null || o instanceof PurchasesEntity) return false;
+            // We can now upcast o to this class (won't cause an error because o is an instance of this class)
+            PurchasesEntity that = (PurchasesEntity) o;
 
-        // We can now upcast o to this class (won't cause an error because o is an instance of this class)
-        PurchasesEntity that = (PurchasesEntity) o;
+            // If the attributes of the objects are equal, the objects are equal
+            return id == that.id && Objects.equals(date, that.date) && Objects.equals(address, that.address);
+        }
 
-        // If the attributes of the objects are equal, the objects are equal
-        return id == that.id && Objects.equals(date, that.date) && Objects.equals(address, that.address);
-    }
-
-    /**
-     * Creates an hash code to identify each purchase, using the purchase's attributes
-     * @return the hash code for the purchase
-     */
-    @Override
-    public int hashCode() {
-        int result = 31 * id + (date != null ? date.hashCode() : 0);
-        return 31 * result + (address != null ? address.hashCode() : 0);
+        /**
+         * Creates an hash code to identify each purchase, using the purchase's attributes
+         * @return the hash code for the purchase
+         */
+        @Override
+        public int hashCode() {
+            int result = 31 * id + (date != null ? date.hashCode() : 0);
+            return 31 * result + (address != null ? address.hashCode() : 0);
+        }
     }
 }
