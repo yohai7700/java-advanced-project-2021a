@@ -5,7 +5,6 @@ import openu.advanced.java_workshop.beans.secured.ShoppingCartBean;
 import openu.advanced.java_workshop.model.CategoriesEntity;
 import openu.advanced.java_workshop.model.GamesEntity;
 import openu.advanced.java_workshop.model.ImagesRepository;
-import openu.advanced.java_workshop.model.UsersEntity;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
@@ -24,14 +23,14 @@ import java.util.Map;
 @Named
 @RequestScoped
 public class GamePageBean implements Serializable {
-    private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("workshopPU");
     public static final int NOT_FOUND_GAME_ID = -1;
-
+    private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("workshopPU");
     @Inject
     private ShoppingCartBean shoppingCartBean;
 
     /**
      * Returns the current page game id by the query parameters on the context URL.
+     *
      * @return game id of current page, or -1 of wasn't found
      */
     public int getGameId() {
@@ -42,7 +41,7 @@ public class GamePageBean implements Serializable {
 
     public GamesEntity getGame() {
         int gameId = getGameId();
-        if(gameId == NOT_FOUND_GAME_ID) return null;
+        if (gameId == NOT_FOUND_GAME_ID) return null;
         EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
         return entityManager.find(GamesEntity.class, getGameId());
     }
@@ -66,17 +65,17 @@ public class GamePageBean implements Serializable {
     public void openRecommendationPage() throws IOException {
         Map<String,String> params =
                 FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String recommendationId = params.get("recommendation_id");
+        String recommendationId = params.get("game_id");
         String url = "game-page.xhtml?game_id=" + recommendationId;
         FacesContext.getCurrentInstance().getExternalContext().redirect(url);
     }
 
 
-    public String getGameImagePath(){
+    public String getGameImagePath() {
         return GamesEntity.getImagePath(getGameId());
     }
 
-    public boolean getGameImageSaved(){
+    public boolean getGameImageSaved() {
         return ImagesRepository.isExists(getGameImagePath());
     }
 
@@ -84,7 +83,7 @@ public class GamePageBean implements Serializable {
         return ImagesRepository.retrieveImage(getGameImagePath());
     }
 
-    public boolean getIsGameInCart(){
+    public boolean getIsGameInCart() {
         return shoppingCartBean.getGames().contains(getGame());
     }
 
@@ -92,11 +91,11 @@ public class GamePageBean implements Serializable {
         shoppingCartBean.addGame(getGame());
     }
 
-    public void removeFromCart(){
+    public void removeFromCart() {
         shoppingCartBean.removeGame(getGame());
     }
 
-    public boolean isUserSignedIn(){
+    public boolean isUserSignedIn() {
         return SessionUtils.getUser() != null;
     }
 }
