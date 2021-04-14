@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!--
-  Created by IntelliJ IDEA.
-  User: yohai
-  Date: 07/03/2021
-  Time: 18:50
+    A xhtml page for games managment
 -->
+
 <!DOCTYPE html
         PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -27,6 +26,7 @@
 </h:head>
 
 <h:body>
+
     <ui:composition template="/public-pages/navbar.xhtml"/>
     <div class="page">
         <h:form id="form">
@@ -34,12 +34,15 @@
                 <p:growl id="messages" showDetail="true"/>
 
                 <p:toolbar style="margin-bottom: 20px">
+                    <!-- Area to change the list of games offered in the website -->
                     <p:toolbarGroup>
+                        <!-- Button to add a game via a dialog window -->
                         <p:commandButton value="New" icon="pi pi-plus" actionListener="#{gamesTableBean.openAddGameDialog}"
                                          update=":form:new-game-content" oncomplete="PF('newGameDialog').show()"
                                          styleClass="ui-button-success" style="margin-right: .5rem">
                             <p:resetInput target=":form:new-game-content"/>
                         </p:commandButton>
+                        <!-- Button to delete the selected games -->
                         <p:commandButton id="delete-games-button" value="#{gamesTableBean.deleteButtonMessage}"
                                          icon="pi pi-trash" actionListener="#{gamesTableBean.deleteSelectedGames}"
                                          styleClass="ui-button-danger" disabled="#{not gamesTableBean.hasSelectedGames()}"
@@ -50,6 +53,7 @@
                     </p:toolbarGroup>
                 </p:toolbar>
 
+                <!-- List of all the games in the website -->
                 <p:dataTable id="games-data-table"
                              widgetVar="gamesDataTable"
                              value="#{gamesTableBean.games}"
@@ -60,8 +64,7 @@
                              paginator="true"
                              rows="7"
                              rowSelectMode="add"
-                             paginatorPosition="bottom"
-                >
+                             paginatorPosition="bottom">
                     <f:facet name="header">
                         <div style="display: flex; justify-content: space-between; align-items: center">
                             <span style="font-weight: bold">GAMES</span>
@@ -82,57 +85,78 @@
 
                     <p:column selectionMode="multiple" exportable="false"/>
 
+                    <!-- The name of the game -->
                     <p:column headerText="Name">
                         <h:outputText value="#{game.name}"/>
                     </p:column>
+
+                    <!-- The publisher of the game -->
                     <p:column headerText="Publisher">
                         <h:outputText value="#{game.publisher}"/>
                     </p:column>
+
+                    <!-- The publisher of the game -->
                     <p:column headerText="Developer">
                         <h:outputText value="#{game.developer}"/>
                     </p:column>
+
+                    <!-- The release date of the game -->
                     <p:column headerText="Release Date">
                         <h:outputText value="#{game.releaseDate.toString()}"/>
                     </p:column>
+
+                    <!-- The price of the game -->
                     <p:column headerText="Price">
                         <h:outputText value="#{game.price}"/>
                     </p:column>
+
+                    <!-- The number of copies of the game in stock -->
                     <p:column headerText="Stock">
                         <h:outputText value="#{game.stock}"/>
                     </p:column>
+
+                    <!-- The condition of the game -->
                     <p:column headerText="Condition">
                         <h:outputText value="#{game.condition.toString()}"/>
                     </p:column>
 
                 </p:dataTable>
 
+                <!-- Dialog for creating a new game and adding it to the games table -->
                 <p:dialog header="New Game Details" showEffect="fade" modal="true"
                           widgetVar="newGameDialog" responsive="true">
                     <p:outputPanel id="new-game-content" styleClass="ui-fluid">
                         <p:outputPanel rendered="#{not empty gamesTableBean.newGame}">
+
+                            <!-- Name of the new game -->
                             <div class="p-field">
                                 <p:outputLabel for="name">Name</p:outputLabel>
                                 <p:inputText label="Name" id="name" value="#{gamesTableBean.newGame.name}"
                                              required="true"/>
                             </div>
+
                             <div class="p-formgrid p-grid">
+                                <!-- Publisher of the new game -->
                                 <div class="p-field p-col">
                                     <p:outputLabel for="publisher">Publisher</p:outputLabel>
                                     <p:inputText id="publisher" value="#{gamesTableBean.newGame.publisher}"
                                                  label="Publisher" required="true"/>
                                 </div>
+                                <!-- Developer of the new game -->
                                 <div class="p-field p-col">
                                     <p:outputLabel for="developer">Developer</p:outputLabel>
                                     <p:inputText id="developer" value="#{gamesTableBean.newGame.developer}"
                                                  label="Developer" required="true"/>
                                 </div>
                             </div>
+                            <!-- Release date of the new game -->
                             <div class="p-field">
                                 <p:outputLabel for="release-date">Release Date</p:outputLabel>
                                 <p:datePicker id="release-date" label="Release Date"
                                               value="#{gamesTableBean.newGame.simpleReleaseDate}" required="true"/>
                             </div>
                             <div class="p-formgrid p-grid">
+                                <!-- Price of the new game -->
                                 <div class="p-field p-col">
                                     <p:outputLabel for="price">Price</p:outputLabel>
                                     <p:inputNumber id="price" value="#{gamesTableBean.newGame.price}"
@@ -140,12 +164,14 @@
                                                    required="true" label="Price"
                                                    decimalSeparator="." thousandSeparator=","/>
                                 </div>
+                                <!-- Items in stock for the new game -->
                                 <div class="p-field p-col">
                                     <p:outputLabel for="stock">Stock</p:outputLabel>
                                     <p:spinner id="stock" min="0" label="Stock" value="#{gamesTableBean.newGame.stock}"
                                                required="true"/>
                                 </div>
                             </div>
+                            <!-- Condition of the new game -->
                             <div class="p-field">
                                 <p:outputLabel for="@next">Condition</p:outputLabel>
                                 <p:selectOneMenu label="Condition" value="#{gamesTableBean.newGame.condition}">
@@ -155,6 +181,7 @@
                         </p:outputPanel>
                     </p:outputPanel>
 
+                    <!-- Options to add the new game to the table or cancel the addition -->
                     <f:facet name="footer">
                         <p:commandButton value="Save" icon="pi pi-check" actionListener="#{gamesTableBean.saveGame}"
                                          update="new-game-content" process="new-game-content @this"/>
@@ -163,6 +190,7 @@
                     </f:facet>
                 </p:dialog>
 
+                <!-- Confirmation for the addition of the new game -->
                 <p:confirmDialog global="true" showEffect="fade" width="300">
                     <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
                     <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"

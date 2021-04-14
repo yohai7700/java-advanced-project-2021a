@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!--
-  Created by IntelliJ IDEA.
-  User: yohaimazuz
-  Date: 03/04/2021
-  Time: 14:59
+    A xhtml page for purchases managment
 -->
+
 <!DOCTYPE html
         PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -13,8 +12,8 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
->
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
 <h:outputStylesheet library="css" name="primeflex.css"/>
 <h:outputStylesheet name="css/style.css"/>
 
@@ -31,7 +30,10 @@
 </h:head>
 
 <h:body>
+    <!-- Navigation Bar -->
     <ui:composition template="/public-pages/navbar.xhtml"/>
+
+    <!-- A list of all the purchases made in the website -->
     <div class="page-content">
         <h:form>
             <p:dataTable value="#{purchasesManagementBean.purchases}" var="purchase">
@@ -41,14 +43,17 @@
                     </div>
                 </f:facet>
 
+                <!-- The name of the user who made the purchase -->
                 <p:column headerText="Username">
                     <h:outputText value="#{purchase.username}"/>
                 </p:column>
 
+                <!-- The address of the user who made the purchase -->
                 <p:column headerText="Address">
                     <h:outputText value="#{purchase.address}"/>
                 </p:column>
 
+                <!-- The date the purchase was made -->
                 <p:column headerText="Date">
                     <h:outputText value="#{purchase.date}"/>
                 </p:column>

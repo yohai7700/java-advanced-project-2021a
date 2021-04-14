@@ -1,5 +1,6 @@
 package openu.advanced.java_workshop.beans.public_pages;
 
+import openu.advanced.java_workshop.WorkshopDatabase;
 import openu.advanced.java_workshop.model.CategoriesEntity;
 import openu.advanced.java_workshop.model.GamesEntity;
 
@@ -22,29 +23,37 @@ import java.util.List;
 @Named
 @RequestScoped
 public class CategoryPageBean implements Serializable {
-    private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("workshopPU");
     public static final int NOT_FOUND_CATEGORY_ID = -1;
 
-    /**
-     * Returns the current page category id by the query parameters on the context URL.
-     * @return category id of current page, or -1 of wasn't found
-     */
     public int getCategoryId() {
-        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        HttpServletRequest req =
+                (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         String categoryIdParameter = req.getParameter("category_id");
         return categoryIdParameter == null ? NOT_FOUND_CATEGORY_ID : Integer.parseInt(categoryIdParameter);
     }
 
-    public CategoriesEntity getCategory(){
-        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
-        TypedQuery<CategoriesEntity> getCategoryById = entityManager.createNamedQuery("findCategoryById", CategoriesEntity.class);
+    /**
+     * Returns the category shown by category-page.xhtml
+     * @return the categories entity shown in the page
+     */
+    public CategoriesEntity getCategory() {
+        // Calls the query findCategoryById, defined in CategoriesEntity, with the id of the page's category
+        EntityManager entityManager = WorkshopDatabase.getEntityManagerFactory().createEntityManager();
+        TypedQuery<CategoriesEntity> getCategoryById =
+                entityManager.createNamedQuery("findCategoryById", CategoriesEntity.class);
         getCategoryById.setParameter("id", getCategoryId());
         return getCategoryById.getSingleResult();
     }
 
-    public List<GamesEntity> getGames(){
-        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
-        TypedQuery<GamesEntity> getCategoryById = entityManager.createNamedQuery("findGamesByCategoryId", GamesEntity.class);
+    /**
+     * Finds all the games that belong to the category shown in this page
+     * @return a list of the games in the current category
+     */
+    public List<GamesEntity> getGames() {
+        // Calls the query findGamesByCategoryId, defined in CategoriesEntity, with the id of the page's category
+        EntityManager entityManager = WorkshopDatabase.getEntityManagerFactory().createEntityManager();
+        TypedQuery<GamesEntity> getCategoryById =
+                entityManager.createNamedQuery("findGamesByCategoryId", GamesEntity.class);
         getCategoryById.setParameter("categoryId", getCategoryId());
         return getCategoryById.getResultList();
     }
