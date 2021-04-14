@@ -106,17 +106,18 @@
                             <p:outputLabel>#{gamePageBean.game.releaseDate}</p:outputLabel>
                         </h:panelGrid>
 
-                        <p:spacer height="200px"/>
+                        <p:spacer height="200px "/>
                         <div style="display: flex; align-items: center; justify-content: center;">
                             <!-- Button for removing the game from the user's shopping cart,
                             if a user is running the current session and the game is in the user's shopping cart -->
                             <p:commandButton actionListener="#{gamePageBean.removeFromCart}"
-                                            style="margin: 0 auto"
-                                            styleClass="ui-button-warning rounded-button"
-                                            value="Remove from cart"
-                                            sicon="pi pi-shopping-cart"
-                                            update="@form @(#navbar)"
-                                            rendered="#{gamePageBean.isGameInCart and gamePageBean.userSignedIn}">
+                                             style="margin: 0 auto"
+                                             styleClass="ui-button-warning rounded-button"
+                                             value="Remove from cart"
+                                             sicon="pi pi-shopping-cart"
+                                             update="@form @(#navbar)"
+                                             rendered="#{gamePageBean.isGameInCart and gamePageBean.isUserSignedIn()}"
+                            >
                                 <f:param name="game_id" value="#{param['game_id']}"/>
                             </p:commandButton>
                             <!-- Login to add to cart button displays if user not connected -->
@@ -131,49 +132,48 @@
                             </p:commandButton>
                             <!-- Add to cart button displays if the game is in stock -->
                             <p:commandButton actionListener="#{gamePageBean.addToCart}"
-                                            style="margin: 0 auto"
-                                            styleClass="rounded-button"
-                                            value="Add To Cart (#{gamePageBean.game.price}$)"
-                                            icon="pi pi-shopping-cart"
-                                            update="@form @(#navbar)"
-                                            rendered="#{!gamePageBean.isGameInCart and gamePageBean.game.stock != 0
-                                            and gamePageBean.isUserSignedIn()}">
+                                             style="margin: 0 auto"
+                                             styleClass="rounded-button"
+                                             value="Add To Cart (#{gamePageBean.game.price}$)"
+                                             icon="pi pi-shopping-cart"
+                                             update="@form @(#navbar)"
+                                             rendered="#{not gamePageBean.isGameInCart and gamePageBean.game.stock != 0
+                                         and gamePageBean.isUserSignedIn()}">
                                 <f:param name="game_id" value="#{param['game_id']}"/>
                             </p:commandButton>
                             <!-- Out of stock message when game is out of stock -->
                             <p:badge
                                     value="Game is out of stock"
                                     severity="danger"
-                                    rendered="#{!gamePageBean.isGameInCart and gamePageBean.game.stock == 0}"/>
+                                    rendered="#{not gamePageBean.isGameInCart and gamePageBean.game.stock == 0}"
+                            />
                         </div>
                     </h:form>
                 </p:outputPanel>
             </div>
+            <div class="game-section game-recommendations">
+                <p:outputPanel id="recommendations">
+                    <h2>Recommendations</h2>
+                    <p:scrollPanel id="recommendations-scroll-panel">
+                        <ui:repeat value="#{gamePageBean.recommendations}" var="recommendation">
+                            <h:form>
+                                <p:card style="margin-top: 10px">
+                                    <f:facet name="title">#{recommendation.name}</f:facet>
+                                    <f:facet name="footer"
+                                             style="display: flex; align-items: center; justify-content: center;">
+                                        <p:commandButton action="#{gamePageBean.openRecommendationPage}"
+                                                         value="Open Game Page"
+                                                         update="recommendations">
+                                            <f:param name="recommendation_id" value="#{recommendation.id}"/>
+                                        </p:commandButton>
+                                    </f:facet>
+                                </p:card>
+                            </h:form>
+                        </ui:repeat>
+                    </p:scrollPanel>
+                </p:outputPanel>
+            </div>
         </h:panelGroup>
-
-        <!-- Scroll bar with a list of recommended games, according to the current game -->
-        <div class="game-section game-recommendations">
-            <p:outputPanel id="recommendations">
-                <h2>Recommendations</h2>
-                <p:scrollPanel id="recommendations-scroll-panel">
-                    <ui:repeat value="#{gamePageBean.recommendations}" var="recommendation">
-                        <h:form>
-                            <p:card style="margin-top: 10px">
-                                <f:facet name="title">#{recommendation.name}</f:facet>
-                                <f:facet name="footer"
-                                         style="display: flex; align-items: center; justify-content: center;">
-                                    <p:commandButton action="#{gamePageBean.openRecommendationPage}"
-                                                     value="Open Game Page"
-                                                     update="recommendations">
-                                        <f:param name="recommendation_id" value="#{recommendation.id}"/>
-                                    </p:commandButton>
-                                </f:facet>
-                            </p:card>
-                        </h:form>
-                    </ui:repeat>
-                </p:scrollPanel>
-            </p:outputPanel>
-        </div>
     </div>
 </h:body>
 

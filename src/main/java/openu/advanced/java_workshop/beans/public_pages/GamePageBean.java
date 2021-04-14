@@ -9,6 +9,7 @@ import openu.advanced.java_workshop.model.ImagesRepository;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -83,10 +84,9 @@ public class GamePageBean implements Serializable {
      * @throws IOException required in case of and error while redirecting to the game's page
      */
     public void openRecommendationPage() throws IOException {
-        Map<String,String> params =
-                FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        Map<String,String> params =  FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String recommendationId = params.get("recommendation_id");
-        String url = "game-page.xhtml?game_id=" + recommendationId;
+        String url = "/public-pages/game-page.xhtml?game_id=" + recommendationId;
         FacesContext.getCurrentInstance().getExternalContext().redirect(url);
     }
 

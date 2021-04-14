@@ -32,6 +32,7 @@ class UserNotFoundException extends Exception {
 @Named
 @RequestScoped
 public class CheckoutBean implements Serializable {
+    private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = WorkshopDatabase.getEntityManagerFactory();
     String address;
 
     @Inject
@@ -77,7 +78,6 @@ public class CheckoutBean implements Serializable {
      * @throws IOException caused by the redirect function
      */
     public void checkout() throws UserNotFoundException, IOException {
-        // Calculates the new balance after purchasing all the games in the shopping cart
         double balance = getUser().getBalance();
         double price = shoppingCartBean.getTotal();
         double balanceAfterPurchase = balance - price;
@@ -151,6 +151,15 @@ public class CheckoutBean implements Serializable {
             entityManager.persist(purchasesGamesEntity);
         }
     }
+
+    private void decreaseStockInDB(int gameID, EntityManager entityManager) {
+        GamesEntity game = entityManager.find(GamesEntity.class, gameID);
+        if (game != null) {
+            game.setStock(game.getStock()-1);
+            entityManager.persist(game);
+        }
+    }
+
 
     /**
      * Updates the balance of the current user in the database
