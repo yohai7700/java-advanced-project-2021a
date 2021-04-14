@@ -43,7 +43,7 @@
     }
 
     #recommendations-scroll-panel {
-        height: 450px;
+        height: 400px;
         width: 300px;
     }
 </h:outputStylesheet>
@@ -154,21 +154,22 @@
             <div class="game-section game-recommendations">
                 <p:outputPanel id="recommendations">
                     <h2>Recommendations</h2>
-                    <h:form>
-                        <p:scrollPanel id="recommendations-scroll-panel">
-                            <ui:repeat value="#{gamePageBean.recommendations}" var="recommendation">
+                    <p:scrollPanel id="recommendations-scroll-panel">
+                        <ui:repeat value="#{gamePageBean.recommendations}" var="recommendation">
+                            <h:form>
                                 <p:card style="margin-top: 10px">
                                     <f:facet name="title">#{recommendation.name}</f:facet>
-                                    <f:facet name="footer" style="display: flex; align-items: center; justify-content: center;">
+                                    <f:facet name="footer"
+                                             style="display: flex; align-items: center; justify-content: center;">
                                         <p:commandButton actionListener="#{gamePageBean.openRecommendationPage}"
                                                          value="Open Game Page">
                                             <f:param name="game_id" value="#{recommendation.id}"/>
                                         </p:commandButton>
                                     </f:facet>
                                 </p:card>
-                            </ui:repeat>
-                        </p:scrollPanel>
-                    </h:form>
+                            </h:form>
+                        </ui:repeat>
+                    </p:scrollPanel>
                 </p:outputPanel>
             </div>
         </h:panelGroup>
