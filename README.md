@@ -1,4 +1,4 @@
-# Advanced Programming Workshop on Java
+# Advanced Programming Workshop on Java - 20503 OpenU
 ## Team
 * Yohai Mazuz
 * Dvir Dov
