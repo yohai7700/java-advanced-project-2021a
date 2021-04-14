@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!--
-  Created by IntelliJ IDEA.
-  User: yohai
-  Date: 20/03/2021
-  Time: 18:22
+    A xhtml page for showing a game
 -->
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:c="http://java.sun.com/jsp/jstl/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:outputStylesheet name="css/primeflex.css"/>
 <h:outputStylesheet name="css/style.css"/>
 
@@ -59,9 +57,11 @@
         <title>#{gamePageBean.game.name}</title>
     </h:panelGroup></h:head>
 <h:body>
+    <!-- Navigation Bar -->
     <h:panelGroup id="navbar" layout="block">
         <ui:composition template="navbar.xhtml"/>
     </h:panelGroup>
+
     <div class="game">
         <h:panelGroup rendered="#{gamePageBean.gameId == -1}" layout="block">
             <h:outputText
@@ -106,8 +106,10 @@
                             <p:outputLabel>#{gamePageBean.game.releaseDate}</p:outputLabel>
                         </h:panelGrid>
 
-                        <p:spacer height="200px"/>
+                        <p:spacer height="200px "/>
                         <div style="display: flex; align-items: center; justify-content: center;">
+                            <!-- Button for removing the game from the user's shopping cart,
+                            if a user is running the current session and the game is in the user's shopping cart -->
                             <p:commandButton actionListener="#{gamePageBean.removeFromCart}"
                                              style="margin: 0 auto"
                                              styleClass="ui-button-warning rounded-button"
@@ -118,15 +120,15 @@
                             >
                                 <f:param name="game_id" value="#{param['game_id']}"/>
                             </p:commandButton>
-                            <!-- login to Add to cart button displays if user not connected -->
+                            <!-- Login to add to cart button displays if user not connected -->
                             <p:commandButton
-                                    action="/login.xhtml"
-                                    style="margin: 0 auto"
-                                    styleClass="rounded-button"
-                                    value="Login To Add To Cart"
-                                    icon="pi pi-sign-in"
-                                    update="@form @(#navbar)"
-                                    rendered="#{not gamePageBean.isUserSignedIn()}">
+                                            action="login"
+                                            style="margin: 0 auto"
+                                            styleClass="rounded-button"
+                                            value="Login To Add To Cart"
+                                            icon="pi pi-sign-in"
+                                            update="@form @(#navbar)"
+                                            rendered="#{!gamePageBean.isUserSignedIn()}">
                             </p:commandButton>
                             <!-- Add to cart button displays if the game is in stock -->
                             <p:commandButton actionListener="#{gamePageBean.addToCart}"

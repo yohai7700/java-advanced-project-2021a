@@ -11,6 +11,10 @@ import javax.inject.Named;
 import java.io.IOException;
 import java.io.Serializable;
 
+/**
+ * Bean class for the navbar.xhtml file. Manages the logics of the navigation bar
+ */
+
 @Named
 @SessionScoped
 public class NavbarBean implements Serializable {
@@ -21,6 +25,10 @@ public class NavbarBean implements Serializable {
         return SessionUtils.getUser();
     }
 
+    /**
+     * Handles the logout (called by clicking the logout button in the navigation bar
+     * @throws IOException required for the redirect method
+     */
     public void handleLogout() throws IOException {
         loginBean.logout();
         FacesContext.getCurrentInstance().getExternalContext().redirect("/login.xhtml");

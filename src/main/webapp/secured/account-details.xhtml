@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!--
-  Created by IntelliJ IDEA.
-  User: yohaimazuz
-  Date: 03/04/2021
-  Time: 8:52
+    A xhtml page for the details of a user's account
 -->
+
 <!DOCTYPE html
         PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -29,18 +28,31 @@
 </h:head>
 
 <h:body>
+    <!-- Navigation Bar -->
     <ui:composition template="/public-pages/navbar.xhtml"/>
+
     <div class="page-content">
         <p:panel header="Account Details">
             <p:panelGrid columns="2" layout="grid">
+                <!-- The username of the user -->
                 <p:outputLabel value="Username: #{accountDetailsBean.user.username}"/>
+
+                <!-- The address of the user -->
                 <p:outputLabel value="Address: #{accountDetailsBean.user.address}"/>
+
+                <!-- The age of the user -->
                 <p:outputLabel value="Age: #{accountDetailsBean.user.age}"/>
+
+                <!-- The name of the user -->
                 <p:outputLabel
                         value="Name: #{accountDetailsBean.user.lastName}, #{accountDetailsBean.user.firstName}"/>
+
+                <!-- The email of the user -->
                 <p:outputLabel value="Email: #{accountDetailsBean.user.email}"/>
             </p:panelGrid>
             <p:divider/>
+
+            <!-- Shows the balance of the user and has an area for using coupons -->
             <div class="balance-section">
                 <h:form id="balance-form">
                     <p:growl showDetail="true"/>
@@ -63,6 +75,7 @@
             </div>
         </p:panel>
 
+        <!-- A list of all the purchases made by the current user -->
         <p:dataTable style="margin-top: 30px" value="#{accountDetailsBean.purchases}" var="purchase">
             <f:facet name="header">
                 <div style="display: flex; justify-content: space-between; align-items: center">
@@ -80,5 +93,4 @@
         </p:dataTable>
     </div>
 </h:body>
-
 </html>

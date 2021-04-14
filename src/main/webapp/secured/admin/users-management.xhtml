@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!--
-  Created by IntelliJ IDEA.
-  User: yohaimazuz
-  Date: 31/03/2021
-  Time: 11:24
+    A xhtml page for user managment
 -->
-<!DOCTYPE html
-        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
->
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
 <h:outputStylesheet library="css" name="primeflex.css"/>
 <h:outputStylesheet name="css/style.css"/>
 
@@ -23,7 +21,11 @@
 </h:head>
 
 <h:body>
+
+    <!-- Navigation Bar -->
     <ui:composition template="/public-pages/navbar.xhtml"/>
+
+    <!-- A list of all the users registered to the website -->
     <div class="page-content">
         <h:form>
             <p:dataTable value="#{usersManagementBean.users}" var="user" tableStyle="table-layout: auto;">
@@ -39,25 +41,38 @@
                     </div>
                 </f:facet>
 
+                <!-- The username of the user -->
                 <p:column headerText="Username">
                     <h:outputText value="#{user.username}"/>
                 </p:column>
+
+                <!-- The first name of the user -->
                 <p:column headerText="First Name">
                     <h:outputText value="#{user.firstName}"/>
                 </p:column>
+
+                <!-- The last name of the user -->
                 <p:column headerText="Last Name">
                     <h:outputText value="#{user.lastName}"/>
                 </p:column>
+
+                <!-- The age of the user -->
                 <p:column headerText="Age">
                     <h:outputText value="#{user.age}" rendered="#{not empty user.age}"/>
                     <p:tag value="N/A" rendered="#{empty user.age}"/>
                 </p:column>
+
+                <!-- The address of the user -->
                 <p:column headerText="Address">
                     <h:outputText value="#{user.address}"/>
                 </p:column>
+
+                <!-- The email of the user -->
                 <p:column headerText="Email" width="auto">
                     <h:outputText value="#{user.email}"/>
                 </p:column>
+
+                <!-- Shows the admin status of a user and allows an admin to make a non-admin user an admin -->
                 <p:column headerText="Admin Status">
                     <div style="display: flex; justify-content: center">
                         <p:tag value="Admin" rendered="#{user.isAdmin}"/>
@@ -66,8 +81,7 @@
                                 styleClass="ui-button ui-button-danger"
                                 actionListener="#{usersManagementBean.makeUserAdmin(user.username)}"
                                 rendered="#{not user.isAdmin}"
-                                update="@form"
-                        >
+                                update="@form">
                             <p:confirm header="Confirmation"
                                        message="Make #{user.username} admin?"
                                        icon="pi pi-exclamation-triangle"/>
@@ -76,6 +90,7 @@
                 </p:column>
             </p:dataTable>
 
+            <!-- Confirmation dialog when trying to make some user an admin -->
             <p:confirmDialog global="true" showEffect="fade" width="300">
                 <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
                 <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
@@ -84,5 +99,4 @@
         </h:form>
     </div>
 </h:body>
-
 </html>

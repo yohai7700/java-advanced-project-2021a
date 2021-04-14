@@ -1,9 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
 <!--
-  Created by IntelliJ IDEA.
-  User: yohai
-  Date: 27/03/2021
-  Time: 22:33
+    A representation of a game as a card
 -->
+
 <!DOCTYPE html
         PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -30,6 +30,7 @@
                 #{game.name}
             </f:facet>
             <p:tag styleClass="game-tag" value="#{game.condition.toString().toUpperCase()}"/>
+            <!-- If there's no stock for the game, we add a tag to inform the user -->
             <p:tag styleClass="game-tag" severity="danger" value="NOT IN STOCK" rendered="#{game.stock == 0}"/>
             <p:divider/>
             <p:outputLabel value="Publisher: #{game.publisher}"/>
@@ -37,6 +38,7 @@
             <p:outputLabel value="Developer: #{game.developer}"/>
             <f:facet name="footer">
                     <div style="display: flex; align-items: center; justify-content: center;">
+                        <!-- Gives the user access to the game's page -->
                         <p:button outcome="game-page" value="Open Game Page (#{game.price}$)">
                             <f:param name="game_id" value="#{game.id}"/>
                             <f:param name="faces-redirect" value="true" />

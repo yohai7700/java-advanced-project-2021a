@@ -17,89 +17,154 @@ import javax.persistence.TypedQuery;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * This bean handles management of the games-table.xhtml page
+ */
+
 @Named
 @ViewScoped
 public class GamesTableBean implements Serializable {
-    private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = WorkshopDatabase.getEntityManagerFactory();
     private GamesEntity newGame;
     private List<GamesEntity> selectedGames;
 
+    /**
+     * Gets the list of all the selected games
+     * @return the list of selected games
+     */
     public List<GamesEntity> getSelectedGames() {
         return selectedGames;
     }
 
+    /**
+     * Modifies the list of selected games
+     * @param selectedGames the new list of selected games
+     */
     public void setSelectedGames(List<GamesEntity> selectedGames) {
         this.selectedGames = selectedGames;
     }
 
+    /**
+     * Returns the new game one of the admins wants to add to the website
+     * @return the new game as a GamesEntity
+     */
     public GamesEntity getNewGame() {
         return newGame;
     }
 
+    /**
+     * Returns all the possible conditions
+     * @return an array of the possible conditions
+     */
     public Condition[] getConditions() {
         return Condition.values();
     }
 
+    /**
+     * Returns all the games in the website, to show in the page's table
+     * @return a list of all the games in the website
+     */
     public List<GamesEntity> getGames() {
-        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        // Runs the query getAllGames in GamesEntity
+        EntityManager entityManager = WorkshopDatabase.getEntityManagerFactory().createEntityManager();
         TypedQuery<GamesEntity> getAllGames = entityManager.createNamedQuery("getAllGames", GamesEntity.class);
         return getAllGames.getResultList();
     }
 
+    /**
+     * Finds if there are any selected games
+     * @return true if there's a selected game and false otherwise
+     */
     public boolean hasSelectedGames() {
         return selectedGames != null && !selectedGames.isEmpty();
     }
 
+    /**
+     * Created a new GamesEntity for the game to be created in the "Add game" dialog
+     */
     public void openAddGameDialog() {
         newGame = new GamesEntity();
     }
 
+    /**
+     * Adds the created game to the database and to the page's table
+     */
     public void saveGame() {
-        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        // Adds the new game to the database
+        EntityManager entityManager = WorkshopDatabase.getEntityManagerFactory().createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
         entityManager.persist(newGame);
         transaction.commit();
-        PrimeFaces.current().executeScript("PF('newGameDialog').hide()");
+
+        PrimeFaces.current().executeScript("PF('newGameDialog').hide()"); // Hides the "Add game" dialog
+        // Updates the relevant components in the page
         PrimeFaces.current().ajax().update(":form:messages", ":form:games-data-table");
-        addNotification("Game Added");
+        addNotification("Game Added"); // Notifies the admin that the game was added
     }
 
+    /**
+     * Returns a string message that holds the number of games
+     * selected (if some games were selected)
+     * @return the string message for the selected games or "Delete" if there are no selected games
+     */
     public String getDeleteButtonMessage() {
         if (hasSelectedGames()) {
             int size = selectedGames.size();
             return size > 1 ? size + " games selected" : "1 game selected";
         }
-
         return "Delete";
     }
 
+    /**
+     * Deletes the selected games
+     */
     public void deleteSelectedGames() {
+        if(!hasSelectedGames()) return; // If there are no selected games, there's nothing to do
+
         int removedGamesAmount = selectedGames.size();
-        if(!hasSelectedGames()) return;
-        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        EntityManager entityManager = WorkshopDatabase.getEntityManagerFactory().createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
+
+        // For every selected game, we remove it's pairs in the category_members table and the game itself
         for (GamesEntity selectedGame : selectedGames) {
             deleteAllCategoryMembersOfGame(entityManager, selectedGame.getId());
-            entityManager.remove(entityManager.contains(selectedGame) ? selectedGame : entityManager.merge(selectedGame));
+            if(entityManager.contains(selectedGame))
+                entityManager.remove(selectedGame);
         }
         transaction.commit();
-        selectedGames = null;
+
+        selectedGames = null; // There's no list of selected games now - they were all deleted
+
+        // Notifies the admin that the games were deleted
         addNotification("Deleted " + removedGamesAmount + " game" + (removedGamesAmount == 1 ? "" : "s") + ".");
+
+        // Updates the relevant components in the page
         PrimeFaces.current().ajax().update("form:messages", "form:games-data-table");
     }
 
+    /*
+     * Deletes all the pair with the given gameId
+     * Parameters: entityManager - will delete all the matching pairs
+     *             gameId - the id of the game we delete all of it's pairs
+     */
     private void deleteAllCategoryMembersOfGame(EntityManager entityManager, int gameId) {
-        TypedQuery<CategoryMembersEntity> findCategoryMembersByGameId = entityManager.createNamedQuery("findCategoryMembersByGameId", CategoryMembersEntity.class);
+        // Runs the query findCategoryMembersByGameId in CategoryMembersEntity with the given game id
+        TypedQuery<CategoryMembersEntity> findCategoryMembersByGameId =
+                entityManager.createNamedQuery("findCategoryMembersByGameId", CategoryMembersEntity.class);
         findCategoryMembersByGameId.setParameter("gameId", gameId);
+
+        // For every pair with the game's id, we delete the pair
         for (CategoryMembersEntity categoryMembersEntity : findCategoryMembersByGameId.getResultList()) {
-            entityManager.remove(entityManager.contains(categoryMembersEntity)
-                    ? categoryMembersEntity
-                    : entityManager.merge(categoryMembersEntity));
+            if(entityManager.contains(categoryMembersEntity))
+                entityManager.remove(categoryMembersEntity);
         }
     }
 
+    /*
+     * Shows a notification on the screen
+     * Parameters: message - the message of the notification
+     */
     private void addNotification(String message) {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(message));
     }

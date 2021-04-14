@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    A xhtml file for the navigation bar component
+-->
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:c="http://java.sun.com/jstl/core">
 
 <h:outputStylesheet>
@@ -14,8 +18,32 @@
 </h:outputStylesheet>
 
 <h:form>
-    <p:menubar style="height: inherit">
+    <p:menubar>
+        <!-- Option to login if there's no user connected in the current session -->
+        <p:menuitem value="Login" icon="pi pi-sign-in" url="/login.xhtml" rendered="#{navbarBean.user == null}"/>
+        <!-- User related options -->
+        <p:submenu label="#{loginBean.username}" icon="pi pi-user" rendered="#{navbarBean.user != null}">
+            <p:menuitem
+                    value="Account Details"
+                    icon="pi pi-user"
+                    url="/secured/account-details.xhtml"
+            />
+            <!-- Access to the users shopping cart -->
+            <p:menuitem
+                    value="Cart (${shoppingCartBean.games.size()} items)"
+                    action="/secured/cart.xhtml"
+                    icon="pi pi-shopping-cart"
+                    disabled="#{shoppingCartBean.games.size() eq 0}"
+            />
+            <!-- Logout option -->
+            <p:menuitem value="Logout" actionListener="#{navbarBean.handleLogout}" icon="pi pi-fw pi-sign-out"
+                        rendered="#{loginBean.username != null}"/>
+        </p:submenu>
+
+        <!-- Link to the home page -->
         <p:menuitem value="Home" icon="pi pi-fw pi-home" url="/public-pages/index.xhtml"/>
+
+        <!-- A list of link to the categories' pages -->
         <p:submenu label="Categories" icon="pi pi-tag product-category-icon">
             <c:forEach var="category" items="#{homePageBean.categories}">
                 <p:menuitem value="#{category.name}"
@@ -23,31 +51,13 @@
             </c:forEach>
         </p:submenu>
 
+        <!-- Admin managment submenu - in case the user is an admin -->
         <p:submenu label="Management" icon="pi pi-cog" rendered="#{loginBean.user.isAdmin}">
             <p:menuitem value="Coupons" icon="pi pi-ticket" url="/secured/admin/coupons-management.xhtml"/>
             <p:menuitem value="Users" icon="pi pi-users" url="/secured/admin/users-management.xhtml"/>
             <p:menuitem value="Games" icon="pi pi-list" url="/secured/admin/games-table.xhtml"/>
             <p:menuitem value="Purchases" icon="pi pi-shopping-cart" url="/secured/admin/purchases-management.xhtml"/>
         </p:submenu>
-        <f:facet name="options">
-            <p:button value="Login" icon="pi pi-sign-in" href="/login.xhtml" rendered="#{empty navbarBean.user}"/>
-            <p:menubar rendered="#{not empty navbarBean.user}" style="padding: 0">
-                <p:submenu label="#{loginBean.username}" icon="pi pi-user" >
-                    <p:menuitem
-                            value="Account Details"
-                            icon="pi pi-user"
-                            url="/secured/account-details.xhtml"
-                    />
-                    <p:menuitem
-                            value="Cart (${shoppingCartBean.games.size()} items)"
-                            action="/secured/cart.xhtml"
-                            icon="pi pi-shopping-cart"
-                            disabled="#{shoppingCartBean.games.size() eq 0}"
-                    />
-                    <p:menuitem value="Logout" actionListener="#{navbarBean.handleLogout}" icon="pi pi-fw pi-sign-out"/>
-                </p:submenu>
-            </p:menubar>
-        </f:facet>
     </p:menubar>
 </h:form>
 </html>
