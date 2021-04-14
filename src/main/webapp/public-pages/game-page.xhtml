@@ -43,7 +43,7 @@
     }
 
     #recommendations-scroll-panel {
-        height: 450px;
+        height: 400px;
         width: 300px;
     }
 </h:outputStylesheet>
@@ -161,10 +161,9 @@
                                     <f:facet name="title">#{recommendation.name}</f:facet>
                                     <f:facet name="footer"
                                              style="display: flex; align-items: center; justify-content: center;">
-                                        <p:commandButton action="#{gamePageBean.openRecommendationPage}"
-                                                         value="Open Game Page"
-                                                         update="recommendations">
-                                            <f:param name="recommendation_id" value="#{recommendation.id}"/>
+                                        <p:commandButton actionListener="#{gamePageBean.openRecommendationPage}"
+                                                         value="Open Game Page">
+                                            <f:param name="game_id" value="#{recommendation.id}"/>
                                         </p:commandButton>
                                     </f:facet>
                                 </p:card>

@@ -1,7 +1,6 @@
 package openu.advanced.java_workshop.beans.public_pages;
 
 import openu.advanced.java_workshop.SessionUtils;
-import openu.advanced.java_workshop.WorkshopDatabase;
 import openu.advanced.java_workshop.beans.secured.ShoppingCartBean;
 import openu.advanced.java_workshop.model.CategoriesEntity;
 import openu.advanced.java_workshop.model.GamesEntity;
@@ -9,10 +8,11 @@ import openu.advanced.java_workshop.model.ImagesRepository;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,15 +27,15 @@ import java.util.Map;
 @Named
 @RequestScoped
 public class GamePageBean implements Serializable {
-
     public static final int NOT_FOUND_GAME_ID = -1;
-
+    private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("workshopPU");
     @Inject
     private ShoppingCartBean shoppingCartBean; // To add the game to the shopping cart
 
     /**
-     * Returns the id of the game that we are in it's page
-     * @return the id of the game
+     * Returns the current page game id by the query parameters on the context URL.
+     *
+     * @return game id of current page, or -1 of wasn't found
      */
     public int getGameId() {
         Map<String, String> parameterMap = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
@@ -49,8 +49,8 @@ public class GamePageBean implements Serializable {
      */
     public GamesEntity getGame() {
         int gameId = getGameId();
-        if(gameId == NOT_FOUND_GAME_ID) return null;
-        EntityManager entityManager = WorkshopDatabase.getEntityManagerFactory().createEntityManager();
+        if (gameId == NOT_FOUND_GAME_ID) return null;
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
         return entityManager.find(GamesEntity.class, getGameId());
     }
 
@@ -59,9 +59,8 @@ public class GamePageBean implements Serializable {
      * @return a list of all the categories
      */
     public List<CategoriesEntity> getCategories() {
-        EntityManager entityManager = WorkshopDatabase.getEntityManagerFactory().createEntityManager();
-        TypedQuery<CategoriesEntity> getCategoriesByGameId =
-                entityManager.createNamedQuery("getCategoriesByGameId", CategoriesEntity.class);
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        TypedQuery<CategoriesEntity> getCategoriesByGameId = entityManager.createNamedQuery("getCategoriesByGameId", CategoriesEntity.class);
         getCategoriesByGameId.setParameter("gameId", getGameId());
         return getCategoriesByGameId.getResultList();
     }
@@ -72,7 +71,7 @@ public class GamePageBean implements Serializable {
      * @return a list of recommended games
      */
     public List<GamesEntity> getRecommendations() {
-        EntityManager entityManager = WorkshopDatabase.getEntityManagerFactory().createEntityManager();
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
         TypedQuery<GamesEntity> getRecommendationsByGameId =
                 entityManager.createNamedQuery("getRecommendationsByGameId", GamesEntity.class);
         getRecommendationsByGameId.setParameter("gameId", getGameId()).setMaxResults(MAX_RECOMMENDATIONS);
@@ -84,9 +83,10 @@ public class GamePageBean implements Serializable {
      * @throws IOException required in case of and error while redirecting to the game's page
      */
     public void openRecommendationPage() throws IOException {
-        Map<String,String> params =  FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String recommendationId = params.get("recommendation_id");
-        String url = "/public-pages/game-page.xhtml?game_id=" + recommendationId;
+        Map<String,String> params =
+                FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        String recommendationId = params.get("game_id");
+        String url = "game-page.xhtml?game_id=" + recommendationId;
         FacesContext.getCurrentInstance().getExternalContext().redirect(url);
     }
 
