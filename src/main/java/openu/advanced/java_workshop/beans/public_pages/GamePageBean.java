@@ -1,6 +1,7 @@
 package openu.advanced.java_workshop.beans.public_pages;
 
 import openu.advanced.java_workshop.SessionUtils;
+import openu.advanced.java_workshop.WorkshopDatabase;
 import openu.advanced.java_workshop.beans.secured.ShoppingCartBean;
 import openu.advanced.java_workshop.model.CategoriesEntity;
 import openu.advanced.java_workshop.model.GamesEntity;
@@ -12,7 +13,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,7 +28,7 @@ import java.util.Map;
 @RequestScoped
 public class GamePageBean implements Serializable {
     public static final int NOT_FOUND_GAME_ID = -1;
-    private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("workshopPU");
+    private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = WorkshopDatabase.getEntityManagerFactory();
     @Inject
     private ShoppingCartBean shoppingCartBean; // To add the game to the shopping cart
 
