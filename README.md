@@ -6,7 +6,7 @@
 
 ## Installation
 In order to run the application, please use an Apache Tomcat application server.
-The database used in the application is a PostgreSQL server which must be run on the server that runs the application, the PostgreSQL server needs to be configured with a database named `workshop` and a user with the credentials:
+The database used in the application is a PostgreSQL server which must be run on the server that runs the application on port 5433, the PostgreSQL server needs to be configured with a database named `workshop` and a user with the credentials:
 * username: `postgres`
 * password: `password`
 
