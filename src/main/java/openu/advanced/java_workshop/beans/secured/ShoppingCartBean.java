@@ -9,7 +9,9 @@ import javax.inject.Named;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Bean class for the cart.xhtml. Manages the logics of the shopping cart
@@ -19,13 +21,24 @@ import java.util.List;
 @SessionScoped
 public class ShoppingCartBean implements Serializable {
 
-    private final List<GamesEntity> games = new ArrayList<>();
+    private final Map<Integer, GamesEntity> games = new HashMap<>();
 
     /**
      * Returns all of the games in the shopping cart
      * @return a list of the games in the cart
      */
-    public List<GamesEntity> getGames() { return games; }
+    public List<GamesEntity> getGames() {
+        return new ArrayList<>(games.values());
+    }
+
+    /**
+     *
+     * @param gameId the game id to check if is in the shopping cart.
+     * @return whether the game is in the shopping cart
+     */
+    public boolean contains(int gameId) {
+        return games.containsKey(gameId);
+    }
 
     /**
      * Removes all the games in the shopping cart
@@ -38,13 +51,15 @@ public class ShoppingCartBean implements Serializable {
      * Adds a game to the shopping cart
      * @param game the game the user wants to add to the shopping cart
      */
-    public void addGame(GamesEntity game) { games.add(game); }
+    public void addGame(GamesEntity game) {
+        games.put(game.getId(), game);
+    }
 
     /**
      * Removes the requested game from the cart
      * @param game the game the user wants to remove from the cart
      */
-    public void removeGame(GamesEntity game) { games.remove(game); }
+    public void removeGame(GamesEntity game) { games.remove(game.getId()); }
 
     /**
      * Checks if the shopping cart is empty.
@@ -64,7 +79,7 @@ public class ShoppingCartBean implements Serializable {
      */
     public double getTotal() {
         double sum = 0;
-        for(GamesEntity game : games) sum += game.getPrice();
+        for(GamesEntity game : games.values()) sum += game.getPrice();
         return sum;
     }
 }

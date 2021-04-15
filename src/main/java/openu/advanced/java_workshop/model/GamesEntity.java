@@ -3,6 +3,9 @@ package openu.advanced.java_workshop.model;
 import org.hibernate.annotations.Generated;
 
 import javax.persistence.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Objects;
@@ -216,12 +219,12 @@ public class GamesEntity {
     }
 
     @Transient
-    public String getDisplayDate(){
+    public String getReleaseDisplayDate(){
         java.util.Date releaseDate = getSimpleReleaseDate();
         if(releaseDate == null){
             return null;
         }
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy hh:mm");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
         return dateFormat.format(releaseDate);
     }
 
@@ -289,5 +292,45 @@ public class GamesEntity {
      */
     public static String getImagePath(int gameId){
         return "game\\" + gameId;
+    }
+
+    /**
+     * Transient field for the game image path.
+     * @return the path of the game's image
+     */
+    @Transient
+    public String getImagePath(){
+        return GamesEntity.getImagePath(id);
+    }
+
+    /**
+     * Sets game's image persistently.
+     * @param image input stream for the image
+     * @throws IOException if fails to save the image in the file system.
+     */
+    public void setImage(InputStream image) throws IOException {
+        ImagesRepository.uploadImage(getImagePath(), image);
+    }
+
+    /**
+     * Returns the image of the game in the repository.
+     * @return input stream of the image if exists, else null.
+     * @throws IOException if fails to get image from file system.
+     */
+    @Transient
+    public InputStream getImage() throws IOException {
+        if(!hasImage()){
+            return null;
+        }
+        return ImagesRepository.retrieveImage(getImagePath());
+    }
+
+    /**
+     * Transient field that returns whether the game has an image.
+     * @return whether the game has an image saved.
+     */
+    @Transient
+    public boolean hasImage(){
+        return ImagesRepository.isExists(getImagePath());
     }
 }

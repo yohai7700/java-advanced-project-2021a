@@ -25,12 +25,22 @@ public class ImagesRepository {
         return hardDriveEnv;
     }
 
+    private static Boolean isWindowsOS(){
+        return System.getProperty("os.name").startsWith("Windows");
+    }
+
     /**
-     * Returns the path to images directory
+     * Returns the path to images directory (takes into account operation system)
      * @return the absolute path to images directory
      */
     private static String getImagesBasePath() {
-        return getImagesDrive() + "\\java_workshop\\images\\";
+        String home = System.getProperty("user.home");
+        // Determine if current system is Windows or Unix-like to construct matching file path
+        if (isWindowsOS()) {
+            return getImagesDrive() + "\\java_workshop\\images\\";
+        } else {
+            return home + "/java_workshop/images/";
+        }
     }
 
     /**
@@ -44,13 +54,14 @@ public class ImagesRepository {
 
     /**
      * Adds a new image to the images directory
-     * @param path the relative path of the image we want to add
+     * @param relativePath the relative path of the image we want to add
      * @param inputStream holds the stream of data for the image
      * @throws IOException in case the stream has an exception
      */
-    public static void uploadImage(String path, InputStream inputStream) throws IOException {
+    public static void uploadImage(String relativePath, InputStream inputStream) throws IOException {
+        String path = getImagePath(relativePath);
         // Creates a file in the given path
-        File file = new File(getImagePath(path));
+        File file = new File(path);
         file.mkdirs();
         file.createNewFile();
 
@@ -61,13 +72,13 @@ public class ImagesRepository {
 
     /**
      * Transfers an image as a Stream of a byte array
-     * @param path the path of the image
+     * @param relativePath the path of the image
      * @return an ByteArrayInputStream that holds the byte array of the picture
      * @throws IOException in case an IO function has an exception
      */
-    public static InputStream retrieveImage(String path) throws IOException {
+    public static InputStream retrieveImage(String relativePath) throws IOException {
         // Transforms the image into an input stream and then to a byte array
-        InputStream fileInputStream = new FileInputStream(getImagePath(path));
+        InputStream fileInputStream = new FileInputStream(getImagePath(relativePath));
         byte[] bytes = IOUtils.toByteArray(fileInputStream);
         fileInputStream.close();
         return new ByteArrayInputStream(bytes); // Returns a stream with the byte array
