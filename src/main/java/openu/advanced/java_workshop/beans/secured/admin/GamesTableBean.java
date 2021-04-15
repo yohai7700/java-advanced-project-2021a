@@ -11,7 +11,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 import java.io.Serializable;
@@ -143,10 +142,18 @@ public class GamesTableBean implements Serializable {
         PrimeFaces.current().ajax().update("form:messages", "form:games-data-table");
     }
 
+    /**
+     *
+     * @param gameId - the id of the game to open the dialog for
+     */
+    public void openGameImageDialog(String gameId){
+
+    }
+
     /*
      * Deletes all the pair with the given gameId
-     * Parameters: entityManager - will delete all the matching pairs
-     *             gameId - the id of the game we delete all of it's pairs
+     * @param entityManager - will delete all the matching pairs
+     * @param gameId - the id of the game we delete all of it's pairs
      */
     private void deleteAllCategoryMembersOfGame(EntityManager entityManager, int gameId) {
         // Runs the query findCategoryMembersByGameId in CategoryMembersEntity with the given game id

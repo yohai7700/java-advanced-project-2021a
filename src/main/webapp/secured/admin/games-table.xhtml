@@ -37,7 +37,8 @@
                     <!-- Area to change the list of games offered in the website -->
                     <p:toolbarGroup>
                         <!-- Button to add a game via a dialog window -->
-                        <p:commandButton value="New" icon="pi pi-plus" actionListener="#{gamesTableBean.openAddGameDialog}"
+                        <p:commandButton value="New" icon="pi pi-plus"
+                                         actionListener="#{gamesTableBean.openAddGameDialog}"
                                          update=":form:new-game-content" oncomplete="PF('newGameDialog').show()"
                                          styleClass="ui-button-success" style="margin-right: .5rem">
                             <p:resetInput target=":form:new-game-content"/>
@@ -45,7 +46,8 @@
                         <!-- Button to delete the selected games -->
                         <p:commandButton id="delete-games-button" value="#{gamesTableBean.deleteButtonMessage}"
                                          icon="pi pi-trash" actionListener="#{gamesTableBean.deleteSelectedGames}"
-                                         styleClass="ui-button-danger" disabled="#{not gamesTableBean.hasSelectedGames()}"
+                                         styleClass="ui-button-danger"
+                                         disabled="#{not gamesTableBean.hasSelectedGames()}"
                                          update="@this @form">
                             <p:confirm header="Confirmation" message="Delete the selected games?"
                                        icon="pi pi-exclamation-triangle"/>
@@ -120,6 +122,10 @@
                         <h:outputText value="#{game.condition.toString()}"/>
                     </p:column>
 
+                    <p:column headerText="Image">
+                        <p:commandButton value="Set Image" actionListener="#{gamesTableBean.}"/>
+                    </p:column>
+
                 </p:dataTable>
 
                 <!-- Dialog for creating a new game and adding it to the games table -->
@@ -188,6 +194,15 @@
                         <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('newGameDialog').hide()"
                                          styleClass="ui-button-secondary"/>
                     </f:facet>
+                </p:dialog>
+
+                <!-- Game Image Dialog - manages changing the image of a game -->
+                <p:dialog header="Game Image" showEffect="fade" modal="true"
+                          widgetVar="gameImageDialog" responsive="true">
+                    <p:outputPanel id="game-image-content" styleClass="ui-fluid">
+                        <h:graphicImage library="images" name="default-game-image.jpg" width="550px" height="450px"
+                                        rendered="#{!gamePageBean.gameImageSaved}"/>
+                    </p:outputPanel>
                 </p:dialog>
 
                 <!-- Confirmation for the addition of the new game -->
