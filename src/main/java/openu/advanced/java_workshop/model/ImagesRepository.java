@@ -1,7 +1,7 @@
 package openu.advanced.java_workshop.model;
 
+import org.apache.commons.io.FilenameUtils;
 import org.primefaces.shaded.commons.io.IOUtils;
-
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
@@ -25,12 +25,22 @@ public class ImagesRepository {
         return hardDriveEnv;
     }
 
+    private static Boolean isWindowsOS(){
+        return System.getProperty("os.name").startsWith("Windows");
+    }
+
     /**
-     * Returns the path to images directory
+     * Returns the path to images directory (takes into account operation system)
      * @return the absolute path to images directory
      */
     private static String getImagesBasePath() {
-        return getImagesDrive() + "\\java_workshop\\images\\";
+        String home = System.getProperty("user.home");
+        // Determine if current system is Windows or Unix-like to construct matching file path
+        if (isWindowsOS()) {
+            return home + File.separator + getImagesDrive() + "\\java_workshop\\images\\";
+        } else {
+            return home + "/java_workshop/images/";
+        }
     }
 
     /**

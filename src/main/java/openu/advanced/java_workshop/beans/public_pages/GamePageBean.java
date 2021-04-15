@@ -91,31 +91,6 @@ public class GamePageBean implements Serializable {
     }
 
     /**
-     * Returns the path of the game's image
-     * @return the image's path
-     */
-    public String getGameImagePath(){
-        return GamesEntity.getImagePath(getGameId());
-    }
-
-    /**
-     * Detects if there's a saved image for this game
-     * @return true if there's an image for this game and false otherwise
-     */
-    public boolean getGameImageSaved(){
-        return ImagesRepository.isExists(getGameImagePath());
-    }
-
-    /**
-     * Fetches the game's image
-     * @return the image of the game
-     * @throws IOException in case of an IO error
-     */
-    public InputStream getGameImage() throws IOException {
-        return ImagesRepository.retrieveImage(getGameImagePath());
-    }
-
-    /**
      * Checks whether this game is in the shopping cart
      * @return true if the game is in the shopping cart and false otherwise
      */

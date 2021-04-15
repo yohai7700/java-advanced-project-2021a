@@ -30,7 +30,7 @@
             />
             <!-- Access to the users shopping cart -->
             <p:menuitem
-                    value="Cart (${shoppingCartBean.games.size()} items)"
+                    value="Cart (#{shoppingCartBean.games.size()} items)"
                     action="/secured/cart.xhtml"
                     icon="pi pi-shopping-cart"
                     disabled="#{shoppingCartBean.games.size() eq 0}"
