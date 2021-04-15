@@ -62,7 +62,6 @@ public class ImagesRepository {
         String path = getImagePath(relativePath);
         // Creates a file in the given path
         File file = new File(path);
-        System.out.println(path);
         file.mkdirs();
         file.createNewFile();
 

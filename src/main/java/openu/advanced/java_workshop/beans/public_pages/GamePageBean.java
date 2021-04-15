@@ -21,7 +21,6 @@ import java.util.Map;
 /**
  * Bean class for the game-page.xhtml file. Manages the logics of the game page
  */
-
 @Named
 @RequestScoped
 public class GamePageBean implements Serializable {
@@ -98,7 +97,7 @@ public class GamePageBean implements Serializable {
      * @return true if the game is in the shopping cart and false otherwise
      */
     public boolean getIsGameInCart() {
-        return shoppingCartBean.getGames().contains(getGame());
+        return shoppingCartBean.contains(getGameId());
     }
 
     /**

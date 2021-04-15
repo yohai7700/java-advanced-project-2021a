@@ -87,13 +87,13 @@
                 <ui:repeat value="#{shoppingCartBean.games}" var="game">
                     <div class="product">
                         <div class="product-list-item border-1 p-p-5">
-                            <h:graphicImage library="images" name="default-game-image.jpg" width="550px" height="450px"
+                            <h:graphicImage library="images" name="default-game-image.jpg" width="240px" height="160px"
                                             rendered="#{!game.hasImage()}"/>
                             <p:graphicImage
                                     cache="false"
                                     value="#{imagesBean.image}"
-                                    width="550px"
-                                    height="450px"
+                                    width="240px"
+                                    height="160px"
                                     rendered="#{game.hasImage()}"
                             >
                                 <f:param name="path" value="#{gamePageBean.game.imagePath}"/>

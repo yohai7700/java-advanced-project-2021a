@@ -106,7 +106,7 @@
                         </h:form>
                     </ui:repeat>
                     <p:divider/>
-                    <h:form>
+                    <h:form id="game-info-form">
                         <h:panelGrid columns="2" layout="flex">
                             <!-- Developer value -->
                             <p:outputLabel>Developer</p:outputLabel>
@@ -128,13 +128,13 @@
                                              value="Remove from cart"
                                              icon="pi pi-shopping-cart"
                                              update="@form @(#navbar)"
-                                             rendered="#{gamePageBean.isGameInCart and gamePageBean.isUserSignedIn()}"
+                                             rendered="#{gamePageBean.isGameInCart and gamePageBean.userSignedIn}"
                             >
                                 <f:param name="game_id" value="#{param['game_id']}"/>
                             </p:commandButton>
                             <!-- Login to add to cart button displays if user not connected -->
-                            <p:commandButton
-                                    action="login"
+                            <p:button
+                                    href="/login.xhtml"
                                     styleClass="rounded-button game-button"
                                     value="Login To Add To Cart"
                                     icon="pi pi-sign-in"
@@ -146,9 +146,11 @@
                                              styleClass="rounded-button game-button"
                                              value="Add To Cart (#{gamePageBean.game.price}$)"
                                              icon="pi pi-shopping-cart"
-                                             update="@form @(#navbar)"
-                                             rendered="#{not gamePageBean.isGameInCart and gamePageBean.game.stock != 0
-                                         and gamePageBean.isUserSignedIn()}">
+                                             update="@(#game-info-form) @(#navbar)"
+                                             rendered="#{not gamePageBean.isGameInCart
+                                                         and gamePageBean.game.stock != 0
+                                                         and gamePageBean.userSignedIn}"
+                            >
                                 <f:param name="game_id" value="#{param['game_id']}"/>
                             </p:commandButton>
                             <!-- Out of stock message when game is out of stock -->

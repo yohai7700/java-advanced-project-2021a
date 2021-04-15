@@ -11,9 +11,20 @@ import javax.inject.Named;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * A bean that is used to stream images by given request parameters.
+ * Used for handling graphicImage tags request behavior.
+ */
 @Named
 @ApplicationScoped
 public class ImagesBean {
+    /**
+     * Recieves a path parameter via request param and returns a streamed content
+     * if the browser requests the image value, else returns a stub
+     *
+     * @return streamed content of the image, return sa stub id the HTML is only rendering.
+     * @throws IOException if the image isn't found in repository.
+     */
     public StreamedContent getImage() throws IOException {
         FacesContext context = FacesContext.getCurrentInstance();
         // Browser is rendering the HTML. Return a stub StreamedContent so that it will generate right URL.
