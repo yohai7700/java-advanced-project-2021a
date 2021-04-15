@@ -46,6 +46,10 @@
         height: 400px;
         width: 300px;
     }
+
+    .game-button {
+        margin: 0 auto;
+    }
 </h:outputStylesheet>
 
 <h:head>
@@ -74,9 +78,16 @@
             <h:form>
                 <p:outputPanel id="game-img" styleClass="game-img">
                     <h:graphicImage library="images" name="default-game-image.jpg" width="550px" height="450px"
-                                    rendered="#{!gamePageBean.gameImageSaved}"/>
-                    <p:graphicImage value="#{gamePageBean.gameImage}" width="550px" height="450px"
-                                    rendered="#{gamePageBean.gameImageSaved}"/>
+                                    rendered="#{!gamePageBean.game.hasImage()}"/>
+                    <p:graphicImage
+                            cache="false"
+                            value="#{imagesBean.image}"
+                            width="550px"
+                            height="450px"
+                            rendered="#{gamePageBean.game.hasImage()}"
+                    >
+                        <f:param name="path" value="#{gamePageBean.game.imagePath}"/>
+                    </p:graphicImage>
                 </p:outputPanel>
             </h:form>
             <div class="game-section">
@@ -113,10 +124,9 @@
                             <!-- Button for removing the game from the user's shopping cart,
                             if a user is running the current session and the game is in the user's shopping cart -->
                             <p:commandButton actionListener="#{gamePageBean.removeFromCart}"
-                                             style="margin: 0 auto"
-                                             styleClass="ui-button-warning rounded-button"
+                                             styleClass="ui-button-warning rounded-button game-button"
                                              value="Remove from cart"
-                                             sicon="pi pi-shopping-cart"
+                                             icon="pi pi-shopping-cart"
                                              update="@form @(#navbar)"
                                              rendered="#{gamePageBean.isGameInCart and gamePageBean.isUserSignedIn()}"
                             >
@@ -125,17 +135,15 @@
                             <!-- Login to add to cart button displays if user not connected -->
                             <p:commandButton
                                     action="login"
-                                    style="margin: 0 auto"
-                                    styleClass="rounded-button"
+                                    styleClass="rounded-button game-button"
                                     value="Login To Add To Cart"
                                     icon="pi pi-sign-in"
                                     update="@form @(#navbar)"
-                                    rendered="#{!gamePageBean.isUserSignedIn()}">
-                            </p:commandButton>
+                                    rendered="#{!gamePageBean.isUserSignedIn()}"
+                            />
                             <!-- Add to cart button displays if the game is in stock -->
                             <p:commandButton actionListener="#{gamePageBean.addToCart}"
-                                             style="margin: 0 auto"
-                                             styleClass="rounded-button"
+                                             styleClass="rounded-button game-button"
                                              value="Add To Cart (#{gamePageBean.game.price}$)"
                                              icon="pi pi-shopping-cart"
                                              update="@form @(#navbar)"
