@@ -205,10 +205,10 @@
                     <p:outputPanel id="game-image-content" styleClass="ui-fluid">
                         <p:fileUpload mode="advanced"
                                       multiple="false"
-                                      update="messages"
-                                      sizeLimit="300000" allowTypes="/(\.|\/)(jpe?g|png)$/"
-                                      invalidSizeMessage="Maximum file size allowed is 300 KB"
+                                      sizeLimit="102400" allowTypes="/(\.|\/)(jpe?g|png)$/"
+                                      invalidSizeMessage="Maximum file size allowed is 100 KB"
                                       invalidFileMessage="only jpg | jpeg | png is allowed"
+                                      update="messages"
                                       listener="#{gamesTableBean.handleImageUpload}"
                         />
                     </p:outputPanel>

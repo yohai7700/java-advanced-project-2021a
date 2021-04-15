@@ -11,7 +11,7 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-<h:outputStylesheet name="css/primeflex.css"/>
+<h:outputStylesheet library="css" name="primeflex.css"/>
 <h:outputStylesheet name="css/style.css"/>
 
 <h:outputStylesheet>
@@ -71,12 +71,14 @@
         </h:panelGroup>
         <h:panelGroup rendered="#{gamePageBean.gameId != -1}" layout="block">
             <!-- Game image section - showing default image if game does not exist -->
-            <p:outputPanel id="game-img" styleClass="game-img">
-                <h:graphicImage library="images" name="default-game-image.jpg" width="550px" height="450px"
-                                rendered="#{empty gamePageBean.game.image}"/>
-                <p:graphicImage value="#{gamePageBean.game.image}" width="550px" height="450px"
-                                rendered="#{not empty gamePageBean.game.image}"/>
-            </p:outputPanel>
+            <h:form>
+                <p:outputPanel id="game-img" styleClass="game-img">
+                    <h:graphicImage library="images" name="default-game-image.jpg" width="550px" height="450px"
+                                    rendered="#{!gamePageBean.gameImageSaved}"/>
+                    <p:graphicImage value="#{gamePageBean.gameImage}" width="550px" height="450px"
+                                    rendered="#{gamePageBean.gameImageSaved}"/>
+                </p:outputPanel>
+            </h:form>
             <div class="game-section">
                 <p:outputPanel>
                     <!-- Game name and condition badge -->
@@ -103,7 +105,7 @@
                             <p:outputLabel>#{gamePageBean.game.publisher}</p:outputLabel>
                             <!-- Release Date value -->
                             <p:outputLabel>Release Date</p:outputLabel>
-                            <p:outputLabel>#{gamePageBean.game.releaseDisplayDate}</p:outputLabel>
+                            <p:outputLabel>#{gamePageBean.game.releaseDate}</p:outputLabel>
                         </h:panelGrid>
 
                         <p:spacer height="200px "/>
@@ -122,13 +124,13 @@
                             </p:commandButton>
                             <!-- Login to add to cart button displays if user not connected -->
                             <p:commandButton
-                                            action="login"
-                                            style="margin: 0 auto"
-                                            styleClass="rounded-button"
-                                            value="Login To Add To Cart"
-                                            icon="pi pi-sign-in"
-                                            update="@form @(#navbar)"
-                                            rendered="#{!gamePageBean.isUserSignedIn()}">
+                                    action="login"
+                                    style="margin: 0 auto"
+                                    styleClass="rounded-button"
+                                    value="Login To Add To Cart"
+                                    icon="pi pi-sign-in"
+                                    update="@form @(#navbar)"
+                                    rendered="#{!gamePageBean.isUserSignedIn()}">
                             </p:commandButton>
                             <!-- Add to cart button displays if the game is in stock -->
                             <p:commandButton actionListener="#{gamePageBean.addToCart}"

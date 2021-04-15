@@ -291,7 +291,7 @@ public class GamesEntity {
      * @return the path of the game's image
      */
     public static String getImagePath(int gameId){
-        return "game" + File.separator + gameId;
+        return "game\\" + gameId;
     }
 
     /**
