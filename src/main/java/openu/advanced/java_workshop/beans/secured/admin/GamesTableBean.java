@@ -16,7 +16,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
@@ -155,6 +154,10 @@ public class GamesTableBean implements Serializable {
         PrimeFaces.current().ajax().update("form:messages", "form:games-data-table");
     }
 
+    /**
+     *
+     * @param game the game that the dialog is opened for
+     */
     public void handleGameImageDialogOpening(GamesEntity game) {
         changingImageGame = game;
     }
@@ -163,21 +166,22 @@ public class GamesTableBean implements Serializable {
      * Handles uploading of the game image
      *
      * @param event the file upload event
-     * @throws IOException if fails to save image in the image srepository
      */
-    public void handleImageUpload(FileUploadEvent event) throws IOException {
+    public void handleImageUpload(FileUploadEvent event) {
         UploadedFile file = event.getFile();
         boolean isFileValid = file != null && file.getContent() != null && file.getContent().length > 0 && file.getFileName() != null;
         if (!isFileValid) return;
-        //try {
+        try {
             changingImageGame.setImage(file.getInputStream());
+            // Show success message
             FacesMessage message = new FacesMessage("Successful", file.getFileName() + " is uploaded.");
             FacesContext.getCurrentInstance().addMessage(null, message);
-/*        } catch (Exception exception) {
+        } catch (Exception exception) {
+            // Show failure message
             System.err.println(exception.getMessage());
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failure", "Could not upload image " + file.getFileName());
             FacesContext.getCurrentInstance().addMessage(null, message);
-        }*/
+        }
     }
 
     /*
