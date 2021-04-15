@@ -45,7 +45,7 @@
 
         <!-- A list of link to the categories' pages -->
         <p:submenu label="Categories" icon="pi pi-tag product-category-icon">
-            <c:forEach var="category" items="#{homePageBean.categories}">
+            <c:forEach var="category" items="#{navbarBean.categories}">
                 <p:menuitem value="#{category.name}"
                             url="/public-pages/category-page.xhtml?category_id=#{category.id}"/>
             </c:forEach>
@@ -57,6 +57,7 @@
             <p:menuitem value="Users" icon="pi pi-users" url="/secured/admin/users-management.xhtml"/>
             <p:menuitem value="Games" icon="pi pi-list" url="/secured/admin/games-table.xhtml"/>
             <p:menuitem value="Purchases" icon="pi pi-shopping-cart" url="/secured/admin/purchases-management.xhtml"/>
+            <p:menuitem value="Categories" icon="pi pi-tag" url="/secured/admin/categories-management.xhtml"/>
         </p:submenu>
     </p:menubar>
 </h:form>
