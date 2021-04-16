@@ -5,7 +5,7 @@ import openu.advanced.java_workshop.WorkshopDatabase;
 import openu.advanced.java_workshop.beans.secured.ShoppingCartBean;
 import openu.advanced.java_workshop.model.CategoriesEntity;
 import openu.advanced.java_workshop.model.GamesEntity;
-import openu.advanced.java_workshop.model.ImagesRepository;
+import openu.advanced.java_workshop.ImagesRepository;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;

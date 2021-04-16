@@ -1,5 +1,7 @@
 package openu.advanced.java_workshop.model;
 
+import openu.advanced.java_workshop.WorkshopDatabase;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -109,8 +111,7 @@ public class CouponsEntity {
      */
     public void remove() {
         // Creates an entity manager which will remove this coupon
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("workshopPU");
-        EntityManager entityManager = factory.createEntityManager();
+        EntityManager entityManager = WorkshopDatabase.getEntityManagerFactory().createEntityManager();
 
         entityManager.getTransaction().begin();
         // If the coupon is in the coupons table, we remove it

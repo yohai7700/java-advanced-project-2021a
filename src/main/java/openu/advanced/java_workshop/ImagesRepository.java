@@ -1,4 +1,4 @@
-package openu.advanced.java_workshop.model;
+package openu.advanced.java_workshop;
 
 import org.primefaces.shaded.commons.io.IOUtils;
 
