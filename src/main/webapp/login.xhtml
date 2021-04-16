@@ -7,6 +7,13 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 >
 <h:outputStylesheet library="css" name="primeflex.css"/>
+<h:outputStylesheet>
+    .login-content {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+</h:outputStylesheet>
 <h:head>
     <title>Log in</title>
 </h:head>
@@ -15,33 +22,33 @@
     <h:form id="login-form">
         <p:growl id="msg" showDetail="true" life="4000"/>
 
-        <h:graphicImage library="images" name="digital-park-logo.png"/>
-        <p:panel id="login-panel" header="Login"
-                 style="width: 350px; margin: auto;">
-            <h:panelGrid id="loginPanel" columns="2" cellpadding="5">
-                <h:outputText value="Username"/>
-                <p:inputText id="username" value="#{loginBean.username}"/>
-                <p:spacer/><p:spacer/>
-                <h:outputText value="Password"/>
-                <p:password id="password" value="#{loginBean.password}"
-                            feedback="false"/>
-                <p:message for="password"/>
-            </h:panelGrid>
-            <p:commandButton id="login-button" action="#{loginBean.login}"
-                             value="Login" update="login-form" ajax="true"
-                             style="margin: auto; display: block"
-                            />
-            <small class="p-d-block" style="display: block">
-                Don't have an account?
-                <a href="register.xhtml" style="float:start;">Register</a>
-            </small>
-        </p:panel>
+        <div class="login-content">
+            <h:graphicImage library="images" name="digital-park-logo.png" width="500px" height="110px"/>
+            <p:panel id="login-panel" header="Login"
+                     style="width: 350px; margin-top: 20px">
+                <h:panelGrid id="loginPanel" columns="2" cellpadding="5">
+                    <h:outputText value="Username"/>
+                    <p:inputText id="username" value="#{loginBean.username}"/>
+                    <p:spacer/><p:spacer/>
+                    <h:outputText value="Password"/>
+                    <p:password id="password" value="#{loginBean.password}"
+                                feedback="false"/>
+                    <p:message for="password"/>
+                </h:panelGrid>
+                <p:commandButton id="login-button" action="#{loginBean.login}"
+                                 value="Login" update="login-form" ajax="true"
+                                 style="margin: auto; display: block"
+                />
+                <small class="p-d-block" style="display: block">
+                    Don't have an account?
+                    <a href="register.xhtml" style="float:start;">Register</a>
+                </small>
+            </p:panel>
 
-        <p:blockUI block="login-panel" trigger="login-button" style="float:right;">
-            <ui:include src="resources/images/loader.svg"/>
-        </p:blockUI>
-
+            <p:blockUI block="login-panel" trigger="login-button" style="float:right;">
+                <ui:include src="resources/images/loader.svg"/>
+            </p:blockUI>
+        </div>
     </h:form>
-
 </h:body>
 </html>
