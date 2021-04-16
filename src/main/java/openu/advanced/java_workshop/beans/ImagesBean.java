@@ -19,10 +19,10 @@ import java.io.InputStream;
 @ApplicationScoped
 public class ImagesBean {
     /**
-     * Recieves a path parameter via request param and returns a streamed content
+     * Receives a path parameter via request param and returns a streamed content
      * if the browser requests the image value, else returns a stub
      *
-     * @return streamed content of the image, return sa stub id the HTML is only rendering.
+     * @return streamed content of the image, returns a stub id the HTML is only rendering.
      * @throws IOException if the image isn't found in repository.
      */
     public StreamedContent getImage() throws IOException {

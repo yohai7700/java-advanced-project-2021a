@@ -7,7 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
 /**
- * Gives the web pages access to the images of the games (in webapp/resources/images)
+ * Gives the web pages access to the images of the games (images are stored by the file system)
  */
 
 public class ImagesRepository {

@@ -28,10 +28,12 @@ public class AuthenticationFilter implements Filter {
     }
 
     /**
-     * TODO - Document
-     * @param servletRequest
-     * @param servletResponse
-     * @param chain
+     * This function filters all servlet requests that are not sent by a content user and
+     * redirects unauthorized requests to login.
+     *
+     * @param servletRequest the request
+     * @param servletResponse response object for redirect
+     * @param chain the filter chain of the request
      */
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) {

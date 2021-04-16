@@ -21,6 +21,9 @@ import java.util.Map;
 @SessionScoped
 public class ShoppingCartBean implements Serializable {
 
+    /**
+     * The games field is implemented by a map of game id to game.
+     */
     private final Map<Integer, GamesEntity> games = new HashMap<>();
 
     /**

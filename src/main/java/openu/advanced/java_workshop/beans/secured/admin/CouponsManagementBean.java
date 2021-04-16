@@ -1,13 +1,13 @@
 package openu.advanced.java_workshop.beans.secured.admin;
 
 import openu.advanced.java_workshop.WorkshopDatabase;
-import openu.advanced.java_workshop.authentication.AuthenticationToken;
 import openu.advanced.java_workshop.model.CouponsEntity;
-import openu.advanced.java_workshop.model.UsersSessionsEntity;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
 import java.io.Serializable;
 import java.security.SecureRandom;
 import java.util.Base64;
@@ -20,7 +20,7 @@ import java.util.List;
 @Named
 @RequestScoped
 public class CouponsManagementBean implements Serializable {
-
+    private static final int COUPON_CODE_LENGTH = 24;
     private final CouponsEntity newCoupon = new CouponsEntity();
 
     /**
@@ -51,7 +51,7 @@ public class CouponsManagementBean implements Serializable {
         SecureRandom secureRandom = new SecureRandom(); // Creates random values
         Base64.Encoder base64Encoder = Base64.getUrlEncoder(); // Encodes from bytes to strings
 
-        byte[] randomBytes = new byte[AuthenticationToken.TOKEN_LEN];
+        byte[] randomBytes = new byte[COUPON_CODE_LENGTH];
         secureRandom.nextBytes(randomBytes); // Creates random array of bytes
         return base64Encoder.encodeToString(randomBytes); // Encodes the array of bytes to a string
     }
