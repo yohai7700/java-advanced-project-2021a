@@ -21,7 +21,7 @@ public class SessionUtils {
     }
 
     /**
-     * TODO - complete documentation
+     * Invalidates the session of the user, behaves like a user logout.
      */
     public static void invalidateSession() {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();

@@ -22,29 +22,42 @@
     <h:form id="login-form">
         <p:growl id="msg" showDetail="true" life="4000"/>
 
+        <!-- Container for login panel in order to align items properly -->
         <div class="login-content">
+
+            <!-- Shop logo -->
             <h:graphicImage library="images" name="digital-park-logo.png" width="500px" height="110px"/>
+
+            <!-- Login Panel -->
             <p:panel id="login-panel" header="Login"
                      style="width: 350px; margin-top: 20px">
                 <h:panelGrid id="loginPanel" columns="2" cellpadding="5">
+                    <!-- Username field -->
                     <h:outputText value="Username"/>
                     <p:inputText id="username" value="#{loginBean.username}"/>
+                    <!-- Spacing -->
                     <p:spacer/><p:spacer/>
+                    <!-- Password Field -->
                     <h:outputText value="Password"/>
                     <p:password id="password" value="#{loginBean.password}"
                                 feedback="false"/>
                     <p:message for="password"/>
                 </h:panelGrid>
+
+                <!-- Login Button -->
                 <p:commandButton id="login-button" action="#{loginBean.login}"
                                  value="Login" update="login-form" ajax="true"
                                  style="margin: auto; display: block"
                 />
+
+                <!-- Register link -->
                 <small class="p-d-block" style="display: block">
                     Don't have an account?
                     <a href="register.xhtml" style="float:start;">Register</a>
                 </small>
             </p:panel>
 
+            <!-- Login loading symbol-->
             <p:blockUI block="login-panel" trigger="login-button" style="float:right;">
                 <ui:include src="resources/images/loader.svg"/>
             </p:blockUI>

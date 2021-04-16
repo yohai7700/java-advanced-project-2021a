@@ -29,15 +29,10 @@
     <div class="page-content">
         <h:form>
             <p:dataTable value="#{usersManagementBean.users}" var="user" tableStyle="table-layout: auto;">
+                <!-- Title -->
                 <f:facet name="header">
                     <div style="display: flex; justify-content: space-between; align-items: center">
                         <span style="font-weight: bold">USERS</span>
-                        <!-- TODO: Add sorting and searching to games table
-                        <span class="filter-container ui-input-icon-left">
-                            <i class="pi pi-search"/>
-                            <p:inputText id="globalFilter" onkeyup="PF('gamesDataTable').filter()" placeholder="Search"/>
-                        </span>
-                        -->
                     </div>
                 </f:facet>
 

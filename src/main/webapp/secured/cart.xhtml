@@ -27,7 +27,7 @@
 
     #form {
         display: block;
-        margin-top: 0em;
+        margin-top: 0;
     }
 
     .product {
@@ -79,14 +79,17 @@
     <f:event type="preRenderView" listener="#{shoppingCartBean.isEmpty()}"/>
     <div class="page-content">
         <h:form rendered="#{!shoppingCartBean.isEmpty()}">
+            <!-- Checkout link -->
             <h2 class="checkout">
                 <h:outputLabel value="Your total is #{shoppingCartBean.total}$" style="margin-right: 10px"/>
                 <a href="/secured/checkout.xhtml">Proceed to checkout</a>
             </h2>
             <div class="card">
+                <!-- Games list -->
                 <ui:repeat value="#{shoppingCartBean.games}" var="game">
                     <div class="product">
                         <div class="product-list-item border-1 p-p-5">
+                            <!-- Game Image -->
                             <h:graphicImage library="images" name="default-game-image.jpg" width="240px" height="160px"
                                             rendered="#{!game.hasImage()}"/>
                             <p:graphicImage
@@ -96,12 +99,14 @@
                                     height="160px"
                                     rendered="#{game.hasImage()}"
                             >
-                                <f:param name="path" value="#{gamePageBean.game.imagePath}"/>
+                                <f:param name="path" value="#{game.imagePath}"/>
                             </p:graphicImage>
+                            <!-- Name and Description -->
                             <div class="product-list-detail">
                                 <div class="product-name">#{game.name}</div>
                                 <div class="product-description">#{game.developer}</div>
                             </div>
+                            <!-- Remove button -->
                             <div class="product-list-action">
                                 <p:commandButton actionListener="#{shoppingCartBean.removeGame(game)}"
                                                  styleClass="ui-button-raised ui-button-danger"

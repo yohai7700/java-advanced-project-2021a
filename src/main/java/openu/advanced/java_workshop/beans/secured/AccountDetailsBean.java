@@ -110,8 +110,8 @@ public class AccountDetailsBean {
         }
     }
 
-    /*
-    Shows a notification on the screen
+    /**
+     * Shows a notification on the screen
      */
     private void addNotification(FacesMessage.Severity severity, String summary, String detail) {
         FacesContext.getCurrentInstance().

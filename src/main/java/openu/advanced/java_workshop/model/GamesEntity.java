@@ -313,19 +313,6 @@ public class GamesEntity {
     }
 
     /**
-     * Returns the image of the game in the repository.
-     * @return input stream of the image if exists, else null.
-     * @throws IOException if fails to get image from file system.
-     */
-    @Transient
-    public InputStream getImage() throws IOException {
-        if(!hasImage()){
-            return null;
-        }
-        return ImagesRepository.retrieveImage(getImagePath());
-    }
-
-    /**
      * Transient field that returns whether the game has an image.
      * @return whether the game has an image saved.
      */

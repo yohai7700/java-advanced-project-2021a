@@ -59,21 +59,6 @@ CREATE TABLE users
     PRIMARY KEY (username)
 );
 
-
----- Users Sessions table definition ----
-DROP TABLE IF EXISTS users_sessions CASCADE;
-
-CREATE TABLE users_sessions
-(
-    username        VARCHAR(40) NOT NULL UNIQUE,
-    token           VARCHAR(40) NOT NULL,
-    expiration_date TIMESTAMP   NOT NULL,
-
-    FOREIGN KEY (username) REFERENCES users (username),
-    PRIMARY KEY (username)
-);
-
-
 ---- Coupons table definition
 DROP TABLE IF EXISTS coupons;
 
