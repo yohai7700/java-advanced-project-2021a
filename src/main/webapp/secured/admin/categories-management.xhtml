@@ -91,7 +91,7 @@
 
         <!-- Dialog for changing the members of a category -->
         <p:dialog header="Category Members" showEffect="fade" modal="true"
-                  widgetVar="categoryMembersDialog" responsive="true">
+                  widgetVar="categoryMembersDialog" responsive="true" width="30%">
             <p:outputPanel id="category-members-content" style="align-content: center;">
 
                 <h:form>
@@ -121,7 +121,12 @@
                     </div>
 
                     <!-- Category members list -->
-                    <p:dataTable value="#{categoriesManagementBean.categoryDialogMembers}" var="game">
+                    <p:dataTable value="#{categoriesManagementBean.categoryDialogMembers}"
+                                 var="game"
+                                 paginator="true"
+                                 paginatorPosition="bottom"
+                                 rows="4"
+                    >
                         <!-- Game name -->
                         <p:column headerText="Name">
                             <h:outputText value="#{game.name}"/>
