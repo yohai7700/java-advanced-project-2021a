@@ -17,6 +17,9 @@
 >
 <h:outputStylesheet library="css" name="primeflex.css"/>
 <h:outputStylesheet name="css/style.css"/>
+<h:outputStylesheet>
+
+</h:outputStylesheet>
 
 <h:head>
     <title>Categories Management</title>
@@ -89,14 +92,14 @@
         <!-- Dialog for changing the members of a category -->
         <p:dialog header="Category Members" showEffect="fade" modal="true"
                   widgetVar="categoryMembersDialog" responsive="true">
-            <p:outputPanel id="category-members-content" styleClass="ui-fluid">
+            <p:outputPanel id="category-members-content" style="align-content: center;">
 
                 <h:form>
                     <p:growl showDetail="true"/>
 
                     <div class="p-formgrid p-grid">
                         <!-- Input text of new member Id -->
-                        <div class="p-field p-col">
+                        <div class="p-field">
                             <p:inputText value="#{categoriesManagementBean.newCategoryMember}"
                                          required="true"
                                          style="margin:0 20px"
@@ -104,7 +107,7 @@
                             />
                         </div>
                         <!-- Button to add the category member -->
-                        <div class="p-field p-col">
+                        <div class="p-field">
                             <p:commandButton action="#{categoriesManagementBean.addCategoryMember}"
                                              style="margin: auto;"
                                              value="Submit"
