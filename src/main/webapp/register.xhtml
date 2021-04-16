@@ -26,9 +26,10 @@
 <h:body>
     <p:card>
         <h:form>
-            <p:growl id="messages" showDetail="true" life="4000" />
+            <p:growl id="messages" showDetail="true" life="4000"/>
 
             <p:wizard>
+                <!--personal details, adding to user all the relevant personal details-->
                 <p:tab title="Personal">
                     <p:panel header="Personal Details">
                         <h:panelGrid columns="2" columnClasses="label, value">
@@ -39,45 +40,55 @@
                             <p:inputText value="#{registerBean.user.lastName}" required="true" label="Lastname"/>
 
                             <h:outputText value="Age: "/>
-                            <p:inputText value="#{registerBean.user.age}" required="true" label="Age" type="number" />
+                            <p:inputText value="#{registerBean.user.age}" required="true" label="Age" type="number"/>
                         </h:panelGrid>
                     </p:panel>
                 </p:tab>
                 <p:tab title="Account">
+                    <!--account relevant details, adding to user all the
+                    account details-->
                     <p:panel header="Account Details">
                         <h:panelGrid columns="2" columnClasses="label, value">
                             <h:outputText value="Username: *"/>
-                            <p:inputText value="#{registerBean.user.username}" required="true" label="Username" />
+                            <p:inputText value="#{registerBean.user.username}" required="true" label="Username"/>
 
                             <h:outputText value="Password: *"/>
-                            <p:password value="#{registerBean.user.password}" required="true" label="Password" match="confirmation-password"/>
+                            <p:password value="#{registerBean.user.password}" required="true" label="Password"
+                                        match="confirmation-password"/>
 
                             <h:outputText value="Confirm Password: *"/>
                             <p:password required="true" label="Confirmation Password" id="confirmation-password"/>
 
-                            <h:outputText value="Email: "/>
+                            <h:outputText value="Email: *"/>
                             <p:inputText value="#{registerBean.user.email}" required="true" label="Email">
-                                <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]"/>
+                                <f:validateRegex
+                                        pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]"/>
+                            </p:inputText>
+
+                            <h:outputText value="Address: *"/>
+                            <p:inputText value="#{registerBean.user.address}" required="true" label="Address">
+
                             </p:inputText>
                         </h:panelGrid>
 
-                        <p:commandButton value="Register" action="#{registerBean.register}" process="@this"/>
                     </p:panel>
                 </p:tab>
+                <!--showing the important details and allowing the user to aprove them-->
                 <p:tab title="Confirmation">
                     <h:panelGrid columns="2" columnClasses="label, value">
                         <p:outputLabel value="Username: "/>
-                        <p:outputLabel value="#{registerBean.user.username}" />
+                        <p:outputLabel value="#{registerBean.user.username}"/>
 
                         <p:outputLabel value="First Name: "/>
-                        <p:outputLabel value="#{registerBean.user.firstName}" />
+                        <p:outputLabel value="#{registerBean.user.firstName}"/>
 
                         <p:outputLabel value="Last Name: "/>
-                        <p:outputLabel value="#{registerBean.user.lastName}" />
+                        <p:outputLabel value="#{registerBean.user.lastName}"/>
                     </h:panelGrid>
 
                     <p:commandButton value="Register" action="#{registerBean.register}" process="@this"/>
                 </p:tab>
+                <p:commandButton value="Register" action="#{registerBean.register}" process="@this"/>
             </p:wizard>
         </h:form>
     </p:card>
