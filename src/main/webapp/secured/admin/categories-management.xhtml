@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Created by IntelliJ IDEA.
+  User: yohai
+  Date: 15/04/2021
+  Time: 21:03
+-->
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
+<h:outputStylesheet library="css" name="primeflex.css"/>
+<h:outputStylesheet name="css/style.css"/>
+<h:outputStylesheet>
+
+</h:outputStylesheet>
+
+<h:head>
+    <title>Categories Management</title>
+</h:head>
+
+<h:body>
+    <!-- Navigation Bar -->
+    <ui:composition template="/public-pages/navbar.xhtml"/>
+
+    <div class="page-content">
+        <!-- Area to add a new category -->
+        <h:form>
+            <p:toolbar style="margin:20px 0">
+                <p:toolbarGroup>
+                    <h3>Add category</h3>
+                    <p:inputText value="#{categoriesManagementBean.newCategoryName}"
+                                 required="true"
+                                 style="margin:0 20px"
+                    />
+
+                    <!-- Button to add new category -->
+                    <p:commandButton id="new-category-input"
+                                     action="#{categoriesManagementBean.addCategory}"
+                                     style="margin: auto;"
+                                     value="Submit"
+                                     icon="pi pi-check"
+                                     update="@(#categories)"
+                                     ajax="true"
+                    />
+                </p:toolbarGroup>
+            </p:toolbar>
+        </h:form>
+
+        <!-- List of all the coupon in the website with their code, value and an option to delete the coupon -->
+        <p:dataTable id="categories" value="#{categoriesManagementBean.categories}" var="category">
+            <!-- Table title -->
+            <f:facet name="header">
+                <span style="font-weight: bold">CATEGORIES</span>
+            </f:facet>
+
+            <!-- Category Name -->
+            <p:column headerText="Name">
+                <h:outputText value="#{category.name}"/>
+            </p:column>
+
+            <!-- Coupon Value -->
+            <p:column headerText="Amount of Games">
+                <h:outputText value="#{categoriesManagementBean.getGamesAmountInCategory(category.id)}"/>
+            </p:column>
+
+            <p:column>
+                <!-- Open category members dialog -->
+                <p:commandButton icon="pi pi-pencil"
+                                 update="@(#category-members-content)"
+                                 actionListener="#{categoriesManagementBean.openCategoryMembersDialog(category)}"
+                                 oncomplete="PF('categoryMembersDialog').show()"
+                                 styleClass="edit-button rounded-button ui-button-success" process="@this"
+                />
+
+                <!-- Delete Category button -->
+                <p:commandButton styleClass="ui-button-warning rounded-button"
+                                 icon="pi pi-trash"
+                                 process="@this"
+                                 update="@(#categories)"
+                                 actionListener="#{categoriesManagementBean.deleteCategory(category.id)}"
+                />
+            </p:column>
+        </p:dataTable>
+
+        <!-- Dialog for changing the members of a category -->
+        <p:dialog header="Category Members" showEffect="fade" modal="true"
+                  widgetVar="categoryMembersDialog" responsive="true" width="30%">
+            <p:outputPanel id="category-members-content" style="align-content: center;">
+
+                <h:form>
+                    <p:growl showDetail="true"/>
+
+                    <div class="p-formgrid p-grid">
+                        <!-- Input text of new member Id -->
+                        <div class="p-field">
+                            <p:inputText value="#{categoriesManagementBean.newCategoryMember}"
+                                         required="true"
+                                         style="margin:0 20px"
+                                         placeholder="New Member Game ID"
+                            />
+                        </div>
+                        <!-- Button to add the category member -->
+                        <div class="p-field">
+                            <p:commandButton action="#{categoriesManagementBean.addCategoryMember}"
+                                             style="margin: auto;"
+                                             value="Submit"
+                                             icon="pi pi-check"
+                                             update="@(#category-members-content)"
+                                             ajax="true">
+                                <p:resetInput target="@this"/>
+                            </p:commandButton>
+
+                        </div>
+                    </div>
+
+                    <!-- Category members list -->
+                    <p:dataTable value="#{categoriesManagementBean.categoryDialogMembers}"
+                                 var="game"
+                                 paginator="true"
+                                 paginatorPosition="bottom"
+                                 rows="4"
+                    >
+                        <!-- Game name -->
+                        <p:column headerText="Name">
+                            <h:outputText value="#{game.name}"/>
+                        </p:column>
+
+                        <!-- Delete member button -->
+                        <p:column>
+                            <p:commandButton styleClass="ui-button-warning rounded-button"
+                                             icon="pi pi-trash"
+                                             update="@(#category-members-content)"
+                                             process="@(#category-members-content)"
+                                             actionListener="#{categoriesManagementBean.deleteCategoryDialogMember(game.id)}"
+                            />
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </p:outputPanel>
+        </p:dialog>
+    </div>
+</h:body>
+
+</html>

@@ -8,8 +8,6 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -58,6 +56,11 @@ public class CategoryPageBean implements Serializable {
         return getCategoryById.getResultList();
     }
 
+    /**
+     * Redirects page to the game page of the game that was clicked.
+     * @param gameId the game id of the game that was clicked and should be redirected to.
+     * @throws IOException in case fails to redirect.
+     */
     public void openGamePage(int gameId) throws IOException {
         String url = "game-page.xhtml?game_id=" + gameId;
         FacesContext.getCurrentInstance().getExternalContext().redirect(url);

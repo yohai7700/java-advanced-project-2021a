@@ -5,6 +5,8 @@ import openu.advanced.java_workshop.model.CategoryMembersEntity;
 import openu.advanced.java_workshop.model.Condition;
 import openu.advanced.java_workshop.model.GamesEntity;
 import org.primefaces.PrimeFaces;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.file.UploadedFile;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -20,15 +22,18 @@ import java.util.List;
 /**
  * This bean handles management of the games-table.xhtml page
  */
-
 @Named
 @ViewScoped
 public class GamesTableBean implements Serializable {
+    private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = WorkshopDatabase.getEntityManagerFactory();
     private GamesEntity newGame;
+    // The game in the current game image dialog
+    private GamesEntity changingImageGame;
     private List<GamesEntity> selectedGames;
 
     /**
      * Gets the list of all the selected games
+     *
      * @return the list of selected games
      */
     public List<GamesEntity> getSelectedGames() {
@@ -37,6 +42,7 @@ public class GamesTableBean implements Serializable {
 
     /**
      * Modifies the list of selected games
+     *
      * @param selectedGames the new list of selected games
      */
     public void setSelectedGames(List<GamesEntity> selectedGames) {
@@ -45,6 +51,7 @@ public class GamesTableBean implements Serializable {
 
     /**
      * Returns the new game one of the admins wants to add to the website
+     *
      * @return the new game as a GamesEntity
      */
     public GamesEntity getNewGame() {
@@ -53,6 +60,7 @@ public class GamesTableBean implements Serializable {
 
     /**
      * Returns all the possible conditions
+     *
      * @return an array of the possible conditions
      */
     public Condition[] getConditions() {
@@ -61,17 +69,19 @@ public class GamesTableBean implements Serializable {
 
     /**
      * Returns all the games in the website, to show in the page's table
+     *
      * @return a list of all the games in the website
      */
     public List<GamesEntity> getGames() {
         // Runs the query getAllGames in GamesEntity
-        EntityManager entityManager = WorkshopDatabase.getEntityManagerFactory().createEntityManager();
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
         TypedQuery<GamesEntity> getAllGames = entityManager.createNamedQuery("getAllGames", GamesEntity.class);
         return getAllGames.getResultList();
     }
 
     /**
      * Finds if there are any selected games
+     *
      * @return true if there's a selected game and false otherwise
      */
     public boolean hasSelectedGames() {
@@ -90,7 +100,7 @@ public class GamesTableBean implements Serializable {
      */
     public void saveGame() {
         // Adds the new game to the database
-        EntityManager entityManager = WorkshopDatabase.getEntityManagerFactory().createEntityManager();
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
         entityManager.persist(newGame);
@@ -105,6 +115,7 @@ public class GamesTableBean implements Serializable {
     /**
      * Returns a string message that holds the number of games
      * selected (if some games were selected)
+     *
      * @return the string message for the selected games or "Delete" if there are no selected games
      */
     public String getDeleteButtonMessage() {
@@ -119,17 +130,17 @@ public class GamesTableBean implements Serializable {
      * Deletes the selected games
      */
     public void deleteSelectedGames() {
-        if(!hasSelectedGames()) return; // If there are no selected games, there's nothing to do
+        if (!hasSelectedGames()) return; // If there are no selected games, there's nothing to do
 
         int removedGamesAmount = selectedGames.size();
-        EntityManager entityManager = WorkshopDatabase.getEntityManagerFactory().createEntityManager();
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 
         // For every selected game, we remove it's pairs in the category_members table and the game itself
         for (GamesEntity selectedGame : selectedGames) {
             deleteAllCategoryMembersOfGame(entityManager, selectedGame.getId());
-            if(entityManager.contains(selectedGame))
+            if (entityManager.contains(selectedGame))
                 entityManager.remove(selectedGame);
         }
         transaction.commit();
@@ -141,6 +152,36 @@ public class GamesTableBean implements Serializable {
 
         // Updates the relevant components in the page
         PrimeFaces.current().ajax().update("form:messages", "form:games-data-table");
+    }
+
+    /**
+     *
+     * @param game the game that the dialog is opened for
+     */
+    public void handleGameImageDialogOpening(GamesEntity game) {
+        changingImageGame = game;
+    }
+
+    /**
+     * Handles uploading of the game image
+     *
+     * @param event the file upload event
+     */
+    public void handleImageUpload(FileUploadEvent event) {
+        UploadedFile file = event.getFile();
+        boolean isFileValid = file != null && file.getContent() != null && file.getContent().length > 0 && file.getFileName() != null;
+        if (!isFileValid) return;
+        try {
+            changingImageGame.setImage(file.getInputStream());
+            // Show success message
+            FacesMessage message = new FacesMessage("Successful", file.getFileName() + " is uploaded.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        } catch (Exception exception) {
+            // Show failure message
+            System.err.println(exception.getMessage());
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failure", "Could not upload image " + file.getFileName());
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        }
     }
 
     /*
@@ -156,7 +197,7 @@ public class GamesTableBean implements Serializable {
 
         // For every pair with the game's id, we delete the pair
         for (CategoryMembersEntity categoryMembersEntity : findCategoryMembersByGameId.getResultList()) {
-            if(entityManager.contains(categoryMembersEntity))
+            if (entityManager.contains(categoryMembersEntity))
                 entityManager.remove(categoryMembersEntity);
         }
     }

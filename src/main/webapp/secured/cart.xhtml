@@ -27,7 +27,7 @@
 
     #form {
         display: block;
-        margin-top: 0em;
+        margin-top: 0;
     }
 
     .product {
@@ -79,31 +79,43 @@
     <f:event type="preRenderView" listener="#{shoppingCartBean.isEmpty()}"/>
     <div class="page-content">
         <h:form rendered="#{!shoppingCartBean.isEmpty()}">
+            <!-- Checkout link -->
             <h2 class="checkout">
                 <h:outputLabel value="Your total is #{shoppingCartBean.total}$" style="margin-right: 10px"/>
                 <a href="/secured/checkout.xhtml">Proceed to checkout</a>
             </h2>
             <div class="card">
-                <ui:repeat value="#{shoppingCartBean.games}" var="product">
+                <!-- Games list -->
+                <ui:repeat value="#{shoppingCartBean.games}" var="game">
                     <div class="product">
                         <div class="product-list-item border-1 p-p-5">
+                            <!-- Game Image -->
                             <h:graphicImage library="images" name="default-game-image.jpg" width="240px" height="160px"
-                                            rendered="#{!gamePageBean.gameImageSaved}"/>
-                            <p:graphicImage name="#{product.getImagePath(product.id)}" width="240px" height="160px"
-                                            rendered="#{gamePageBean.gameImageSaved}"/>
+                                            rendered="#{!game.hasImage()}"/>
+                            <p:graphicImage
+                                    cache="false"
+                                    value="#{imagesBean.image}"
+                                    width="240px"
+                                    height="160px"
+                                    rendered="#{game.hasImage()}"
+                            >
+                                <f:param name="path" value="#{game.imagePath}"/>
+                            </p:graphicImage>
+                            <!-- Name and Description -->
                             <div class="product-list-detail">
-                                <div class="product-name">#{product.name}</div>
-                                <div class="product-description">#{product.developer}</div>
+                                <div class="product-name">#{game.name}</div>
+                                <div class="product-description">#{game.developer}</div>
                             </div>
+                            <!-- Remove button -->
                             <div class="product-list-action">
-                                <p:commandButton actionListener="#{shoppingCartBean.removeGame(product)}"
+                                <p:commandButton actionListener="#{shoppingCartBean.removeGame(game)}"
                                                  styleClass="ui-button-raised ui-button-danger"
                                                  style="width: 110px"
                                                  value="Remove"
                                                  icon="pi pi-minus-circle"
                                                  update="@form @(#navbar)"
-                                                 rendered="#{product.stock != 0}"/>
-                                <h:outputText value="#{product.price}" styleClass="product-price">
+                                                 rendered="#{game.stock != 0}"/>
+                                <h:outputText value="#{game.price}" styleClass="product-price">
                                     <f:convertNumber currencySymbol="$" type="currency"/>
                                 </h:outputText>
                             </div>

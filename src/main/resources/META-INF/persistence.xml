@@ -10,7 +10,6 @@
         <class>openu.advanced.java_workshop.model.CategoryMembersEntity</class>
         <class>openu.advanced.java_workshop.model.GamesEntity</class>
         <class>openu.advanced.java_workshop.model.UsersEntity</class>
-        <class>openu.advanced.java_workshop.model.UsersSessionsEntity</class>
         <class>openu.advanced.java_workshop.model.CouponsEntity</class>
         <class>openu.advanced.java_workshop.model.PurchasesEntity</class>
         <class>openu.advanced.java_workshop.model.PurchasesGamesEntity</class>
