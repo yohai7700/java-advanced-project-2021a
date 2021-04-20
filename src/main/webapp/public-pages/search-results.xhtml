@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://java.sun.com/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Search results for "#{searchResultsBean.searchStr}"</title>
+</h:head>
+
+<h:body>
+    <!-- Navigation Bar -->
+    <ui:composition template="navbar.xhtml"/>
+
+    <div class="page-content">
+        <!-- Otherwise, we show all the games in the vategory as cards, with a link to the games' pages -->
+        <h:panelGroup layout="block">
+            <p:panelGrid columns="4" layout="flex">
+                <c:forEach var="game" items="#{searchResultsBean.searchResults}">
+                    <p:panelGrid layout="flex" columns="1" styleClass="no-padding">
+                        <ui:composition template="game-card.xhtml">
+                            <f:param name="game" value="#{game}"/>
+                        </ui:composition>
+                    </p:panelGrid>
+                </c:forEach>
+            </p:panelGrid>
+        </h:panelGroup>
+    </div>
+</h:body>
+</html>

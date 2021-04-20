@@ -9,7 +9,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:c="http://java.sun.com/jstl/core">
+      xmlns:c="http://java.sun.com/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <h:outputStylesheet>
     .search-bar {
@@ -59,6 +60,14 @@
             <p:menuitem value="Purchases" icon="pi pi-shopping-cart" url="/secured/admin/purchases-management.xhtml"/>
             <p:menuitem value="Categories" icon="pi pi-tag" url="/secured/admin/categories-management.xhtml"/>
         </p:submenu>
+
+        <f:facet name="search">
+            <div class="ui-input-icon-left p-mr-2">
+                <i class="pi pi-fw pi-search" />
+                <p:inputText value="#{searchResultsBean.searchStr}"/>
+            </div>
+            <p:linkButton value="Search" outcome="search"/>
+        </f:facet>
     </p:menubar>
 </h:form>
 </html>

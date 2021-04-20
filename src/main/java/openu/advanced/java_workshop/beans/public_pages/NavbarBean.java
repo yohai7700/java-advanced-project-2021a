@@ -4,6 +4,7 @@ import openu.advanced.java_workshop.SessionUtils;
 import openu.advanced.java_workshop.WorkshopDatabase;
 import openu.advanced.java_workshop.beans.LoginBean;
 import openu.advanced.java_workshop.model.CategoriesEntity;
+import openu.advanced.java_workshop.model.GamesEntity;
 import openu.advanced.java_workshop.model.UsersEntity;
 
 import javax.enterprise.context.SessionScoped;
@@ -28,6 +29,10 @@ public class NavbarBean implements Serializable {
     @Inject
     LoginBean loginBean;
 
+    /**
+     * Returns the user who runs the current session
+     * @return a user object matching the user who runs this session
+     */
     public UsersEntity getUser() {
         return SessionUtils.getUser();
     }
@@ -47,7 +52,8 @@ public class NavbarBean implements Serializable {
      */
     public List<CategoriesEntity> getCategories() {
         EntityManager entityManager = WorkshopDatabase.getEntityManagerFactory().createEntityManager();
-        TypedQuery<CategoriesEntity> getCategories = entityManager.createNamedQuery("findAllCategories", CategoriesEntity.class);
+        TypedQuery<CategoriesEntity> getCategories = entityManager.createNamedQuery("findAllCategories",
+                CategoriesEntity.class);
         return getCategories.setMaxResults(MAX_CATEGORIES).getResultList();
     }
 }

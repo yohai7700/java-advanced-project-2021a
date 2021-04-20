@@ -34,8 +34,10 @@ import java.util.Objects;
                         "(SELECT categoryMember FROM CategoryMembersEntity categoryMember " +
                         "WHERE categoryMember.gameId = game.id AND " +
                             "EXISTS (SELECT m FROM CategoryMembersEntity m " +
-                            "WHERE m.gameId = :gameId AND m.categoryId = categoryMember.categoryId))"
-    )
+                            "WHERE m.gameId = :gameId AND m.categoryId = categoryMember.categoryId))"),
+        // Searches games that their names contain the given subword
+        @NamedQuery(name = "search",
+                query = "SELECT game FROM GamesEntity game WHERE game.name LIKE :name")
 })
 public class GamesEntity {
     private int id;
@@ -167,7 +169,7 @@ public class GamesEntity {
      * @return the price of the game
      */
     @Basic
-    @Column(name = "price", nullable = false, precision = 0)
+    @Column(name = "price", nullable = false)
     public double getPrice() {
         return price;
     }
