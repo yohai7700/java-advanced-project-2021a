@@ -1,8 +1,10 @@
 package openu.advanced.java_workshop.model;
 
-import org.hibernate.annotations.Generated;
+import openu.advanced.java_workshop.ImagesRepository;
 
 import javax.persistence.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Objects;
@@ -290,4 +292,32 @@ public class GamesEntity {
     public static String getImagePath(int gameId){
         return "game\\" + gameId;
     }
+
+    /**
+     * Transient field for the game image path.
+     * @return the path of the game's image
+     */
+    @Transient
+    public String getImagePath() {
+        return GamesEntity.getImagePath(id);
+    }
+
+    /**
+     * Sets game's image persistently.
+     * @param image input stream for the image
+     * @throws IOException if fails to save the image in the file system.
+     */
+    public void setImage(InputStream image) throws IOException {
+        ImagesRepository.uploadImage(getImagePath(), image);
+    }
+
+    /**
+     * Transient field that returns whether the game has an image.
+     * @return whether the game has an image saved.
+     */
+    @Transient
+    public boolean hasImage() {
+        return ImagesRepository.isExists(getImagePath());
+    }
 }
+

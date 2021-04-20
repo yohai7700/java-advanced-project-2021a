@@ -169,17 +169,20 @@ public class GamesTableBean implements Serializable {
      */
     public void handleImageUpload(FileUploadEvent event) {
         UploadedFile file = event.getFile();
-        boolean isFileValid = file != null && file.getContent() != null && file.getContent().length > 0 && file.getFileName() != null;
+        boolean isFileValid = file != null && file.getContent() != null &&
+                file.getContent().length > 0 && file.getFileName() != null;
         if (!isFileValid) return;
         try {
             changingImageGame.setImage(file.getInputStream());
             // Show success message
-            FacesMessage message = new FacesMessage("Successful", file.getFileName() + " is uploaded.");
+            FacesMessage message = new FacesMessage("Successful",
+                    file.getFileName() + " is uploaded.");
             FacesContext.getCurrentInstance().addMessage(null, message);
         } catch (Exception exception) {
             // Show failure message
             System.err.println(exception.getMessage());
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failure", "Could not upload image " + file.getFileName());
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Failure", "Could not upload image " + file.getFileName());
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
     }
