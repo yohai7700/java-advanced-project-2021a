@@ -20,13 +20,14 @@
     <!-- Navigation Bar -->
     <ui:composition template="navbar.xhtml"/>
 
-    <h3>There are #{searchResultsBean.numResults()} results for your search</h3>
+    <h3>There are #{searchResultsBean.numResults()} results for your search.</h3>
 
     <div class="page-content">
-        <!-- Otherwise, we show all the games in the vategory as cards, with a link to the games' pages -->
+        <!-- Display all games matching given search in a grid -->
         <h:panelGroup layout="block">
             <p:panelGrid columns="4" layout="flex">
-                <c:forEach var="game" items="#{searchResultsBean.getSearchResults(param['token'])}">
+                <c:forEach var="game" items="#{searchResultsBean.getSearchResults(param['search-token'])}">
+                    <!-- Display game card in a block for consistent display layout-->
                     <p:panelGrid layout="flex" columns="1" styleClass="no-padding">
                         <ui:composition template="game-card.xhtml">
                             <f:param name="game" value="#{game}"/>

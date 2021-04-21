@@ -36,9 +36,9 @@ import java.util.Objects;
                         "WHERE categoryMember.gameId = game.id AND " +
                             "EXISTS (SELECT m FROM CategoryMembersEntity m " +
                             "WHERE m.gameId = :gameId AND m.categoryId = categoryMember.categoryId))"),
-        // Searches games that their names contain the given subword
-        @NamedQuery(name = "search",
-                query = "SELECT game FROM GamesEntity game WHERE game.name LIKE :name")
+        // Searches games that their names contain the given subword (not case-senstive)
+        @NamedQuery(name = "searchGames",
+                query = "SELECT game FROM GamesEntity game WHERE LOWER(game.name) LIKE LOWER(CONCAT('%', :name, '%'))")
 })
 public class GamesEntity {
     private int id;
