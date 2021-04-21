@@ -61,15 +61,19 @@
             <p:menuitem value="Categories" icon="pi pi-tag" url="/secured/admin/categories-management.xhtml"/>
         </p:submenu>
 
+        <!-- Search bar -->
         <f:facet name="options">
+            <!-- Search game input text -->
             <div class="ui-input-icon-left p-mr-2 search-bar">
-                <i class="pi pi-fw pi-search" />
-                <p:inputText value="#{navbarBean.searchStr}" />
+                <i class="pi pi-fw pi-search"/>
+                <p:inputText value="#{navbarBean.searchString}" placeholder="Search a game"/>
             </div>
-            <p:linkButton value="Search"
-                          outcome="#{navbarBean.search()}"
-                          icon="pi pi-fw pi-search"
-                          styleClass="ui-button-info"/>
+            <!-- Search button -->
+            <p:commandButton value="Search"
+                             actionListener="#{navbarBean.openSearchResults}"
+                             icon="pi pi-fw pi-search"
+                             styleClass="ui-button-info"
+            />
         </f:facet>
     </p:menubar>
 </h:form>

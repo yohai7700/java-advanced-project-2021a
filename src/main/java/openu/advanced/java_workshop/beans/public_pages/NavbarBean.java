@@ -4,10 +4,9 @@ import openu.advanced.java_workshop.SessionUtils;
 import openu.advanced.java_workshop.WorkshopDatabase;
 import openu.advanced.java_workshop.beans.LoginBean;
 import openu.advanced.java_workshop.model.CategoriesEntity;
-import openu.advanced.java_workshop.model.GamesEntity;
 import openu.advanced.java_workshop.model.UsersEntity;
 
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -23,28 +22,29 @@ import java.util.List;
  */
 
 @Named
-@SessionScoped
+@RequestScoped
 public class NavbarBean implements Serializable {
     private static final int MAX_CATEGORIES = 5;
+    private static final String SEARCH_RESULTS_URL = "/public-pages/search-results.xhtml";
 
+    String searchString = "";
     @Inject
     LoginBean loginBean;
-    String searchStr = "";
 
     /**
      * Gives access to the search string, entered in the search section in the navbar
      * @return the current search string
      */
-    public String getSearchStr() {
-        return searchStr;
+    public String getSearchString() {
+        return searchString;
     }
 
     /**
      * Enables modification of the searchString attribute, in order to perform a new search
-     * @param searchStr the new search string
+     * @param searchString the new search string
      */
-    public void setSearchStr(String searchStr) {
-        this.searchStr = searchStr;
+    public void setSearchString(String searchString) {
+        this.searchString = searchString;
     }
 
     /**
@@ -76,9 +76,11 @@ public class NavbarBean implements Serializable {
     }
 
     /**
-     * Redirects to search-results.xhtml
+     * Redirects to search-results.xhtml with the search
      */
-    public String search() throws IOException {
-        return "/public-pages/search-results.xhtml?faces-redirect=true&token=" + URLEncoder.encode(searchStr, "UTF-8");
+    public void openSearchResults() throws IOException {
+        String searchToken = URLEncoder.encode(searchString, "UTF-8");
+        String redirectUrl = SEARCH_RESULTS_URL + "?faces-redirect=true&" + "search-token=" + searchToken;
+        FacesContext.getCurrentInstance().getExternalContext().redirect(redirectUrl);
     }
 }

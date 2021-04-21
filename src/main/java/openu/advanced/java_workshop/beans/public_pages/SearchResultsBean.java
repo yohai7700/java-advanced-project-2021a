@@ -4,11 +4,9 @@ import openu.advanced.java_workshop.WorkshopDatabase;
 import openu.advanced.java_workshop.model.GamesEntity;
 
 import javax.enterprise.context.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
@@ -28,9 +26,9 @@ public class SearchResultsBean implements Serializable {
      */
     public List<GamesEntity> getSearchResults(String str) {
         EntityManager entityManager = WorkshopDatabase.getEntityManagerFactory().createEntityManager();
-        TypedQuery<GamesEntity> getSearchResults = entityManager.createNamedQuery("search",
+        TypedQuery<GamesEntity> getSearchResults = entityManager.createNamedQuery("searchGames",
                 GamesEntity.class);
-        getSearchResults.setParameter("name", "%" + str + "%");
+        getSearchResults.setParameter("name", str);
         searchResults = getSearchResults.getResultList();
         return searchResults;
     }
