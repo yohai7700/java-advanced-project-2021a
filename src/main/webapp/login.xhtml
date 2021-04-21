@@ -7,23 +7,20 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 >
 <h:outputStylesheet library="css" name="primeflex.css"/>
-<h:outputStylesheet>
-    .login-content {
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-    }
-</h:outputStylesheet>
+<h:outputStylesheet library="css" name="style.css"/>
+
 <h:head>
     <title>Log in</title>
 </h:head>
 
 <h:body>
+    <ui:composition template="/public-pages/navbar.xhtml" />
+
     <h:form id="login-form">
         <p:growl id="msg" showDetail="true" life="4000"/>
 
         <!-- Container for login panel in order to align items properly -->
-        <div class="login-content">
+        <div class="page-content vertical-centering-container">
 
             <!-- Shop logo -->
             <h:graphicImage library="images" name="digital-park-logo.png" width="500px" height="110px"/>

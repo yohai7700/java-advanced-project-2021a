@@ -3,6 +3,7 @@ package openu.advanced.java_workshop.model;
 import openu.advanced.java_workshop.ImagesRepository;
 
 import javax.persistence.*;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Date;
@@ -220,12 +221,12 @@ public class GamesEntity {
     }
 
     @Transient
-    public String getDisplayDate(){
+    public String getReleaseDisplayDate(){
         java.util.Date releaseDate = getSimpleReleaseDate();
         if(releaseDate == null){
             return null;
         }
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy hh:mm");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
         return dateFormat.format(releaseDate);
     }
 
@@ -300,7 +301,7 @@ public class GamesEntity {
      * @return the path of the game's image
      */
     @Transient
-    public String getImagePath() {
+    public String getImagePath(){
         return GamesEntity.getImagePath(id);
     }
 
@@ -318,8 +319,7 @@ public class GamesEntity {
      * @return whether the game has an image saved.
      */
     @Transient
-    public boolean hasImage() {
+    public boolean hasImage(){
         return ImagesRepository.isExists(getImagePath());
     }
 }
-

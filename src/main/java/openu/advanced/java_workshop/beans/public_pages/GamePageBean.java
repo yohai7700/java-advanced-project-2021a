@@ -106,7 +106,7 @@ public class GamePageBean implements Serializable {
     /**
      * Removes this game from the shopping cart
      */
-    public void removeFromCart() {
+    public void removeFromCart(){
         shoppingCartBean.removeGame(getGame());
     }
 
