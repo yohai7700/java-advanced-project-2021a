@@ -60,6 +60,17 @@
             <p:menuitem value="Purchases" icon="pi pi-shopping-cart" url="/secured/admin/purchases-management.xhtml"/>
             <p:menuitem value="Categories" icon="pi pi-tag" url="/secured/admin/categories-management.xhtml"/>
         </p:submenu>
+
+        <f:facet name="options">
+            <div class="ui-input-icon-left p-mr-2 search-bar">
+                <i class="pi pi-fw pi-search" />
+                <p:inputText value="#{navbarBean.searchStr}" />
+            </div>
+            <p:linkButton value="Search"
+                          outcome="#{navbarBean.search()}"
+                          icon="pi pi-fw pi-search"
+                          styleClass="ui-button-info"/>
+        </f:facet>
     </p:menubar>
 </h:form>
 </html>
