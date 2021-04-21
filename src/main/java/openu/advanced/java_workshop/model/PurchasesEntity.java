@@ -24,6 +24,8 @@ import java.util.Objects;
                 query = "SELECT purchase FROM PurchasesEntity purchase")
 })
 public class PurchasesEntity {
+    private static final String DISPLAY_DATE_FORMAT = "MMM dd, yyyy hh:mm";
+
     private int id;
     private String username;
     private Timestamp date;
@@ -103,12 +105,12 @@ public class PurchasesEntity {
     }
 
     /**
-     * Gets the purchase's date in a simple String format
+     * Gets the purchase's date in a display format for users
      * @return the String representing the data of the purchase
      */
     @Transient
     public String getDisplayDate(){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM dd, yyyy hh:mm");
+        SimpleDateFormat dateFormat = new SimpleDateFormat(DISPLAY_DATE_FORMAT);
         return date == null ? null : dateFormat.format(date);
     }
 

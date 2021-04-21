@@ -114,14 +114,18 @@ public class CategoriesManagementBean {
     public void deleteCategory(int categoryId) {
         EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
         CategoriesEntity category = entityManager.find(CategoriesEntity.class, categoryId);
+        if (category == null) {
+            return;
+        }
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
 
-        // Deletes the coupon
-        if (category != null && entityManager.contains(category)) {
-            entityManager.remove(category);
-        }
+        // Delete the category members for the category
         deleteCategoryMembersOfCategory(entityManager, categoryId);
+        // Deletes the category
+        entityManager.remove(entityManager.contains(category)
+                ? category
+                : entityManager.merge(category));
         transaction.commit();
     }
 
@@ -186,9 +190,10 @@ public class CategoriesManagementBean {
             CategoryMembersEntity categoryMember = new CategoryMembersEntity();
             categoryMember.setCategoryId(categoryId);
             categoryMember.setGameId(game.getId());
-            if (entityManager.contains(categoryMember)) {
-                entityManager.remove(categoryMember);
-            }
+            entityManager.remove(entityManager.contains(categoryMember)
+                    ? categoryMember
+                    : entityManager.merge(categoryMember)
+            );
         }
     }
 }
