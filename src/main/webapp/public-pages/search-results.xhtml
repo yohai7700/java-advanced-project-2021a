@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    A xhtml page for showing the list of games matching a given word search
+-->
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
@@ -8,18 +13,20 @@
       xmlns:c="http://java.sun.com/jstl/core"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
-    <title>Search results for "#{searchResultsBean.searchStr}"</title>
+    <title>Search results for "#{param['token']}"</title>
 </h:head>
 
 <h:body>
     <!-- Navigation Bar -->
     <ui:composition template="navbar.xhtml"/>
 
+    <h3>There are #{searchResultsBean.numResults()} results for your search</h3>
+
     <div class="page-content">
         <!-- Otherwise, we show all the games in the vategory as cards, with a link to the games' pages -->
         <h:panelGroup layout="block">
             <p:panelGrid columns="4" layout="flex">
-                <c:forEach var="game" items="#{searchResultsBean.searchResults}">
+                <c:forEach var="game" items="#{searchResultsBean.getSearchResults(param['token'])}">
                     <p:panelGrid layout="flex" columns="1" styleClass="no-padding">
                         <ui:composition template="game-card.xhtml">
                             <f:param name="game" value="#{game}"/>

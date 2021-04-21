@@ -15,6 +15,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.URLEncoder;
 import java.util.List;
 
 /**
@@ -28,6 +29,23 @@ public class NavbarBean implements Serializable {
 
     @Inject
     LoginBean loginBean;
+    String searchStr = "";
+
+    /**
+     * Gives access to the search string, entered in the search section in the navbar
+     * @return the current search string
+     */
+    public String getSearchStr() {
+        return searchStr;
+    }
+
+    /**
+     * Enables modification of the searchString attribute, in order to perform a new search
+     * @param searchStr the new search string
+     */
+    public void setSearchStr(String searchStr) {
+        this.searchStr = searchStr;
+    }
 
     /**
      * Returns the user who runs the current session
@@ -55,5 +73,12 @@ public class NavbarBean implements Serializable {
         TypedQuery<CategoriesEntity> getCategories = entityManager.createNamedQuery("findAllCategories",
                 CategoriesEntity.class);
         return getCategories.setMaxResults(MAX_CATEGORIES).getResultList();
+    }
+
+    /**
+     * Redirects to search-results.xhtml
+     */
+    public String search() throws IOException {
+        return "/public-pages/search-results.xhtml?faces-redirect=true&token=" + URLEncoder.encode(searchStr, "UTF-8");
     }
 }

@@ -4,43 +4,40 @@ import openu.advanced.java_workshop.WorkshopDatabase;
 import openu.advanced.java_workshop.model.GamesEntity;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
+
+/**
+ * Bean class for the search-results.xhtml file. Gives the page access to the search results
+ */
 
 @Named
 @SessionScoped
 public class SearchResultsBean implements Serializable {
 
-    String searchStr;
-
-    /**
-     * Gives access to the search string, entered in the search section in the navbar
-     * @return the current search string
-     */
-    public String getSearchStr() {
-        return searchStr;
-    }
-
-    /**
-     * Enables modification of the searchString attribute, in order to perform a new search
-     * @param searchStr the new search string
-     */
-    public void setSearchStr(String searchStr) {
-        this.searchStr = searchStr;
-    }
+    List<GamesEntity> searchResults;
 
     /**
      * Returns the list of games that their names match the search results
      * @return a list of game entity objects that match the search string
      */
-    public List<GamesEntity> getSearchResults() {
+    public List<GamesEntity> getSearchResults(String str) {
         EntityManager entityManager = WorkshopDatabase.getEntityManagerFactory().createEntityManager();
         TypedQuery<GamesEntity> getSearchResults = entityManager.createNamedQuery("search",
                 GamesEntity.class);
-        getSearchResults.setParameter("name", "%" + searchStr + "%");
-        return getSearchResults.getResultList();
+        getSearchResults.setParameter("name", "%" + str + "%");
+        searchResults = getSearchResults.getResultList();
+        return searchResults;
     }
+
+    /**
+     * Returns the number of results for the search
+     * @return an integer that holds the number of results for the latest search
+     */
+    public int numResults() { return searchResults.size(); }
 }
