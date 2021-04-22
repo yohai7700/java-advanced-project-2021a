@@ -26,10 +26,9 @@
 </h:head>
 
 <h:body>
-    <ui:composition template="/public-pages/navbar.xhtml"/>
-
+<!--    <p:card>-->
     <h:form>
-        <p:growl id="messages" showDetail="true"/>
+        <p:growl id="messages" showDetail="true" life="4000"/>
 
         <div class="page-content vertical-centering-container">
             <!-- Shop logo -->
@@ -37,7 +36,6 @@
 
             <!-- Registeration wizard -->
             <p:wizard style="width: 350px; margin-top: 20px">
-            <p:wizard>
                 <!--personal details, adding to user all the relevant personal details-->
                 <p:tab title="Personal">
                     <p:panel header="Personal Details">
