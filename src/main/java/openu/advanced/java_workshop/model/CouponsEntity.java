@@ -1,5 +1,7 @@
 package openu.advanced.java_workshop.model;
 
+import openu.advanced.java_workshop.WorkshopDatabase;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -102,5 +104,19 @@ public class CouponsEntity {
         long temp = Double.doubleToLongBits(value);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         return 31 * result + (isUsed ? 1 : 0);
+    }
+
+    /**
+     * Removes the coupon from the coupons table
+     */
+    public void remove() {
+        // Creates an entity manager which will remove this coupon
+        EntityManager entityManager = WorkshopDatabase.getEntityManagerFactory().createEntityManager();
+
+        entityManager.getTransaction().begin();
+        // If the coupon is in the coupons table, we remove it
+        if(entityManager.contains(this))
+            entityManager.remove(this);
+        entityManager.getTransaction().commit(); // Commits the change to the database
     }
 }

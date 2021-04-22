@@ -122,10 +122,11 @@
                         <h:outputText value="#{game.condition.toString()}"/>
                     </p:column>
 
-                    <p:column headerText="Image">
+                    <p:column>
                         <p:commandButton
+                                icon="pi pi-image"
                                 oncomplete="PF('gameImageDialog').show()"
-                                value="Change Image"
+                                styleClass="rounded-button ui-button-success"
                                 actionListener="#{gamesTableBean.handleGameImageDialogOpening(game)}"
                         />
                     </p:column>

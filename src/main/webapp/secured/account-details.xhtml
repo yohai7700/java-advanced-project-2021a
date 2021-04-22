@@ -63,7 +63,12 @@
                         </h:outputText>
                     </div>
                     <br/>
-                    <p:inputText label="Coupon Code" value="#{accountDetailsBean.couponCode}" required="true"/>
+                    <p:inputText
+                            label="Coupon Code"
+                            value="#{accountDetailsBean.couponCode}"
+                            required="true"
+                            placeholder="Coupon Code"
+                    />
                     <p:commandButton
                             value="Use Coupon"
                             update=":balance-form"

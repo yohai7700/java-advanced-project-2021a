@@ -6,7 +6,7 @@ import openu.advanced.java_workshop.beans.LoginBean;
 import openu.advanced.java_workshop.model.CategoriesEntity;
 import openu.advanced.java_workshop.model.UsersEntity;
 
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -14,6 +14,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.URLEncoder;
 import java.util.List;
 
 /**
@@ -21,13 +22,35 @@ import java.util.List;
  */
 
 @Named
-@SessionScoped
+@RequestScoped
 public class NavbarBean implements Serializable {
     private static final int MAX_CATEGORIES = 5;
+    private static final String SEARCH_RESULTS_URL = "/public-pages/search-results.xhtml";
 
+    String searchString = "";
     @Inject
     LoginBean loginBean;
 
+    /**
+     * Gives access to the search string, entered in the search section in the navbar
+     * @return the current search string
+     */
+    public String getSearchString() {
+        return searchString;
+    }
+
+    /**
+     * Enables modification of the searchString attribute, in order to perform a new search
+     * @param searchString the new search string
+     */
+    public void setSearchString(String searchString) {
+        this.searchString = searchString;
+    }
+
+    /**
+     * Returns the user who runs the current session
+     * @return a user object matching the user who runs this session
+     */
     public UsersEntity getUser() {
         return SessionUtils.getUser();
     }
@@ -47,7 +70,17 @@ public class NavbarBean implements Serializable {
      */
     public List<CategoriesEntity> getCategories() {
         EntityManager entityManager = WorkshopDatabase.getEntityManagerFactory().createEntityManager();
-        TypedQuery<CategoriesEntity> getCategories = entityManager.createNamedQuery("findAllCategories", CategoriesEntity.class);
+        TypedQuery<CategoriesEntity> getCategories = entityManager.createNamedQuery("findAllCategories",
+                CategoriesEntity.class);
         return getCategories.setMaxResults(MAX_CATEGORIES).getResultList();
+    }
+
+    /**
+     * Redirects to search-results.xhtml with the search
+     */
+    public void openSearchResults() throws IOException {
+        String searchToken = URLEncoder.encode(searchString, "UTF-8");
+        String redirectUrl = SEARCH_RESULTS_URL + "?faces-redirect=true&" + "search-token=" + searchToken;
+        FacesContext.getCurrentInstance().getExternalContext().redirect(redirectUrl);
     }
 }

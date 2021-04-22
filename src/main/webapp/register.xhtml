@@ -5,8 +5,10 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 >
 <h:outputStylesheet library="css" name="primeflex.css"/>
+<h:outputStylesheet library="css" name="style.css"/>
 <h:outputStylesheet>
     .label {
         width: 20%;
@@ -24,41 +26,54 @@
 </h:head>
 
 <h:body>
-    <p:card>
-        <h:form>
-            <p:growl id="messages" showDetail="true" life="4000"/>
+    <ui:composition template="/public-pages/navbar.xhtml"/>
 
+    <h:form>
+        <p:growl id="messages" showDetail="true"/>
+
+        <div class="page-content vertical-centering-container">
+            <!-- Shop logo -->
+            <h:graphicImage library="images" name="digital-park-logo.png" width="500px" height="110px"/>
+
+            <!-- Registeration wizard -->
+            <p:wizard style="width: 350px; margin-top: 20px">
             <p:wizard>
                 <!--personal details, adding to user all the relevant personal details-->
                 <p:tab title="Personal">
                     <p:panel header="Personal Details">
                         <h:panelGrid columns="2" columnClasses="label, value">
+
+                            <!-- First name field -->
                             <h:outputText value="Firstname: *"/>
                             <p:inputText value="#{registerBean.user.firstName}" required="true" label="Firstname"/>
 
+                            <!-- Last name field -->
                             <h:outputText value="Lastname: *"/>
                             <p:inputText value="#{registerBean.user.lastName}" required="true" label="Lastname"/>
 
+                            <!-- Age field -->
                             <h:outputText value="Age: "/>
                             <p:inputText value="#{registerBean.user.age}" required="true" label="Age" type="number"/>
                         </h:panelGrid>
                     </p:panel>
                 </p:tab>
                 <p:tab title="Account">
-                    <!--account relevant details, adding to user all the
-                    account details-->
                     <p:panel header="Account Details">
                         <h:panelGrid columns="2" columnClasses="label, value">
+                            <!-- Username field -->
                             <h:outputText value="Username: *"/>
                             <p:inputText value="#{registerBean.user.username}" required="true" label="Username"/>
 
+                            <!-- Password field -->
                             <h:outputText value="Password: *"/>
                             <p:password value="#{registerBean.user.password}" required="true" label="Password"
                                         match="confirmation-password"/>
 
+                            <!-- Re-entering password for confiirmation -->
                             <h:outputText value="Confirm Password: *"/>
                             <p:password required="true" label="Confirmation Password" id="confirmation-password"/>
 
+                            <!-- Email field -->
                             <h:outputText value="Email: *"/>
                             <p:inputText value="#{registerBean.user.email}" required="true" label="Email">
                                 <f:validateRegex
@@ -70,10 +85,9 @@
 
                             </p:inputText>
                         </h:panelGrid>
-
                     </p:panel>
                 </p:tab>
-                <!--showing the important details and allowing the user to aprove them-->
+                <!-- Confirmation screen with the details the user has entered -->
                 <p:tab title="Confirmation">
                     <h:panelGrid columns="2" columnClasses="label, value">
                         <p:outputLabel value="Username: "/>
@@ -90,7 +104,7 @@
                 </p:tab>
                 <p:commandButton value="Register" action="#{registerBean.register}" process="@this"/>
             </p:wizard>
-        </h:form>
-    </p:card>
+        </div>
+    </h:form>
 </h:body>
 </html>

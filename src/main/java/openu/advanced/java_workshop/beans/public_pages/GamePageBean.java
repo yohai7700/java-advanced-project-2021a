@@ -5,6 +5,7 @@ import openu.advanced.java_workshop.WorkshopDatabase;
 import openu.advanced.java_workshop.beans.secured.ShoppingCartBean;
 import openu.advanced.java_workshop.model.CategoriesEntity;
 import openu.advanced.java_workshop.model.GamesEntity;
+import openu.advanced.java_workshop.ImagesRepository;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
@@ -43,7 +44,6 @@ public class GamePageBean implements Serializable {
 
     /**
      * Returns the game that we are in it's page
-     *
      * @return the game
      */
     public GamesEntity getGame() {
@@ -55,7 +55,6 @@ public class GamePageBean implements Serializable {
 
     /**
      * Fetches all of the categories that are connected to the page's game
-     *
      * @return a list of all the categories
      */
     public List<CategoriesEntity> getCategories() {
@@ -67,7 +66,6 @@ public class GamePageBean implements Serializable {
 
     /**
      * Returns recommendations depending of the page's game
-     *
      * @return a list of recommended games
      */
     public List<GamesEntity> getRecommendations() {
@@ -80,7 +78,6 @@ public class GamePageBean implements Serializable {
 
     /**
      * Open the game page of the game clicked in the recommendations scroll bar
-     *
      * @throws IOException required in case of and error while redirecting to the game's page
      */
     public void openRecommendationPage() throws IOException {
@@ -93,7 +90,6 @@ public class GamePageBean implements Serializable {
 
     /**
      * Checks whether this game is in the shopping cart
-     *
      * @return true if the game is in the shopping cart and false otherwise
      */
     public boolean getIsGameInCart() {
@@ -110,13 +106,12 @@ public class GamePageBean implements Serializable {
     /**
      * Removes this game from the shopping cart
      */
-    public void removeFromCart() {
+    public void removeFromCart(){
         shoppingCartBean.removeGame(getGame());
     }
 
     /**
      * Finds if the session is run by a user or a guest
-     *
      * @return true if the session is run by a user and false otherwise
      */
     public boolean isUserSignedIn() {

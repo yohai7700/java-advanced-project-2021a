@@ -1,6 +1,6 @@
 package openu.advanced.java_workshop.beans;
 
-import openu.advanced.java_workshop.model.ImagesRepository;
+import openu.advanced.java_workshop.ImagesRepository;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 

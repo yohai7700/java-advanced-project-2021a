@@ -2,3 +2,9 @@
     width: 90%;
     margin: 30px auto;
 }
+
+.vertical-centering-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
