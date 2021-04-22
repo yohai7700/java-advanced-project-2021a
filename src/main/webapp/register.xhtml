@@ -35,16 +35,21 @@
             <!-- Shop logo -->
             <h:graphicImage library="images" name="digital-park-logo.png" width="500px" height="110px"/>
 
+            <!-- Registeration wizard -->
             <p:wizard style="width: 350px; margin-top: 20px">
                 <p:tab title="Personal">
                     <p:panel header="Personal Details">
                         <h:panelGrid columns="2" columnClasses="label, value">
+
+                            <!-- First name field -->
                             <h:outputText value="Firstname: *"/>
                             <p:inputText value="#{registerBean.user.firstName}" required="true" label="Firstname"/>
 
+                            <!-- Last name field -->
                             <h:outputText value="Lastname: *"/>
                             <p:inputText value="#{registerBean.user.lastName}" required="true" label="Lastname"/>
 
+                            <!-- Age field -->
                             <h:outputText value="Age: "/>
                             <p:inputText value="#{registerBean.user.age}" required="true" label="Age" type="number"/>
                         </h:panelGrid>
@@ -53,16 +58,20 @@
                 <p:tab title="Account">
                     <p:panel header="Account Details">
                         <h:panelGrid columns="2" columnClasses="label, value">
+                            <!-- Username field -->
                             <h:outputText value="Username: *"/>
                             <p:inputText value="#{registerBean.user.username}" required="true" label="Username"/>
 
+                            <!-- Password field -->
                             <h:outputText value="Password: *"/>
                             <p:password value="#{registerBean.user.password}" required="true" label="Password"
                                         match="confirmation-password"/>
 
+                            <!-- Re-entering password for confiirmation -->
                             <h:outputText value="Confirm Password: *"/>
                             <p:password required="true" label="Confirmation Password" id="confirmation-password"/>
 
+                            <!-- Email field -->
                             <h:outputText value="Email: "/>
                             <p:inputText value="#{registerBean.user.email}" required="true" label="Email">
                                 <f:validateRegex
@@ -71,6 +80,7 @@
                         </h:panelGrid>
                     </p:panel>
                 </p:tab>
+                <!-- Confirmation screen with the details the user has entered -->
                 <p:tab title="Confirmation">
                     <h:panelGrid columns="2" columnClasses="label, value">
                         <p:outputLabel value="Username: "/>
