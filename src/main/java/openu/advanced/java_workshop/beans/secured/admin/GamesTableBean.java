@@ -34,6 +34,7 @@ public class GamesTableBean implements Serializable {
 
     /**
      * Gets the list of all the selected games
+     *
      * @return the list of selected games
      */
     public List<GamesEntity> getSelectedGames() {
@@ -42,6 +43,7 @@ public class GamesTableBean implements Serializable {
 
     /**
      * Modifies the list of selected games
+     *
      * @param selectedGames the new list of selected games
      */
     public void setSelectedGames(List<GamesEntity> selectedGames) {
@@ -50,6 +52,7 @@ public class GamesTableBean implements Serializable {
 
     /**
      * Returns the new game one of the admins wants to add to the website
+     *
      * @return the new game as a GamesEntity
      */
     public GamesEntity getNewGame() {
@@ -64,6 +67,7 @@ public class GamesTableBean implements Serializable {
 
     /**
      * Returns all the possible conditions
+     *
      * @return an array of the possible conditions
      */
     public Condition[] getConditions() {
@@ -72,6 +76,7 @@ public class GamesTableBean implements Serializable {
 
     /**
      * Returns all the games in the website, to show in the page's table
+     *
      * @return a list of all the games in the website
      */
     public List<GamesEntity> getGames() {
@@ -83,6 +88,7 @@ public class GamesTableBean implements Serializable {
 
     /**
      * Finds if there are any selected games
+     *
      * @return true if there's a selected game and false otherwise
      */
     public boolean hasSelectedGames() {
@@ -143,6 +149,7 @@ public class GamesTableBean implements Serializable {
     /**
      * Returns a string message that holds the number of games
      * selected (if some games were selected)
+     *
      * @return the string message for the selected games or "Delete" if there are no selected games
      */
     public String getDeleteButtonMessage() {
@@ -167,8 +174,10 @@ public class GamesTableBean implements Serializable {
         // For every selected game, we remove it's pairs in the category_members table and the game itself
         for (GamesEntity selectedGame : selectedGames) {
             deleteAllCategoryMembersOfGame(entityManager, selectedGame.getId());
-            if (entityManager.contains(selectedGame))
-                entityManager.remove(selectedGame);
+            entityManager.remove(entityManager.contains(selectedGame)
+                    ? selectedGame
+                    : entityManager.merge(selectedGame)
+            );
         }
         transaction.commit();
 
@@ -182,7 +191,6 @@ public class GamesTableBean implements Serializable {
     }
 
     /**
-     *
      * @param game the game that the dialog is opened for
      */
     public void handleGameImageDialogOpening(GamesEntity game) {

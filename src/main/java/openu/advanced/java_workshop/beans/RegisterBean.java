@@ -43,9 +43,12 @@ public class RegisterBean implements Serializable {
 
         if (existingUser == null) { // A unique username - we'll add the new user to the database
             entityManager.getTransaction().begin();
+            // avoid null in DB
+            user.setBalance(0.0);
+            user.setIsAdmin(false);
             entityManager.persist(user);
             entityManager.getTransaction().commit();
-            return "login";
+            return "login.xhtml?faces-redirect=true";
         }
         // The username is already taken
         FacesContext.getCurrentInstance().addMessage(null,

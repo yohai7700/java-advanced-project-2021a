@@ -26,10 +26,11 @@
 </h:head>
 
 <h:body>
+    <!-- Navbar -->
     <ui:composition template="/public-pages/navbar.xhtml"/>
 
     <h:form>
-        <p:growl id="messages" showDetail="true"/>
+        <p:growl id="messages" showDetail="true" life="4000"/>
 
         <div class="page-content vertical-centering-container">
             <!-- Shop logo -->
@@ -37,6 +38,7 @@
 
             <!-- Registeration wizard -->
             <p:wizard style="width: 350px; margin-top: 20px">
+                <!--personal details, adding to user all the relevant personal details-->
                 <p:tab title="Personal">
                     <p:panel header="Personal Details">
                         <h:panelGrid columns="2" columnClasses="label, value">
@@ -72,10 +74,15 @@
                             <p:password required="true" label="Confirmation Password" id="confirmation-password"/>
 
                             <!-- Email field -->
-                            <h:outputText value="Email: "/>
+                            <h:outputText value="Email: *"/>
                             <p:inputText value="#{registerBean.user.email}" required="true" label="Email">
                                 <f:validateRegex
                                         pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]"/>
+                            </p:inputText>
+
+                            <h:outputText value="Address: *"/>
+                            <p:inputText value="#{registerBean.user.address}" required="true" label="Address">
+
                             </p:inputText>
                         </h:panelGrid>
                     </p:panel>

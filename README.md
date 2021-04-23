@@ -14,8 +14,8 @@ The application uses external libraries using Maven, resolve them by the `pom.xm
 
 |                  |Software			   |Version                      |
 |------------------|-------------------------------|-----------------------------|
-|Application Server|Apache Tomcat                         |9.0.41+ 	                 |
-|Database	   |PostgreSQL                     |13.2+                        |
+|Application Server|Apache Tomcat                  |9.0.41+ 	                 |
+|Database	       |PostgreSQL                     |13.2+                        |
 
 > Note: you can use a different application server such as GlassFish 4, but the application was tested on Tomcat only so please Tomcat.
 > A different SQL Server can be used instead of PostgreSQL as long as the matching driver is configured and the database and login credentials are configured properly as described above.

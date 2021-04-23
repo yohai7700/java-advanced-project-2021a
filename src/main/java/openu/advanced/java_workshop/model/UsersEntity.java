@@ -142,7 +142,7 @@ public class UsersEntity {
      */
     @Basic
     @Column(name = "is_admin")
-    public boolean getIsAdmin() {
+    public Boolean getIsAdmin() {
         return isAdmin;
     }
 
