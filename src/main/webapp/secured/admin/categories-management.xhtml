@@ -37,6 +37,7 @@
                     <h3>Add category</h3>
                     <p:inputText value="#{categoriesManagementBean.newCategoryName}"
                                  required="true"
+                                 label="New Category Name"
                                  style="margin:0 20px"
                                  placeholder="Category Name"
                     />
@@ -95,6 +96,7 @@
                   widgetVar="categoryMembersDialog" responsive="true" width="30%">
             <p:outputPanel id="category-members-content" style="align-content: center;">
 
+                <!-- Add new member form -->
                 <h:form>
                     <p:growl showDetail="true"/>
 
@@ -103,6 +105,7 @@
                         <div class="p-field">
                             <p:inputText value="#{categoriesManagementBean.newCategoryMember}"
                                          required="true"
+                                         label="New Member Game ID"
                                          style="margin:0 20px"
                                          placeholder="New Member Game ID"
                             />
@@ -121,7 +124,10 @@
                         </div>
                     </div>
 
-                    <!-- Category members list -->
+                </h:form>
+
+                <!-- Category members table -->
+                <h:form>
                     <p:dataTable value="#{categoriesManagementBean.categoryDialogMembers}"
                                  var="game"
                                  paginator="true"
