@@ -70,12 +70,6 @@
                     <f:facet name="header">
                         <div style="display: flex; justify-content: space-between; align-items: center">
                             <span style="font-weight: bold">GAMES</span>
-                            <!-- TODO: Add sorting and searching to games table
-                            <span class="filter-container ui-input-icon-left">
-                                <i class="pi pi-search"/>
-                                <p:inputText id="globalFilter" onkeyup="PF('gamesDataTable').filter()" placeholder="Search"/>
-                            </span>
-                            -->
                         </div>
                     </f:facet>
 
@@ -128,10 +122,10 @@
                                 oncomplete="PF('gameImageDialog').show()"
                                 styleClass="rounded-button ui-button-success"
                                 actionListener="#{gamesTableBean.handleGameImageDialogOpening(game)}"/>
-                        <p:commandButton id="edit-game-button" value="Edit" icon="pi pi-pencil"
+                        <p:commandButton id="edit-game-button" icon="pi pi-pencil"
                                          actionListener="#{gamesTableBean.openEditGameDialog(game)}"
                                          update=":form:edit-game-content" oncomplete="PF('editGameDialog').show()"
-                                         styleClass="ui-button-info" style="margin-left: .5rem">
+                                         styleClass="rounded-button ui-button-info" style="margin-left: .5rem">
                             <p:resetInput target=":form:edit-game-content"/>
                         </p:commandButton>
                     </p:column>
@@ -211,7 +205,7 @@
                     <p:outputPanel id="edit-game-content" styleClass="ui-fluid">
                         <p:outputPanel rendered="#{not empty gamesTableBean.changedGame}">
 
-                            <!-- Name of the new game -->
+                            <!-- Name of the game -->
                             <div class="p-field">
                                 <p:outputLabel for="edit-name">Name</p:outputLabel>
                                 <p:inputText label="Name" id="edit-name" value="#{gamesTableBean.changedGame.name}"
@@ -219,27 +213,27 @@
                             </div>
 
                             <div class="p-formgrid p-grid">
-                                <!-- Publisher of the new game -->
+                                <!-- Publisher of the game -->
                                 <div class="p-field p-col">
                                     <p:outputLabel for="edit-publisher">Publisher</p:outputLabel>
                                     <p:inputText id="edit-publisher" value="#{gamesTableBean.changedGame.publisher}"
                                                  label="Publisher" required="true"/>
                                 </div>
-                                <!-- Developer of the new game -->
+                                <!-- Developer of the game -->
                                 <div class="p-field p-col">
                                     <p:outputLabel for="edit-developer">Developer</p:outputLabel>
                                     <p:inputText id="edit-developer" value="#{gamesTableBean.changedGame.developer}"
                                                  label="Developer" required="true"/>
                                 </div>
                             </div>
-                            <!-- Release date of the new game -->
+                            <!-- Release date of the game -->
                             <div class="p-field">
                                 <p:outputLabel for="edit-release-date">Release Date</p:outputLabel>
                                 <p:datePicker id="edit-release-date" label="Release Date"
                                               value="#{gamesTableBean.changedGame.simpleReleaseDate}" required="true"/>
                             </div>
                             <div class="p-formgrid p-grid">
-                                <!-- Price of the new game -->
+                                <!-- Price of the game -->
                                 <div class="p-field p-col">
                                     <p:outputLabel for="edit-price">Price</p:outputLabel>
                                     <p:inputNumber id="edit-price" value="#{gamesTableBean.changedGame.price}"
@@ -247,7 +241,7 @@
                                                    required="true" label="Price"
                                                    decimalSeparator="." thousandSeparator=","/>
                                 </div>
-                                <!-- Items in stock for the new game -->
+                                <!-- Items in stock for the game -->
                                 <div class="p-field p-col">
                                     <p:outputLabel for="edit-stock">Stock</p:outputLabel>
                                     <p:spinner id="edit-stock" min="0" label="Stock"
@@ -255,7 +249,7 @@
                                                required="true"/>
                                 </div>
                             </div>
-                            <!-- Condition of the new game -->
+                            <!-- Condition of the game -->
                             <div class="p-field">
                                 <p:outputLabel for="@next">Condition</p:outputLabel>
                                 <p:selectOneMenu label="Condition" value="#{gamesTableBean.changedGame.condition}">

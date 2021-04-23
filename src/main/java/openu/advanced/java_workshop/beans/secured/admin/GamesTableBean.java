@@ -124,12 +124,19 @@ public class GamesTableBean implements Serializable {
         addNotification("Game Added"); // Notifies the admin that the game was added
     }
 
+    /**
+     * Edits a game with the given id
+     * @param gameID the id of the game to edit
+     */
     public void editGame(int gameID) {
-        // Adds the new game to the database
         EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
+
+        // Gets the game with the given id from the database
         GamesEntity game = entityManager.find(GamesEntity.class, gameID);
+
+        // Sets the new game's attributes
         game.setName(changedGame.getName());
         game.setPublisher(changedGame.getPublisher());
         game.setDeveloper(changedGame.getDeveloper());
@@ -140,10 +147,10 @@ public class GamesTableBean implements Serializable {
         entityManager.persist(game);
         transaction.commit();
 
-        PrimeFaces.current().executeScript("PF('editGameDialog').hide()"); // Hides the "Add game" dialog
+        PrimeFaces.current().executeScript("PF('editGameDialog').hide()"); // Hides the "Edit game" dialog
         // Updates the relevant components in the page
         PrimeFaces.current().ajax().update(":form:messages", ":form:games-data-table");
-        addNotification("Game Edited"); // Notifies the admin that the game was added
+        addNotification("Game Edited"); // Notifies the admin that the game was edited
     }
 
     /**
