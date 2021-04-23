@@ -52,6 +52,13 @@
                             <p:confirm header="Confirmation" message="Delete the selected games?"
                                        icon="pi pi-exclamation-triangle"/>
                         </p:commandButton>
+                        <p:commandButton value="Edit" icon="pi pi-pencil"
+                                         actionListener="#{gamesTableBean.openEditGameDialog}"
+                                         update=":form:edit-game-content" oncomplete="PF('editGameDialog').show()"
+                                         disabled="#{gamesTableBean.selectedGames.size != 1}"
+                                         styleClass="ui-button-info" style="margin-right: .5rem">
+                            <p:resetInput target=":form:edit-game-content"/>
+                        </p:commandButton>
                     </p:toolbarGroup>
                 </p:toolbar>
 
@@ -194,6 +201,75 @@
                     <!-- Options to add the new game to the table or cancel the addition -->
                     <f:facet name="footer">
                         <p:commandButton value="Save" icon="pi pi-check" actionListener="#{gamesTableBean.saveGame}"
+                                         update="new-game-content" process="new-game-content @this"/>
+                        <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('newGameDialog').hide()"
+                                         styleClass="ui-button-secondary"/>
+                    </f:facet>
+                </p:dialog>
+
+                <!-- Dialog for creating a new game and adding it to the games table -->
+                <p:dialog header="Edit Game Details" showEffect="fade" modal="true"
+                          widgetVar="editGameDialog" responsive="true">
+                    <p:outputPanel id="edit-game-content" styleClass="ui-fluid">
+                        <p:outputPanel rendered="#{not empty gamesTableBean.changedGame}">
+
+                            <!-- Name of the new game -->
+                            <div class="p-field">
+                                <p:outputLabel for="edit-name">Name</p:outputLabel>
+                                <p:inputText label="Name" id="edit-name" value="#{gamesTableBean.changedGame.name}"
+                                             required="true"/>
+                            </div>
+
+                            <div class="p-formgrid p-grid">
+                                <!-- Publisher of the new game -->
+                                <div class="p-field p-col">
+                                    <p:outputLabel for="edit-publisher">Publisher</p:outputLabel>
+                                    <p:inputText id="edit-publisher" value="#{gamesTableBean.changedGame.publisher}"
+                                                 label="Publisher" required="true"/>
+                                </div>
+                                <!-- Developer of the new game -->
+                                <div class="p-field p-col">
+                                    <p:outputLabel for="edit-developer">Developer</p:outputLabel>
+                                    <p:inputText id="edit-developer" value="#{gamesTableBean.changedGame.developer}"
+                                                 label="Developer" required="true"/>
+                                </div>
+                            </div>
+                            <!-- Release date of the new game -->
+                            <div class="p-field">
+                                <p:outputLabel for="edit-release-date">Release Date</p:outputLabel>
+                                <p:datePicker id="edit-release-date" label="Release Date"
+                                              value="#{gamesTableBean.changedGame.simpleReleaseDate}" required="true"/>
+                            </div>
+                            <div class="p-formgrid p-grid">
+                                <!-- Price of the new game -->
+                                <div class="p-field p-col">
+                                    <p:outputLabel for="edit-price">Price</p:outputLabel>
+                                    <p:inputNumber id="edit-price" value="#{gamesTableBean.changedGame.price}"
+                                                   symbol=" USD" symbolPosition="s"
+                                                   required="true" label="Price"
+                                                   decimalSeparator="." thousandSeparator=","/>
+                                </div>
+                                <!-- Items in stock for the new game -->
+                                <div class="p-field p-col">
+                                    <p:outputLabel for="edit-stock">Stock</p:outputLabel>
+                                    <p:spinner id="edit-stock" min="0" label="Stock"
+                                               value="#{gamesTableBean.changedGame.stock}"
+                                               required="true"/>
+                                </div>
+                            </div>
+                            <!-- Condition of the new game -->
+                            <div class="p-field">
+                                <p:outputLabel for="edit-condition">Condition</p:outputLabel>
+                                <p:selectOneMenu label="edit-Condition" value="#{gamesTableBean.changedGame.condition}">
+                                    <f:selectItems value="#{gamesTableBean.conditions}"/>
+                                </p:selectOneMenu>
+                            </div>
+                        </p:outputPanel>
+                    </p:outputPanel>
+
+                    <!-- Options to add the new game to the table or cancel the addition -->
+                    <f:facet name="footer">
+                        <p:commandButton value="Save" icon="pi pi-check" actionListener="#{gamesTableBean.editGame}"
                                          update="new-game-content" process="new-game-content @this"/>
                         <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('newGameDialog').hide()"
                                          styleClass="ui-button-secondary"/>
