@@ -144,10 +144,12 @@ public class CheckoutBean implements Serializable {
      */
     private void addPurchaseGamesToDB(EntityManager entityManager, int purchaseID) {
         // For each game, we create a pair of the game id and the purchase id and add it to the purchases_games table
+        // We also decrease the stock for the game by 1
         for (GamesEntity game : getGames()) {
             PurchasesGamesEntity purchasesGamesEntity = new PurchasesGamesEntity();
             purchasesGamesEntity.setGameId(game.getId());
             purchasesGamesEntity.setPurchaseId(purchaseID);
+            decreaseStockInDB(game.getId(), entityManager);
             entityManager.persist(purchasesGamesEntity);
         }
     }
