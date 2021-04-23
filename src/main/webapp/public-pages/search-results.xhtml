@@ -20,7 +20,7 @@
     <!-- Navigation Bar -->
     <ui:composition template="navbar.xhtml"/>
 
-    <h3>There are #{searchResultsBean.numResults()} results for your search.</h3>
+    <h3>#{searchResultsBean.pageTitle}</h3>
 
     <div class="page-content">
         <!-- Display all games matching given search in a grid -->

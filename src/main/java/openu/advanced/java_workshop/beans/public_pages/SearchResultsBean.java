@@ -34,8 +34,14 @@ public class SearchResultsBean implements Serializable {
     }
 
     /**
-     * Returns the number of results for the search
-     * @return an integer that holds the number of results for the latest search
+     * Builds the page title by the amount of search results.
+     * @return the title for the page
      */
-    public int numResults() { return searchResults.size(); }
+    public String getPageTitle(){
+        int resultsAmount = searchResults.size();
+        if(resultsAmount == 1){
+            return "There is 1 result for your search.";
+        }
+        return "There are " + resultsAmount + " results for your search.";
+    }
 }

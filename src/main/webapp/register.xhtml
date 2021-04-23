@@ -82,18 +82,20 @@
                 </p:tab>
                 <!-- Confirmation screen with the details the user has entered -->
                 <p:tab title="Confirmation">
-                    <h:panelGrid columns="2" columnClasses="label, value">
-                        <p:outputLabel value="Username: "/>
-                        <p:outputLabel value="#{registerBean.user.username}"/>
+                    <p:panel header="Confirmation">
+                        <h:panelGrid columns="2" columnClasses="label, value">
+                            <p:outputLabel value="Username: "/>
+                            <p:outputLabel value="#{registerBean.user.username}"/>
 
-                        <p:outputLabel value="First Name: "/>
-                        <p:outputLabel value="#{registerBean.user.firstName}"/>
+                            <p:outputLabel value="First Name: "/>
+                            <p:outputLabel value="#{registerBean.user.firstName}"/>
 
-                        <p:outputLabel value="Last Name: "/>
-                        <p:outputLabel value="#{registerBean.user.lastName}"/>
-                    </h:panelGrid>
+                            <p:outputLabel value="Last Name: "/>
+                            <p:outputLabel value="#{registerBean.user.lastName}"/>
+                        </h:panelGrid>
 
-                    <p:commandButton value="Register" action="#{registerBean.register}" process="@this"/>
+                        <p:commandButton value="Register" action="#{registerBean.register}" process="@this"/>
+                    </p:panel>
                 </p:tab>
             </p:wizard>
         </div>
