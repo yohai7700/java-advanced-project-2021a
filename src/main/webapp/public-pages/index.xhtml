@@ -29,7 +29,7 @@
         <ui:repeat var="category" value="#{homePageBean.categories}">
             <div style="padding: 20px">
                 <h2>
-                    <p:link href="category-page.xhtml">
+                    <p:link href="/public-pages/category-page.xhtml">
                         <f:param name="category_id" value="#{category.id}"/>
                         #{category.name}
                     </p:link>

@@ -39,8 +39,10 @@
                 #{categoryPageBean.category.name}
             </h1>
             <p:divider/>
+            <!-- Cards of the games aligned as a grid with 4 columns -->
             <p:panelGrid columns="4" layout="flex" rendered="#{categoryPageBean.categoryId != -1}">
                 <c:forEach var="game" items="#{categoryPageBean.games}">
+                    <!-- Game card -->
                     <p:panelGrid layout="flex" columns="1" styleClass="no-padding">
                         <ui:composition template="game-card.xhtml">
                             <f:param name="game" value="#{game}"/>
