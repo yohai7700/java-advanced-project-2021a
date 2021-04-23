@@ -95,6 +95,7 @@
                   widgetVar="categoryMembersDialog" responsive="true" width="30%">
             <p:outputPanel id="category-members-content" style="align-content: center;">
 
+                <!-- Add new member form -->
                 <h:form>
                     <p:growl showDetail="true"/>
 
@@ -121,7 +122,10 @@
                         </div>
                     </div>
 
-                    <!-- Category members list -->
+                </h:form>
+
+                <!-- Category members table -->
+                <h:form>
                     <p:dataTable value="#{categoriesManagementBean.categoryDialogMembers}"
                                  var="game"
                                  paginator="true"
