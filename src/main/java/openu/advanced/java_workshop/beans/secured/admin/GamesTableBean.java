@@ -99,7 +99,7 @@ public class GamesTableBean implements Serializable {
     /**
      * Created a new GamesEntity for the game to be created in the "Add game" dialog
      */
-    public void openEditGameDialog() { changedGame = selectedGames.get(0); }
+    public void openEditGameDialog(GamesEntity game) { changedGame = game; }
 
     /**
      * Adds the created game to the database and to the page's table
@@ -118,22 +118,20 @@ public class GamesTableBean implements Serializable {
         addNotification("Game Added"); // Notifies the admin that the game was added
     }
 
-    public void editGame() {
+    public void editGame(int gameID) {
         // Adds the new game to the database
         EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
-        GamesEntity game = entityManager.find(GamesEntity.class, selectedGames.get(0).getId());
-        if (game != null) {
-            game.setName(changedGame.getName());
-            game.setPublisher(changedGame.getPublisher());
-            game.setDeveloper(changedGame.getDeveloper());
-            game.setReleaseDate(changedGame.getReleaseDate());
-            game.setPrice(changedGame.getPrice());
-            game.setStock(changedGame.getStock());
-            game.setCondition(changedGame.getCondition());
-            entityManager.persist(game);
-        }
+        GamesEntity game = entityManager.find(GamesEntity.class, gameID);
+        game.setName(changedGame.getName());
+        game.setPublisher(changedGame.getPublisher());
+        game.setDeveloper(changedGame.getDeveloper());
+        game.setReleaseDate(changedGame.getReleaseDate());
+        game.setPrice(changedGame.getPrice());
+        game.setStock(changedGame.getStock());
+        game.setCondition(changedGame.getCondition());
+        entityManager.persist(game);
         transaction.commit();
 
         PrimeFaces.current().executeScript("PF('editGameDialog').hide()"); // Hides the "Add game" dialog
