@@ -27,6 +27,7 @@ import java.util.List;
 public class GamesTableBean implements Serializable {
     private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = WorkshopDatabase.getEntityManagerFactory();
     private GamesEntity newGame;
+    private GamesEntity changedGame;
     // The game in the current game image dialog
     private GamesEntity changingImageGame;
     private List<GamesEntity> selectedGames;
@@ -57,6 +58,12 @@ public class GamesTableBean implements Serializable {
     public GamesEntity getNewGame() {
         return newGame;
     }
+
+    /**
+     * Returns the new game one of the admins wants to add to the website
+     * @return the new game as a GamesEntity
+     */
+    public GamesEntity getChangedGame() { return changedGame; }
 
     /**
      * Returns all the possible conditions
@@ -96,6 +103,11 @@ public class GamesTableBean implements Serializable {
     }
 
     /**
+     * Created a new GamesEntity for the game to be created in the "Add game" dialog
+     */
+    public void openEditGameDialog(GamesEntity game) { changedGame = game; }
+
+    /**
      * Adds the created game to the database and to the page's table
      */
     public void saveGame() {
@@ -110,6 +122,35 @@ public class GamesTableBean implements Serializable {
         // Updates the relevant components in the page
         PrimeFaces.current().ajax().update(":form:messages", ":form:games-data-table");
         addNotification("Game Added"); // Notifies the admin that the game was added
+    }
+
+    /**
+     * Edits a game with the given id
+     * @param gameID the id of the game to edit
+     */
+    public void editGame(int gameID) {
+        EntityManager entityManager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+
+        // Gets the game with the given id from the database
+        GamesEntity game = entityManager.find(GamesEntity.class, gameID);
+
+        // Sets the new game's attributes
+        game.setName(changedGame.getName());
+        game.setPublisher(changedGame.getPublisher());
+        game.setDeveloper(changedGame.getDeveloper());
+        game.setReleaseDate(changedGame.getReleaseDate());
+        game.setPrice(changedGame.getPrice());
+        game.setStock(changedGame.getStock());
+        game.setCondition(changedGame.getCondition());
+        entityManager.persist(game);
+        transaction.commit();
+
+        PrimeFaces.current().executeScript("PF('editGameDialog').hide()"); // Hides the "Edit game" dialog
+        // Updates the relevant components in the page
+        PrimeFaces.current().ajax().update(":form:messages", ":form:games-data-table");
+        addNotification("Game Edited"); // Notifies the admin that the game was edited
     }
 
     /**
